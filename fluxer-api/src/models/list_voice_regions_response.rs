@@ -19,7 +19,7 @@ pub struct ListVoiceRegionsResponse {
 }
 
 impl ListVoiceRegionsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(regions: Vec<models::VoiceRegionAdminResponse>) -> ListVoiceRegionsResponse {
         ListVoiceRegionsResponse { regions }
     }

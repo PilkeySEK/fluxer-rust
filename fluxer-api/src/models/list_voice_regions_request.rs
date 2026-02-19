@@ -19,7 +19,7 @@ pub struct ListVoiceRegionsRequest {
 }
 
 impl ListVoiceRegionsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ListVoiceRegionsRequest {
         ListVoiceRegionsRequest {
             include_servers: None,

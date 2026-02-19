@@ -26,7 +26,7 @@ pub struct ScheduledMessageReferenceSchema {
 }
 
 impl ScheduledMessageReferenceSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(message_id: String) -> ScheduledMessageReferenceSchema {
         ScheduledMessageReferenceSchema {
             message_id,

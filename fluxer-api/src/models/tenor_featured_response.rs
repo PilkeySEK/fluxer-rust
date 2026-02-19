@@ -22,7 +22,7 @@ pub struct TenorFeaturedResponse {
 }
 
 impl TenorFeaturedResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         gifs: Vec<models::TenorGifResponse>,
         categories: Vec<models::TenorCategoryTagResponse>,

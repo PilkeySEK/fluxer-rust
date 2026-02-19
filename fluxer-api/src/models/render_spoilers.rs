@@ -16,9 +16,18 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 /// Spoiler rendering preference
 #[repr(i64)]
 #[derive(
-    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    PartialEq,
+    Ord,
+    PartialOrd,
+    Hash,
+    Serialize_repr,
+    Deserialize_repr,
+    Default,
 )]
-#[derive(Default)]
 pub enum RenderSpoilers {
     #[default]
     Variant0 = 0,

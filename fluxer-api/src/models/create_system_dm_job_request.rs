@@ -36,7 +36,7 @@ pub struct CreateSystemDmJobRequest {
 }
 
 impl CreateSystemDmJobRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(content: String) -> CreateSystemDmJobRequest {
         CreateSystemDmJobRequest {
             content,

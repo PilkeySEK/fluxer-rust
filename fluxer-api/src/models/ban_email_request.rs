@@ -18,7 +18,7 @@ pub struct BanEmailRequest {
 }
 
 impl BanEmailRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String) -> BanEmailRequest {
         BanEmailRequest { email }
     }

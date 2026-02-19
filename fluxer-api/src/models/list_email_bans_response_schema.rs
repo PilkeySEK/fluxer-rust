@@ -18,7 +18,7 @@ pub struct ListEmailBansResponseSchema {
 }
 
 impl ListEmailBansResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(bans: Vec<String>) -> ListEmailBansResponseSchema {
         ListEmailBansResponseSchema { bans }
     }

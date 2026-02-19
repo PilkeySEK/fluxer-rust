@@ -16,9 +16,18 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 /// Required verification level for members
 #[repr(i64)]
 #[derive(
-    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    PartialEq,
+    Ord,
+    PartialOrd,
+    Hash,
+    Serialize_repr,
+    Deserialize_repr,
+    Default,
 )]
-#[derive(Default)]
 pub enum GuildVerificationLevel {
     #[default]
     Variant0 = 0,

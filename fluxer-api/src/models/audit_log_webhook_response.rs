@@ -45,7 +45,7 @@ pub struct AuditLogWebhookResponse {
 }
 
 impl AuditLogWebhookResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, r#type: models::WebhookType, name: String) -> AuditLogWebhookResponse {
         AuditLogWebhookResponse {
             id,

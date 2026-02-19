@@ -25,7 +25,7 @@ pub struct ReportResponse {
 }
 
 impl ReportResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(report_id: String, status: String, reported_at: String) -> ReportResponse {
         ReportResponse {
             report_id,

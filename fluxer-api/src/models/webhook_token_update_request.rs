@@ -26,7 +26,7 @@ pub struct WebhookTokenUpdateRequest {
 }
 
 impl WebhookTokenUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> WebhookTokenUpdateRequest {
         WebhookTokenUpdateRequest {
             name: None,

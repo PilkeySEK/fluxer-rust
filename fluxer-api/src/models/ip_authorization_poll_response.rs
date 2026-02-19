@@ -33,7 +33,7 @@ pub struct IpAuthorizationPollResponse {
 }
 
 impl IpAuthorizationPollResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(completed: bool) -> IpAuthorizationPollResponse {
         IpAuthorizationPollResponse {
             completed,

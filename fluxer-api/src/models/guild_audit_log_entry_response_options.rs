@@ -60,7 +60,7 @@ pub struct GuildAuditLogEntryResponseOptions {
 
 impl GuildAuditLogEntryResponseOptions {
     /// Additional options depending on action type
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildAuditLogEntryResponseOptions {
         GuildAuditLogEntryResponseOptions {
             channel_id: None,

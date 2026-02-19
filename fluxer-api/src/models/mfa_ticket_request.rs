@@ -19,7 +19,7 @@ pub struct MfaTicketRequest {
 }
 
 impl MfaTicketRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(ticket: String) -> MfaTicketRequest {
         MfaTicketRequest { ticket }
     }

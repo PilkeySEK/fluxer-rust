@@ -30,7 +30,7 @@ pub struct WellKnownFluxerResponseLimits {
 
 impl WellKnownFluxerResponseLimits {
     /// Limit configuration with rules and trait definitions
-    #[must_use] 
+    #[must_use]
     pub fn new(
         version: Version,
         trait_definitions: Vec<String>,
@@ -46,11 +46,11 @@ impl WellKnownFluxerResponseLimits {
     }
 }
 /// Wire format version
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Version {
     #[serde(rename = "2")]
     #[default]
     Variant2,
 }
-

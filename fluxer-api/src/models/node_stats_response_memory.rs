@@ -22,7 +22,7 @@ pub struct NodeStatsResponseMemory {
 }
 
 impl NodeStatsResponseMemory {
-    #[must_use] 
+    #[must_use]
     pub fn new(total: String, processes: String, system: String) -> NodeStatsResponseMemory {
         NodeStatsResponseMemory {
             total,

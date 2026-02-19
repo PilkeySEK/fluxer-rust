@@ -33,7 +33,7 @@ pub struct PhoneAddRequest {
 }
 
 impl PhoneAddRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(phone_token: String) -> PhoneAddRequest {
         PhoneAddRequest {
             phone_token,
@@ -46,8 +46,9 @@ impl PhoneAddRequest {
     }
 }
 /// MFA method to use for verification
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MfaMethod {
     #[serde(rename = "totp")]
     #[default]
@@ -57,4 +58,3 @@ pub enum MfaMethod {
     #[serde(rename = "webauthn")]
     Webauthn,
 }
-

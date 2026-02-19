@@ -25,7 +25,7 @@ pub struct HandoffCompleteRequest {
 }
 
 impl HandoffCompleteRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, token: String, user_id: String) -> HandoffCompleteRequest {
         HandoffCompleteRequest {
             code,

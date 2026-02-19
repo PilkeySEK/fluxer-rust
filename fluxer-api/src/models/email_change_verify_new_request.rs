@@ -25,7 +25,7 @@ pub struct EmailChangeVerifyNewRequest {
 }
 
 impl EmailChangeVerifyNewRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         ticket: String,
         code: String,

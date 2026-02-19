@@ -52,7 +52,7 @@ pub struct InstanceConfigUpdateRequest {
 }
 
 impl InstanceConfigUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> InstanceConfigUpdateRequest {
         InstanceConfigUpdateRequest {
             manual_review_enabled: None,

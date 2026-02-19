@@ -18,7 +18,7 @@ pub struct ForgotPasswordRequest {
 }
 
 impl ForgotPasswordRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String) -> ForgotPasswordRequest {
         ForgotPasswordRequest { email }
     }

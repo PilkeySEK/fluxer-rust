@@ -37,7 +37,7 @@ pub struct GuildRoleUpdateRequest {
 }
 
 impl GuildRoleUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildRoleUpdateRequest {
         GuildRoleUpdateRequest {
             name: None,

@@ -19,7 +19,7 @@ pub struct PasswordChangeVerifyResponse {
 }
 
 impl PasswordChangeVerifyResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(verification_proof: String) -> PasswordChangeVerifyResponse {
         PasswordChangeVerifyResponse { verification_proof }
     }

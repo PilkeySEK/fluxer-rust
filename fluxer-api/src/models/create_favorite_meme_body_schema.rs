@@ -47,7 +47,7 @@ pub struct CreateFavoriteMemeBodySchema {
 }
 
 impl CreateFavoriteMemeBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> CreateFavoriteMemeBodySchema {
         CreateFavoriteMemeBodySchema {
             name,

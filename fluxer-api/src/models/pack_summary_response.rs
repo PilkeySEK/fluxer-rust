@@ -39,7 +39,7 @@ pub struct PackSummaryResponse {
 }
 
 impl PackSummaryResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         name: String,
@@ -62,8 +62,9 @@ impl PackSummaryResponse {
     }
 }
 /// The type of expression pack (emoji or sticker)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "emoji")]
     #[default]
@@ -71,4 +72,3 @@ pub enum Type {
     #[serde(rename = "sticker")]
     Sticker,
 }
-

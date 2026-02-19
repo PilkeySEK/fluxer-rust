@@ -23,7 +23,7 @@ pub struct RefreshSearchIndexRequest {
 }
 
 impl RefreshSearchIndexRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(index_type: IndexType) -> RefreshSearchIndexRequest {
         RefreshSearchIndexRequest {
             index_type,
@@ -33,8 +33,9 @@ impl RefreshSearchIndexRequest {
     }
 }
 /// Type of search index to refresh
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum IndexType {
     #[serde(rename = "guilds")]
     #[default]
@@ -54,4 +55,3 @@ pub enum IndexType {
     #[serde(rename = "discovery")]
     Discovery,
 }
-

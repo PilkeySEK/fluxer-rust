@@ -20,7 +20,7 @@ pub struct PurgeGuildAssetsResponseSchema {
 }
 
 impl PurgeGuildAssetsResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         processed: Vec<models::PurgeGuildAssetResultSchema>,
         errors: Vec<models::PurgeGuildAssetErrorSchema>,

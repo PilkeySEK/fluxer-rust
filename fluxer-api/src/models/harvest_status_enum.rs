@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `HarvestStatusEnum` : Current status of the harvest request
 /// Current status of the harvest request
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum HarvestStatusEnum {
     #[serde(rename = "pending")]
     #[default]
@@ -37,4 +38,3 @@ impl std::fmt::Display for HarvestStatusEnum {
         }
     }
 }
-

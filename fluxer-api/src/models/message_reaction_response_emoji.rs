@@ -35,7 +35,7 @@ pub struct MessageReactionResponseEmoji {
 
 impl MessageReactionResponseEmoji {
     /// The emoji used for the reaction
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> MessageReactionResponseEmoji {
         MessageReactionResponseEmoji {
             id: None,

@@ -18,7 +18,7 @@ pub struct TerminateSessionsRequest {
 }
 
 impl TerminateSessionsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> TerminateSessionsRequest {
         TerminateSessionsRequest { user_id }
     }

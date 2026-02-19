@@ -51,7 +51,7 @@ pub struct DiscoveryGuildResponse {
 }
 
 impl DiscoveryGuildResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         name: String,

@@ -20,7 +20,7 @@ pub struct LookupMessageResponseMessagesInnerAttachmentsInner {
 }
 
 impl LookupMessageResponseMessagesInnerAttachmentsInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         filename: String,
         url: String,

@@ -20,7 +20,7 @@ pub struct KickGuildMemberRequest {
 }
 
 impl KickGuildMemberRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, guild_id: String) -> KickGuildMemberRequest {
         KickGuildMemberRequest { user_id, guild_id }
     }

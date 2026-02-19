@@ -18,7 +18,7 @@ pub struct BanCheckResponseSchema {
 }
 
 impl BanCheckResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(banned: bool) -> BanCheckResponseSchema {
         BanCheckResponseSchema { banned }
     }

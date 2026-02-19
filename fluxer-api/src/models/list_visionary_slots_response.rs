@@ -25,7 +25,7 @@ pub struct ListVisionarySlotsResponse {
 }
 
 impl ListVisionarySlotsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         slots: Vec<models::VisionarySlotSchema>,
         total_count: i32,

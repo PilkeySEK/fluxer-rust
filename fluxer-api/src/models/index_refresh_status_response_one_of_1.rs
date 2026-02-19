@@ -40,7 +40,7 @@ pub struct IndexRefreshStatusResponseOneOf1 {
 }
 
 impl IndexRefreshStatusResponseOneOf1 {
-    #[must_use] 
+    #[must_use]
     pub fn new(status: Status, index_type: String) -> IndexRefreshStatusResponseOneOf1 {
         IndexRefreshStatusResponseOneOf1 {
             status,
@@ -55,8 +55,9 @@ impl IndexRefreshStatusResponseOneOf1 {
     }
 }
 /// Current status of the index refresh job
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "in_progress")]
     #[default]
@@ -66,4 +67,3 @@ pub enum Status {
     #[serde(rename = "failed")]
     Failed,
 }
-

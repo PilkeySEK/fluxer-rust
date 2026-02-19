@@ -37,7 +37,7 @@ pub struct OAuth2MeResponseApplication {
 
 impl OAuth2MeResponseApplication {
     /// The application associated with the token
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         name: String,

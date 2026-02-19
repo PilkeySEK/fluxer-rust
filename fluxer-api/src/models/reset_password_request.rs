@@ -21,7 +21,7 @@ pub struct ResetPasswordRequest {
 }
 
 impl ResetPasswordRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String, password: String) -> ResetPasswordRequest {
         ResetPasswordRequest { token, password }
     }

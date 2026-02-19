@@ -33,7 +33,7 @@ pub struct HandoffStatusResponse {
 }
 
 impl HandoffStatusResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(status: String) -> HandoffStatusResponse {
         HandoffStatusResponse {
             status,

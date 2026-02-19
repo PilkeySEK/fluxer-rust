@@ -24,11 +24,11 @@ impl Default for AuthRegisterResponse {
     }
 }
 /// Indicates MFA is required to complete authentication
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Mfa {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

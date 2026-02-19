@@ -33,7 +33,7 @@ pub struct LimitConfigGetResponse {
 }
 
 impl LimitConfigGetResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         limit_config: models::LimitConfigGetResponseLimitConfig,
         limit_config_json: String,

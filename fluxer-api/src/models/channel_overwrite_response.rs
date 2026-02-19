@@ -28,7 +28,7 @@ pub struct ChannelOverwriteResponse {
 }
 
 impl ChannelOverwriteResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, r#type: Type, allow: String, deny: String) -> ChannelOverwriteResponse {
         ChannelOverwriteResponse {
             id,
@@ -39,8 +39,9 @@ impl ChannelOverwriteResponse {
     }
 }
 /// The type of entity the overwrite applies to
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
@@ -48,4 +49,3 @@ pub enum Type {
     #[serde(rename = "1")]
     Variant1,
 }
-

@@ -19,7 +19,7 @@ pub struct DonationCheckoutResponse {
 }
 
 impl DonationCheckoutResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(url: String) -> DonationCheckoutResponse {
         DonationCheckoutResponse { url }
     }

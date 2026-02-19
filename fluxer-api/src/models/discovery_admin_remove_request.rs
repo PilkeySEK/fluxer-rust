@@ -19,7 +19,7 @@ pub struct DiscoveryAdminRemoveRequest {
 }
 
 impl DiscoveryAdminRemoveRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(reason: String) -> DiscoveryAdminRemoveRequest {
         DiscoveryAdminRemoveRequest { reason }
     }

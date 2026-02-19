@@ -23,7 +23,7 @@ pub struct SsoStartRequest {
 }
 
 impl SsoStartRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SsoStartRequest {
         SsoStartRequest { redirect_to: None }
     }

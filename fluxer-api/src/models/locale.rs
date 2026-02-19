@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// Locale : The locale code for the user interface language
 /// The locale code for the user interface language
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Locale {
     #[serde(rename = "ar")]
     #[default]
@@ -127,4 +128,3 @@ impl std::fmt::Display for Locale {
         }
     }
 }
-

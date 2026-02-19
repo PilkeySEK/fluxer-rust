@@ -22,7 +22,7 @@ pub struct SsoCompleteRequest {
 }
 
 impl SsoCompleteRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, state: String) -> SsoCompleteRequest {
         SsoCompleteRequest { code, state }
     }

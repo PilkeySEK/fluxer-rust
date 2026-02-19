@@ -29,7 +29,7 @@ pub struct GitHubWebhookReview {
 }
 
 impl GitHubWebhookReview {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         user: models::GitHubWebhookAnswerUser,
         html_url: String,

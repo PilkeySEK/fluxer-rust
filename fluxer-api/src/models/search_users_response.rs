@@ -20,7 +20,7 @@ pub struct SearchUsersResponse {
 }
 
 impl SearchUsersResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(users: Vec<models::UserAdminResponseSchema>, total: f64) -> SearchUsersResponse {
         SearchUsersResponse { users, total }
     }

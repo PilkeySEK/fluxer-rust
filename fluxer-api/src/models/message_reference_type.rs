@@ -16,9 +16,18 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 /// The type of message reference
 #[repr(i64)]
 #[derive(
-    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    PartialEq,
+    Ord,
+    PartialOrd,
+    Hash,
+    Serialize_repr,
+    Deserialize_repr,
+    Default,
 )]
-#[derive(Default)]
 pub enum MessageReferenceType {
     #[default]
     Variant0 = 0,

@@ -126,7 +126,7 @@ pub struct UserUpdateWithVerificationRequest {
 }
 
 impl UserUpdateWithVerificationRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> UserUpdateWithVerificationRequest {
         UserUpdateWithVerificationRequest {
             username: None,
@@ -157,8 +157,9 @@ impl UserUpdateWithVerificationRequest {
     }
 }
 /// MFA method to use for verification
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MfaMethod {
     #[serde(rename = "totp")]
     #[default]
@@ -168,4 +169,3 @@ pub enum MfaMethod {
     #[serde(rename = "webauthn")]
     Webauthn,
 }
-

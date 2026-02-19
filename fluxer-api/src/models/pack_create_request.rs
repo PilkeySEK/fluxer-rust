@@ -26,7 +26,7 @@ pub struct PackCreateRequest {
 }
 
 impl PackCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> PackCreateRequest {
         PackCreateRequest {
             name,

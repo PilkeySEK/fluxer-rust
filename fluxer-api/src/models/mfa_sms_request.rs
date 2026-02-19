@@ -22,7 +22,7 @@ pub struct MfaSmsRequest {
 }
 
 impl MfaSmsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, ticket: String) -> MfaSmsRequest {
         MfaSmsRequest { code, ticket }
     }

@@ -25,7 +25,7 @@ pub struct SsoCompleteResponse {
 }
 
 impl SsoCompleteResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String, user_id: String, redirect_to: String) -> SsoCompleteResponse {
         SsoCompleteResponse {
             token,

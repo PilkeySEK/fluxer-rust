@@ -24,7 +24,7 @@ pub struct TempBanUserRequest {
 }
 
 impl TempBanUserRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, duration_hours: i32) -> TempBanUserRequest {
         TempBanUserRequest {
             user_id,

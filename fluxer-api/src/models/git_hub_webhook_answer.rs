@@ -31,7 +31,7 @@ pub struct GitHubWebhookAnswer {
 }
 
 impl GitHubWebhookAnswer {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         html_url: String,

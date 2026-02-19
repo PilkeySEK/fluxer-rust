@@ -21,7 +21,7 @@ pub struct FriendRequestByTagRequest {
 }
 
 impl FriendRequestByTagRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(username: String, discriminator: String) -> FriendRequestByTagRequest {
         FriendRequestByTagRequest {
             username,

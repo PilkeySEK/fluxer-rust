@@ -20,7 +20,7 @@ pub struct MessageShredRequestEntriesInner {
 }
 
 impl MessageShredRequestEntriesInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(channel_id: String, message_id: String) -> MessageShredRequestEntriesInner {
         MessageShredRequestEntriesInner {
             channel_id,

@@ -24,7 +24,7 @@ pub struct LookupMessageByAttachmentRequest {
 }
 
 impl LookupMessageByAttachmentRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         channel_id: String,
         attachment_id: String,

@@ -16,9 +16,18 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 /// Default notification level for new members
 #[repr(i64)]
 #[derive(
-    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    PartialEq,
+    Ord,
+    PartialOrd,
+    Hash,
+    Serialize_repr,
+    Deserialize_repr,
+    Default,
 )]
-#[derive(Default)]
 pub enum DefaultMessageNotifications {
     #[default]
     Variant0 = 0,

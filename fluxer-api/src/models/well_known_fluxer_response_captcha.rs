@@ -28,7 +28,7 @@ pub struct WellKnownFluxerResponseCaptcha {
 
 impl WellKnownFluxerResponseCaptcha {
     /// Captcha configuration
-    #[must_use] 
+    #[must_use]
     pub fn new(
         provider: String,
         hcaptcha_site_key: Option<String>,

@@ -31,7 +31,7 @@ pub struct BulkScheduleUserDeletionRequest {
 }
 
 impl BulkScheduleUserDeletionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_ids: Vec<String>, reason_code: i32) -> BulkScheduleUserDeletionRequest {
         BulkScheduleUserDeletionRequest {
             user_ids,

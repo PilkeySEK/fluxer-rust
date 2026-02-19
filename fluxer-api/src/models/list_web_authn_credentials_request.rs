@@ -18,7 +18,7 @@ pub struct ListWebAuthnCredentialsRequest {
 }
 
 impl ListWebAuthnCredentialsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> ListWebAuthnCredentialsRequest {
         ListWebAuthnCredentialsRequest { user_id }
     }

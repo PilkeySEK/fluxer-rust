@@ -20,7 +20,7 @@ pub struct SentryWebhookDataIssueMetadata {
 }
 
 impl SentryWebhookDataIssueMetadata {
-    #[must_use] 
+    #[must_use]
     pub fn new(value: String, r#type: String) -> SentryWebhookDataIssueMetadata {
         SentryWebhookDataIssueMetadata { value, r#type }
     }

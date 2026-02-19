@@ -19,7 +19,7 @@ pub struct ThemeCreateResponse {
 }
 
 impl ThemeCreateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String) -> ThemeCreateResponse {
         ThemeCreateResponse { id }
     }

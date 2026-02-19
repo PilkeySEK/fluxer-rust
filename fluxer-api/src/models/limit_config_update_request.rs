@@ -18,7 +18,7 @@ pub struct LimitConfigUpdateRequest {
 }
 
 impl LimitConfigUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         limit_config: models::LimitConfigUpdateRequestLimitConfig,
     ) -> LimitConfigUpdateRequest {

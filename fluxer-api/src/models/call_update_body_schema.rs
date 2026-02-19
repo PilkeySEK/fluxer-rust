@@ -23,7 +23,7 @@ pub struct CallUpdateBodySchema {
 }
 
 impl CallUpdateBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> CallUpdateBodySchema {
         CallUpdateBodySchema { region: None }
     }

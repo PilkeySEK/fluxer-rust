@@ -18,7 +18,7 @@ pub struct GetProcessMemoryStatsRequest {
 }
 
 impl GetProcessMemoryStatsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GetProcessMemoryStatsRequest {
         GetProcessMemoryStatsRequest { limit: None }
     }

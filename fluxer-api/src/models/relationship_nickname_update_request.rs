@@ -18,7 +18,7 @@ pub struct RelationshipNicknameUpdateRequest {
 }
 
 impl RelationshipNicknameUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(nickname: Option<String>) -> RelationshipNicknameUpdateRequest {
         RelationshipNicknameUpdateRequest { nickname }
     }

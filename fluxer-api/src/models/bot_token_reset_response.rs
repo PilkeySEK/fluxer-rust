@@ -21,7 +21,7 @@ pub struct BotTokenResetResponse {
 }
 
 impl BotTokenResetResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String, bot: models::ApplicationBotResponse) -> BotTokenResetResponse {
         BotTokenResetResponse {
             token,

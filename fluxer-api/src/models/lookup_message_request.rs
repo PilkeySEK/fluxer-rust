@@ -22,7 +22,7 @@ pub struct LookupMessageRequest {
 }
 
 impl LookupMessageRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(channel_id: String, message_id: String) -> LookupMessageRequest {
         LookupMessageRequest {
             channel_id,

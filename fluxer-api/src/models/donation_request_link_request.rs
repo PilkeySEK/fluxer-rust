@@ -19,7 +19,7 @@ pub struct DonationRequestLinkRequest {
 }
 
 impl DonationRequestLinkRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String) -> DonationRequestLinkRequest {
         DonationRequestLinkRequest { email }
     }

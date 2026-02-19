@@ -22,7 +22,7 @@ pub struct DiscoveryGuildListResponse {
 }
 
 impl DiscoveryGuildListResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guilds: Vec<models::DiscoveryGuildResponse>,
         total: f64,

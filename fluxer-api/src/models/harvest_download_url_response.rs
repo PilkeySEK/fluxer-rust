@@ -22,7 +22,7 @@ pub struct HarvestDownloadUrlResponse {
 }
 
 impl HarvestDownloadUrlResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(download_url: String, expires_at: String) -> HarvestDownloadUrlResponse {
         HarvestDownloadUrlResponse {
             download_url,

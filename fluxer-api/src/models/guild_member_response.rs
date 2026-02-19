@@ -73,7 +73,7 @@ pub struct GuildMemberResponse {
 }
 
 impl GuildMemberResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         user: models::UserPartialResponse,
         roles: Vec<String>,

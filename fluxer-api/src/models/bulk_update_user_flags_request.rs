@@ -25,7 +25,7 @@ pub struct BulkUpdateUserFlagsRequest {
 }
 
 impl BulkUpdateUserFlagsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_ids: Vec<String>) -> BulkUpdateUserFlagsRequest {
         BulkUpdateUserFlagsRequest {
             user_ids,

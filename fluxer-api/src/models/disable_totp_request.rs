@@ -33,7 +33,7 @@ pub struct DisableTotpRequest {
 }
 
 impl DisableTotpRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String) -> DisableTotpRequest {
         DisableTotpRequest {
             code,
@@ -46,8 +46,9 @@ impl DisableTotpRequest {
     }
 }
 /// MFA method to use for verification
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MfaMethod {
     #[serde(rename = "totp")]
     #[default]
@@ -57,4 +58,3 @@ pub enum MfaMethod {
     #[serde(rename = "webauthn")]
     Webauthn,
 }
-

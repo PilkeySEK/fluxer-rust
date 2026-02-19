@@ -18,7 +18,7 @@ pub struct ListUserSessionsRequest {
 }
 
 impl ListUserSessionsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> ListUserSessionsRequest {
         ListUserSessionsRequest { user_id }
     }

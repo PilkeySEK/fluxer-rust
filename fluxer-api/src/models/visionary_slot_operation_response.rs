@@ -18,17 +18,17 @@ pub struct VisionarySlotOperationResponse {
 }
 
 impl VisionarySlotOperationResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(success: Success) -> VisionarySlotOperationResponse {
         VisionarySlotOperationResponse { success }
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Success {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

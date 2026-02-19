@@ -20,7 +20,7 @@ pub struct ListGuildEmojisResponse {
 }
 
 impl ListGuildEmojisResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guild_id: String,
         emojis: Vec<models::GuildAssetItemSchema>,

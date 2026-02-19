@@ -22,7 +22,7 @@ pub struct HandoffInitiateResponse {
 }
 
 impl HandoffInitiateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, expires_at: String) -> HandoffInitiateResponse {
         HandoffInitiateResponse { code, expires_at }
     }

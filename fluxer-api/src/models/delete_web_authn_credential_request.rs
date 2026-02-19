@@ -21,7 +21,7 @@ pub struct DeleteWebAuthnCredentialRequest {
 }
 
 impl DeleteWebAuthnCredentialRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, credential_id: String) -> DeleteWebAuthnCredentialRequest {
         DeleteWebAuthnCredentialRequest {
             user_id,

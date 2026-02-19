@@ -19,7 +19,7 @@ pub struct EmailChangeVerifyOriginalResponse {
 }
 
 impl EmailChangeVerifyOriginalResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(original_proof: String) -> EmailChangeVerifyOriginalResponse {
         EmailChangeVerifyOriginalResponse { original_proof }
     }

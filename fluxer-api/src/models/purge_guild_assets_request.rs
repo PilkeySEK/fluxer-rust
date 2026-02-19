@@ -19,7 +19,7 @@ pub struct PurgeGuildAssetsRequest {
 }
 
 impl PurgeGuildAssetsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(ids: Vec<String>) -> PurgeGuildAssetsRequest {
         PurgeGuildAssetsRequest { ids }
     }

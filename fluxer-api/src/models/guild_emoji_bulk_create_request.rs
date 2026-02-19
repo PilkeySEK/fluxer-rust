@@ -19,7 +19,7 @@ pub struct GuildEmojiBulkCreateRequest {
 }
 
 impl GuildEmojiBulkCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(emojis: Vec<models::GuildEmojiCreateRequest>) -> GuildEmojiBulkCreateRequest {
         GuildEmojiBulkCreateRequest { emojis }
     }

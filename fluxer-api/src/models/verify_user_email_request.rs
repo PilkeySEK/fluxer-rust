@@ -18,7 +18,7 @@ pub struct VerifyUserEmailRequest {
 }
 
 impl VerifyUserEmailRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> VerifyUserEmailRequest {
         VerifyUserEmailRequest { user_id }
     }

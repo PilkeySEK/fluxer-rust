@@ -36,7 +36,7 @@ pub struct AuthSessionResponse {
 }
 
 impl AuthSessionResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id_hash: String, current: bool) -> AuthSessionResponse {
         AuthSessionResponse {
             id_hash,

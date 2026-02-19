@@ -26,7 +26,7 @@ pub struct GuildVanityUrlResponse {
 }
 
 impl GuildVanityUrlResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(uses: i32) -> GuildVanityUrlResponse {
         GuildVanityUrlResponse { code: None, uses }
     }

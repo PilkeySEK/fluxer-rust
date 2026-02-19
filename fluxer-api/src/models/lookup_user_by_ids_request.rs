@@ -18,7 +18,7 @@ pub struct LookupUserByIdsRequest {
 }
 
 impl LookupUserByIdsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_ids: Vec<String>) -> LookupUserByIdsRequest {
         LookupUserByIdsRequest { user_ids }
     }

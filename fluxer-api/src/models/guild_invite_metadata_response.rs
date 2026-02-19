@@ -61,7 +61,7 @@ pub struct GuildInviteMetadataResponse {
 }
 
 impl GuildInviteMetadataResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         code: String,
         r#type: Type,
@@ -93,11 +93,11 @@ impl GuildInviteMetadataResponse {
     }
 }
 /// The type of invite (guild)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
     Variant0,
 }
-

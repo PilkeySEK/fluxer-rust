@@ -34,7 +34,7 @@ pub struct LimitConfigGetResponseMetadataValue {
 }
 
 impl LimitConfigGetResponseMetadataValue {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         key: String,
         label: String,
@@ -57,8 +57,9 @@ impl LimitConfigGetResponseMetadataValue {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Unit {
     #[serde(rename = "bytes")]
     #[default]
@@ -66,4 +67,3 @@ pub enum Unit {
     #[serde(rename = "count")]
     Count,
 }
-

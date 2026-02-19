@@ -19,7 +19,7 @@ pub struct ThemeCreateRequest {
 }
 
 impl ThemeCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(css: String) -> ThemeCreateRequest {
         ThemeCreateRequest { css }
     }

@@ -21,7 +21,7 @@ pub struct VerifyAndCreateConnectionRequest {
 }
 
 impl VerifyAndCreateConnectionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(initiation_token: String) -> VerifyAndCreateConnectionRequest {
         VerifyAndCreateConnectionRequest {
             initiation_token,

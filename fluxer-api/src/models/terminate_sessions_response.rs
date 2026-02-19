@@ -18,7 +18,7 @@ pub struct TerminateSessionsResponse {
 }
 
 impl TerminateSessionsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(terminated_count: i32) -> TerminateSessionsResponse {
         TerminateSessionsResponse { terminated_count }
     }

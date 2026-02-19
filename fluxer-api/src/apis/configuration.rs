@@ -28,7 +28,7 @@ pub struct ApiKey {
 }
 
 impl Configuration {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> Configuration {
         Configuration::default()
     }

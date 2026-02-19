@@ -61,7 +61,7 @@ pub struct GuildMemberSearchRequest {
 }
 
 impl GuildMemberSearchRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildMemberSearchRequest {
         GuildMemberSearchRequest {
             query: None,
@@ -81,8 +81,9 @@ impl GuildMemberSearchRequest {
     }
 }
 /// Sort results by field
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SortBy {
     #[serde(rename = "joinedAt")]
     #[default]
@@ -92,8 +93,9 @@ pub enum SortBy {
 }
 
 /// Sort order
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SortOrder {
     #[serde(rename = "asc")]
     #[default]
@@ -101,4 +103,3 @@ pub enum SortOrder {
     #[serde(rename = "desc")]
     Desc,
 }
-

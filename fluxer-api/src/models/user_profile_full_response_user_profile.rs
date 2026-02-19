@@ -33,7 +33,7 @@ pub struct UserProfileFullResponseUserProfile {
 
 impl UserProfileFullResponseUserProfile {
     /// The user profile data
-    #[must_use] 
+    #[must_use]
     pub fn new(
         bio: Option<String>,
         pronouns: Option<String>,

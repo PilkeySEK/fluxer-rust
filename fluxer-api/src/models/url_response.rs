@@ -19,7 +19,7 @@ pub struct UrlResponse {
 }
 
 impl UrlResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(url: String) -> UrlResponse {
         UrlResponse { url }
     }

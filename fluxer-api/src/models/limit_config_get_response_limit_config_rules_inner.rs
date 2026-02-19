@@ -26,7 +26,7 @@ pub struct LimitConfigGetResponseLimitConfigRulesInner {
 }
 
 impl LimitConfigGetResponseLimitConfigRulesInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         limits: std::collections::HashMap<String, f64>,

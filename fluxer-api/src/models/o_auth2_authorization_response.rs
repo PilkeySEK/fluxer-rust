@@ -24,7 +24,7 @@ pub struct OAuth2AuthorizationResponse {
 }
 
 impl OAuth2AuthorizationResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         application: models::OAuth2AuthorizationResponseApplication,
         scopes: Vec<String>,

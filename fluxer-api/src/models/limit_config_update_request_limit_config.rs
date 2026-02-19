@@ -24,7 +24,7 @@ pub struct LimitConfigUpdateRequestLimitConfig {
 
 impl LimitConfigUpdateRequestLimitConfig {
     /// New limit configuration snapshot
-    #[must_use] 
+    #[must_use]
     pub fn new(
         rules: Vec<models::LimitConfigUpdateRequestLimitConfigRulesInner>,
     ) -> LimitConfigUpdateRequestLimitConfig {

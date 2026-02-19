@@ -25,7 +25,7 @@ pub struct ListUserDmChannelsRequest {
 }
 
 impl ListUserDmChannelsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> ListUserDmChannelsRequest {
         ListUserDmChannelsRequest {
             user_id,

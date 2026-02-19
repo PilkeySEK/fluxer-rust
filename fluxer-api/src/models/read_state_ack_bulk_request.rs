@@ -19,7 +19,7 @@ pub struct ReadStateAckBulkRequest {
 }
 
 impl ReadStateAckBulkRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         read_states: Vec<models::MessageShredRequestEntriesInner>,
     ) -> ReadStateAckBulkRequest {

@@ -18,7 +18,7 @@ pub struct TriggerUserArchiveRequest {
 }
 
 impl TriggerUserArchiveRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> TriggerUserArchiveRequest {
         TriggerUserArchiveRequest { user_id }
     }

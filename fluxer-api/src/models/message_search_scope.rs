@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `MessageSearchScope` : Search scope for message searches
 /// Search scope for message searches
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MessageSearchScope {
     #[serde(rename = "current")]
     #[default]
@@ -43,4 +44,3 @@ impl std::fmt::Display for MessageSearchScope {
         }
     }
 }
-

@@ -19,7 +19,7 @@ pub struct VerifyEmailRequest {
 }
 
 impl VerifyEmailRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String) -> VerifyEmailRequest {
         VerifyEmailRequest { token }
     }

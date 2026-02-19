@@ -24,7 +24,7 @@ pub struct LimitConfigGetResponseLimitConfigRulesInnerFilters {
 
 impl LimitConfigGetResponseLimitConfigRulesInnerFilters {
     /// Optional filters that scope the rule
-    #[must_use] 
+    #[must_use]
     pub fn new() -> LimitConfigGetResponseLimitConfigRulesInnerFilters {
         LimitConfigGetResponseLimitConfigRulesInnerFilters {
             traits: None,

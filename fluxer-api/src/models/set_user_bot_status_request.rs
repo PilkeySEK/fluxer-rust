@@ -21,7 +21,7 @@ pub struct SetUserBotStatusRequest {
 }
 
 impl SetUserBotStatusRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, bot: bool) -> SetUserBotStatusRequest {
         SetUserBotStatusRequest { user_id, bot }
     }

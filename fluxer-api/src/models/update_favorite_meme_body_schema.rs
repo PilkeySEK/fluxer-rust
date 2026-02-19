@@ -33,7 +33,7 @@ pub struct UpdateFavoriteMemeBodySchema {
 }
 
 impl UpdateFavoriteMemeBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> UpdateFavoriteMemeBodySchema {
         UpdateFavoriteMemeBodySchema {
             name: None,

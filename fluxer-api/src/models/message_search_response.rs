@@ -24,11 +24,11 @@ impl Default for MessageSearchResponse {
     }
 }
 /// Indicates that one or more channels are being indexed
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Indexing {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

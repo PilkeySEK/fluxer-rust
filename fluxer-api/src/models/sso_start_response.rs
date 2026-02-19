@@ -25,7 +25,7 @@ pub struct SsoStartResponse {
 }
 
 impl SsoStartResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(authorization_url: String, state: String, redirect_uri: String) -> SsoStartResponse {
         SsoStartResponse {
             authorization_url,

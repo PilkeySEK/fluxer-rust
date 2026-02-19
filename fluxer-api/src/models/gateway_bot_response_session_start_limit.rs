@@ -30,7 +30,7 @@ pub struct GatewayBotResponseSessionStartLimit {
 
 impl GatewayBotResponseSessionStartLimit {
     /// Session start rate limit information
-    #[must_use] 
+    #[must_use]
     pub fn new(
         total: i32,
         remaining: i32,

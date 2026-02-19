@@ -30,7 +30,7 @@ pub struct GitHubWebhookCheckRunOutput {
 }
 
 impl GitHubWebhookCheckRunOutput {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GitHubWebhookCheckRunOutput {
         GitHubWebhookCheckRunOutput {
             title: None,

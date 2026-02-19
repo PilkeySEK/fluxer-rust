@@ -35,7 +35,7 @@ pub struct ApplicationCreateRequest {
 }
 
 impl ApplicationCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> ApplicationCreateRequest {
         ApplicationCreateRequest {
             name,

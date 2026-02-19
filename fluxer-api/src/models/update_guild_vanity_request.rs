@@ -20,7 +20,7 @@ pub struct UpdateGuildVanityRequest {
 }
 
 impl UpdateGuildVanityRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String, vanity_url_code: Option<String>) -> UpdateGuildVanityRequest {
         UpdateGuildVanityRequest {
             guild_id,

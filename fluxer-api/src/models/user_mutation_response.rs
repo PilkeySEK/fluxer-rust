@@ -18,7 +18,7 @@ pub struct UserMutationResponse {
 }
 
 impl UserMutationResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(user: models::UserAdminResponseSchema) -> UserMutationResponse {
         UserMutationResponse {
             user: Box::new(user),

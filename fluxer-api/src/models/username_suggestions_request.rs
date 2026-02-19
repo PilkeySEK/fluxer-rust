@@ -19,7 +19,7 @@ pub struct UsernameSuggestionsRequest {
 }
 
 impl UsernameSuggestionsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(global_name: String) -> UsernameSuggestionsRequest {
         UsernameSuggestionsRequest { global_name }
     }

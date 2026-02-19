@@ -42,7 +42,7 @@ pub struct GitHubWebhookCheckRunCheckSuite {
 }
 
 impl GitHubWebhookCheckRunCheckSuite {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         head_sha: String,
         app: models::GitHubWebhookCheckRunCheckSuiteApp,

@@ -29,7 +29,7 @@ pub struct DiscoveryStatusResponse {
 }
 
 impl DiscoveryStatusResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(eligible: bool, min_member_count: f64) -> DiscoveryStatusResponse {
         DiscoveryStatusResponse {
             application: None,

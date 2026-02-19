@@ -37,7 +37,7 @@ pub struct KlipyGifResponse {
 }
 
 impl KlipyGifResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         title: String,

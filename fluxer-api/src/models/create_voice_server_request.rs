@@ -49,7 +49,7 @@ pub struct CreateVoiceServerRequest {
 }
 
 impl CreateVoiceServerRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         region_id: String,
         server_id: String,

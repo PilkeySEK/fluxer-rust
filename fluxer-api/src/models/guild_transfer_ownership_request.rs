@@ -20,7 +20,7 @@ pub struct GuildTransferOwnershipRequest {
 }
 
 impl GuildTransferOwnershipRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(new_owner_id: String) -> GuildTransferOwnershipRequest {
         GuildTransferOwnershipRequest {
             new_owner_id,

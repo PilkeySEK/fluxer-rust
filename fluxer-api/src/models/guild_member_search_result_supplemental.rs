@@ -32,7 +32,7 @@ pub struct GuildMemberSearchResultSupplemental {
 
 impl GuildMemberSearchResultSupplemental {
     /// Supplemental members-search-only metadata that is not part of the base guild member payload
-    #[must_use] 
+    #[must_use]
     pub fn new(
         source_invite_code: Option<String>,
         inviter_id: Option<String>,

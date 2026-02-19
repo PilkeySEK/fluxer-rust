@@ -30,7 +30,7 @@ pub struct NcmecSubmissionStatusResponse {
 }
 
 impl NcmecSubmissionStatusResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         status: Status,
         ncmec_report_id: Option<String>,
@@ -48,8 +48,9 @@ impl NcmecSubmissionStatusResponse {
     }
 }
 /// NCMEC submission status
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "not_submitted")]
     #[default]
@@ -59,4 +60,3 @@ pub enum Status {
     #[serde(rename = "failed")]
     Failed,
 }
-

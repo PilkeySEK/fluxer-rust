@@ -126,7 +126,7 @@ pub struct MessageAttachmentResponse {
 }
 
 impl MessageAttachmentResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, filename: String, size: i32, flags: i32) -> MessageAttachmentResponse {
         MessageAttachmentResponse {
             id,

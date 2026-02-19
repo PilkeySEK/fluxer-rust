@@ -28,7 +28,7 @@ pub struct MessageReactionResponse {
 }
 
 impl MessageReactionResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(emoji: models::MessageReactionResponseEmoji, count: i32) -> MessageReactionResponse {
         MessageReactionResponse {
             emoji: Box::new(emoji),
@@ -38,11 +38,11 @@ impl MessageReactionResponse {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Me {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

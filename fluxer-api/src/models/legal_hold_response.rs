@@ -18,7 +18,7 @@ pub struct LegalHoldResponse {
 }
 
 impl LegalHoldResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(held: bool) -> LegalHoldResponse {
         LegalHoldResponse { held }
     }

@@ -22,7 +22,7 @@ pub struct AuthTokenWithUserIdResponse {
 }
 
 impl AuthTokenWithUserIdResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String, user_id: String) -> AuthTokenWithUserIdResponse {
         AuthTokenWithUserIdResponse { token, user_id }
     }

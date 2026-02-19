@@ -21,7 +21,7 @@ pub struct VisionarySlotSchema {
 }
 
 impl VisionarySlotSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(slot_index: i32, user_id: Option<String>) -> VisionarySlotSchema {
         VisionarySlotSchema {
             slot_index,

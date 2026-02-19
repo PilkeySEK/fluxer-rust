@@ -29,7 +29,7 @@ pub struct GitHubWebhookRelease {
 }
 
 impl GitHubWebhookRelease {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: i32, tag_name: String, html_url: String) -> GitHubWebhookRelease {
         GitHubWebhookRelease {
             id,

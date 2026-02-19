@@ -19,7 +19,7 @@ pub struct BlueskyAuthorizeRequest {
 }
 
 impl BlueskyAuthorizeRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(handle: String) -> BlueskyAuthorizeRequest {
         BlueskyAuthorizeRequest { handle }
     }

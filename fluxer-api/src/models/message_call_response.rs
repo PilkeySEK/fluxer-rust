@@ -26,7 +26,7 @@ pub struct MessageCallResponse {
 }
 
 impl MessageCallResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(participants: Vec<String>) -> MessageCallResponse {
         MessageCallResponse {
             participants,

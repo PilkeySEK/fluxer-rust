@@ -106,7 +106,7 @@ pub struct UserSettingsResponse {
 }
 
 impl UserSettingsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         status: String,
         theme: String,

@@ -22,7 +22,7 @@ pub struct PushSubscribeRequestKeys {
 }
 
 impl PushSubscribeRequestKeys {
-    #[must_use] 
+    #[must_use]
     pub fn new(p256dh: String, auth: String) -> PushSubscribeRequestKeys {
         PushSubscribeRequestKeys { p256dh, auth }
     }

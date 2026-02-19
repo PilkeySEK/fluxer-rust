@@ -19,7 +19,7 @@ pub struct StreamUpdateBodySchema {
 }
 
 impl StreamUpdateBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> StreamUpdateBodySchema {
         StreamUpdateBodySchema { region: None }
     }

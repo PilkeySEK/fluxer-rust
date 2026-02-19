@@ -20,7 +20,7 @@ pub struct ListGuildStickersResponse {
 }
 
 impl ListGuildStickersResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guild_id: String,
         stickers: Vec<models::GuildAssetItemSchema>,

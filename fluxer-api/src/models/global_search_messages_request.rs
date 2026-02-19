@@ -138,7 +138,7 @@ pub struct GlobalSearchMessagesRequest {
 }
 
 impl GlobalSearchMessagesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GlobalSearchMessagesRequest {
         GlobalSearchMessagesRequest {
             hits_per_page: None,

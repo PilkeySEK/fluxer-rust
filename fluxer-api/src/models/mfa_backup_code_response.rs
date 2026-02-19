@@ -22,7 +22,7 @@ pub struct MfaBackupCodeResponse {
 }
 
 impl MfaBackupCodeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, consumed: bool) -> MfaBackupCodeResponse {
         MfaBackupCodeResponse { code, consumed }
     }

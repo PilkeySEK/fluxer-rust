@@ -33,7 +33,7 @@ pub struct EmbedFooterResponse {
 }
 
 impl EmbedFooterResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(text: String) -> EmbedFooterResponse {
         EmbedFooterResponse {
             text,

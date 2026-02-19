@@ -47,7 +47,7 @@ pub struct PriceIdsResponse {
 }
 
 impl PriceIdsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(currency: Currency) -> PriceIdsResponse {
         PriceIdsResponse {
             monthly: None,
@@ -59,8 +59,9 @@ impl PriceIdsResponse {
     }
 }
 /// Currency for the prices
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Currency {
     #[serde(rename = "USD")]
     #[default]
@@ -68,4 +69,3 @@ pub enum Currency {
     #[serde(rename = "EUR")]
     Eur,
 }
-

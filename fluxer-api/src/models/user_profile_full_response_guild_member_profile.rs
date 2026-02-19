@@ -24,7 +24,7 @@ pub struct UserProfileFullResponseGuildMemberProfile {
 }
 
 impl UserProfileFullResponseGuildMemberProfile {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         bio: Option<String>,
         pronouns: Option<String>,

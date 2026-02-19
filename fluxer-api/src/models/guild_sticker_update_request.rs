@@ -29,7 +29,7 @@ pub struct GuildStickerUpdateRequest {
 }
 
 impl GuildStickerUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> GuildStickerUpdateRequest {
         GuildStickerUpdateRequest {
             name,

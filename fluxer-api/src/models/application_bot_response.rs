@@ -58,7 +58,7 @@ pub struct ApplicationBotResponse {
 
 impl ApplicationBotResponse {
     /// Detailed bot user metadata
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         username: String,

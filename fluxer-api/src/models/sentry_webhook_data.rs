@@ -18,7 +18,7 @@ pub struct SentryWebhookData {
 }
 
 impl SentryWebhookData {
-    #[must_use] 
+    #[must_use]
     pub fn new(issue: models::SentryWebhookDataIssue) -> SentryWebhookData {
         SentryWebhookData {
             issue: Box::new(issue),

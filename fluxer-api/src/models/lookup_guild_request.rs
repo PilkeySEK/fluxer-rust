@@ -18,7 +18,7 @@ pub struct LookupGuildRequest {
 }
 
 impl LookupGuildRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String) -> LookupGuildRequest {
         LookupGuildRequest { guild_id }
     }

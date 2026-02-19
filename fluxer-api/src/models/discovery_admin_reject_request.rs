@@ -19,7 +19,7 @@ pub struct DiscoveryAdminRejectRequest {
 }
 
 impl DiscoveryAdminRejectRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(reason: String) -> DiscoveryAdminRejectRequest {
         DiscoveryAdminRejectRequest { reason }
     }

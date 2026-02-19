@@ -19,7 +19,7 @@ pub struct EmailChangeTicketRequest {
 }
 
 impl EmailChangeTicketRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(ticket: String) -> EmailChangeTicketRequest {
         EmailChangeTicketRequest { ticket }
     }

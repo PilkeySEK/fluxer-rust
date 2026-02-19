@@ -20,7 +20,7 @@ pub struct SaveMessageRequest {
 }
 
 impl SaveMessageRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(channel_id: String, message_id: String) -> SaveMessageRequest {
         SaveMessageRequest {
             channel_id,

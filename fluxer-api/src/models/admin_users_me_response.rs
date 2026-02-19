@@ -18,7 +18,7 @@ pub struct AdminUsersMeResponse {
 }
 
 impl AdminUsersMeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(user: models::UserAdminResponseSchema) -> AdminUsersMeResponse {
         AdminUsersMeResponse {
             user: Box::new(user),

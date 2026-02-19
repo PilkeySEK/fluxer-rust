@@ -24,7 +24,7 @@ pub struct ListGuildMembersResponse {
 }
 
 impl ListGuildMembersResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         members: Vec<models::GuildMemberResponse>,
         total: i32,

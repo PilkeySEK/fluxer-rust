@@ -22,7 +22,7 @@ pub struct DiscoveryCategoryResponse {
 }
 
 impl DiscoveryCategoryResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: f64, name: String) -> DiscoveryCategoryResponse {
         DiscoveryCategoryResponse { id, name }
     }

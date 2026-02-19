@@ -19,7 +19,7 @@ pub struct OAuth2ConsentResponse {
 }
 
 impl OAuth2ConsentResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(redirect_to: String) -> OAuth2ConsentResponse {
         OAuth2ConsentResponse { redirect_to }
     }

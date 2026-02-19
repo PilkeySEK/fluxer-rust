@@ -19,7 +19,7 @@ pub struct DiscoveryAdminReviewRequest {
 }
 
 impl DiscoveryAdminReviewRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> DiscoveryAdminReviewRequest {
         DiscoveryAdminReviewRequest { reason: None }
     }

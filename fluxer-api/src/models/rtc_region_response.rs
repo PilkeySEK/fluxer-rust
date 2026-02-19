@@ -25,7 +25,7 @@ pub struct RtcRegionResponse {
 }
 
 impl RtcRegionResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, name: String, emoji: String) -> RtcRegionResponse {
         RtcRegionResponse { id, name, emoji }
     }

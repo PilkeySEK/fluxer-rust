@@ -21,14 +21,15 @@ pub struct ClearUserFieldsRequest {
 }
 
 impl ClearUserFieldsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, fields: Vec<Fields>) -> ClearUserFieldsRequest {
         ClearUserFieldsRequest { user_id, fields }
     }
 }
 /// List of profile fields to clear
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Fields {
     #[serde(rename = "avatar")]
     #[default]
@@ -42,4 +43,3 @@ pub enum Fields {
     #[serde(rename = "global_name")]
     GlobalName,
 }
-

@@ -36,7 +36,7 @@ pub struct GuildStickerCreateRequest {
 }
 
 impl GuildStickerCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, image: Vec<u8>) -> GuildStickerCreateRequest {
         GuildStickerCreateRequest {
             name,

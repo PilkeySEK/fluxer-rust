@@ -19,7 +19,7 @@ pub struct ShrinkVisionarySlotsRequest {
 }
 
 impl ShrinkVisionarySlotsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(target_count: i32) -> ShrinkVisionarySlotsRequest {
         ShrinkVisionarySlotsRequest { target_count }
     }

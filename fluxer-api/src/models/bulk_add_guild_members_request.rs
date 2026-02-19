@@ -21,7 +21,7 @@ pub struct BulkAddGuildMembersRequest {
 }
 
 impl BulkAddGuildMembersRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String, user_ids: Vec<String>) -> BulkAddGuildMembersRequest {
         BulkAddGuildMembersRequest { guild_id, user_ids }
     }

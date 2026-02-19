@@ -21,7 +21,7 @@ pub struct CreatePrivateChannelRequest {
 }
 
 impl CreatePrivateChannelRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> CreatePrivateChannelRequest {
         CreatePrivateChannelRequest {
             recipient_id: None,

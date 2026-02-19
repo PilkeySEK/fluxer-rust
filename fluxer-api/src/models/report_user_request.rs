@@ -25,7 +25,7 @@ pub struct ReportUserRequest {
 }
 
 impl ReportUserRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, category: models::UserReportCategoryEnum) -> ReportUserRequest {
         ReportUserRequest {
             user_id,

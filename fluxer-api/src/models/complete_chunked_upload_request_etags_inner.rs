@@ -22,7 +22,7 @@ pub struct CompleteChunkedUploadRequestEtagsInner {
 }
 
 impl CompleteChunkedUploadRequestEtagsInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(chunk_index: i64, etag: String) -> CompleteChunkedUploadRequestEtagsInner {
         CompleteChunkedUploadRequestEtagsInner { chunk_index, etag }
     }

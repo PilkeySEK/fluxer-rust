@@ -21,7 +21,7 @@ pub struct PushSubscriptionItemResponse {
 }
 
 impl PushSubscriptionItemResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         subscription_id: String,
         user_agent: Option<String>,

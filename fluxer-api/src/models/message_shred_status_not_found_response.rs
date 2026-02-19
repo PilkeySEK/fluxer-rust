@@ -18,17 +18,17 @@ pub struct MessageShredStatusNotFoundResponse {
 }
 
 impl MessageShredStatusNotFoundResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(status: Status) -> MessageShredStatusNotFoundResponse {
         MessageShredStatusNotFoundResponse { status }
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "not_found")]
     #[default]
     NotFound,
 }
-

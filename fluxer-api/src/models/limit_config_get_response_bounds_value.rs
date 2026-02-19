@@ -20,7 +20,7 @@ pub struct LimitConfigGetResponseBoundsValue {
 }
 
 impl LimitConfigGetResponseBoundsValue {
-    #[must_use] 
+    #[must_use]
     pub fn new(min: f64, max: f64) -> LimitConfigGetResponseBoundsValue {
         LimitConfigGetResponseBoundsValue { min, max }
     }

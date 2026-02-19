@@ -19,7 +19,7 @@ pub struct RelationshipTypePutRequest {
 }
 
 impl RelationshipTypePutRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> RelationshipTypePutRequest {
         RelationshipTypePutRequest { r#type: None }
     }

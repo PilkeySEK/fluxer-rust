@@ -20,7 +20,7 @@ pub struct ListUserChangeLogResponseSchema {
 }
 
 impl ListUserChangeLogResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         entries: Vec<models::UserContactChangeLogEntrySchema>,
         next_page_token: Option<String>,

@@ -18,7 +18,7 @@ pub struct UpdateVoiceRegionResponse {
 }
 
 impl UpdateVoiceRegionResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(region: models::UpdateVoiceRegionResponseRegion) -> UpdateVoiceRegionResponse {
         UpdateVoiceRegionResponse {
             region: Box::new(region),

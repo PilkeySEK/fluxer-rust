@@ -39,7 +39,7 @@ pub struct WebAuthnRegisterRequest {
 }
 
 impl WebAuthnRegisterRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         response: serde_json::Value,
         challenge: String,
@@ -58,8 +58,9 @@ impl WebAuthnRegisterRequest {
     }
 }
 /// MFA method to use for verification
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MfaMethod {
     #[serde(rename = "totp")]
     #[default]
@@ -69,4 +70,3 @@ pub enum MfaMethod {
     #[serde(rename = "webauthn")]
     Webauthn,
 }
-

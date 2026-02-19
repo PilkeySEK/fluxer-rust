@@ -18,7 +18,7 @@ pub struct TriggerGuildArchiveRequest {
 }
 
 impl TriggerGuildArchiveRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String) -> TriggerGuildArchiveRequest {
         TriggerGuildArchiveRequest { guild_id }
     }

@@ -18,7 +18,7 @@ pub struct ListPhoneBansResponseSchema {
 }
 
 impl ListPhoneBansResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(bans: Vec<String>) -> ListPhoneBansResponseSchema {
         ListPhoneBansResponseSchema { bans }
     }

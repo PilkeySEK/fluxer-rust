@@ -40,7 +40,7 @@ pub struct InstanceConfigResponse {
 }
 
 impl InstanceConfigResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         manual_review_enabled: bool,
         manual_review_schedule_enabled: bool,

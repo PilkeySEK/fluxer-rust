@@ -21,7 +21,7 @@ pub struct UpdateGuildNameRequest {
 }
 
 impl UpdateGuildNameRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String, name: String) -> UpdateGuildNameRequest {
         UpdateGuildNameRequest { guild_id, name }
     }

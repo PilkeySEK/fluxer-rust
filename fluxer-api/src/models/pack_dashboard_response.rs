@@ -20,7 +20,7 @@ pub struct PackDashboardResponse {
 }
 
 impl PackDashboardResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         emoji: models::PackDashboardResponseEmoji,
         sticker: models::PackDashboardResponseSticker,

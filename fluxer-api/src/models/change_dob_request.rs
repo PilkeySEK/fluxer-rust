@@ -21,7 +21,7 @@ pub struct ChangeDobRequest {
 }
 
 impl ChangeDobRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, date_of_birth: String) -> ChangeDobRequest {
         ChangeDobRequest {
             user_id,

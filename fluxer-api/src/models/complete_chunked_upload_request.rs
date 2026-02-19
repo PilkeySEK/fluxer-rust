@@ -19,7 +19,7 @@ pub struct CompleteChunkedUploadRequest {
 }
 
 impl CompleteChunkedUploadRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         etags: Vec<models::CompleteChunkedUploadRequestEtagsInner>,
     ) -> CompleteChunkedUploadRequest {

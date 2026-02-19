@@ -18,7 +18,7 @@ pub struct GetVoiceServerResponse {
 }
 
 impl GetVoiceServerResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(server: Option<models::VoiceServerAdminResponse>) -> GetVoiceServerResponse {
         GetVoiceServerResponse {
             server: server.map(Box::new),

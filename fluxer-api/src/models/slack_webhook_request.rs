@@ -28,7 +28,7 @@ pub struct SlackWebhookRequest {
 }
 
 impl SlackWebhookRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SlackWebhookRequest {
         SlackWebhookRequest {
             text: None,

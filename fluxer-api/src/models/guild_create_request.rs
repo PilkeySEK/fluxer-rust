@@ -29,7 +29,7 @@ pub struct GuildCreateRequest {
 }
 
 impl GuildCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> GuildCreateRequest {
         GuildCreateRequest {
             name,

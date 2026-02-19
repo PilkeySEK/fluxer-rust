@@ -50,7 +50,7 @@ pub struct UserProfileFullResponse {
 }
 
 impl UserProfileFullResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         user: models::UserProfileFullResponseUser,
         user_profile: models::UserProfileFullResponseUserProfile,

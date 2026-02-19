@@ -22,7 +22,7 @@ pub struct EmailChangeBouncedVerifyNewRequest {
 }
 
 impl EmailChangeBouncedVerifyNewRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(ticket: String, code: String) -> EmailChangeBouncedVerifyNewRequest {
         EmailChangeBouncedVerifyNewRequest { ticket, code }
     }

@@ -25,7 +25,7 @@ pub struct TenorCategoryTagResponse {
 }
 
 impl TenorCategoryTagResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, src: String, proxy_src: String) -> TenorCategoryTagResponse {
         TenorCategoryTagResponse {
             name,

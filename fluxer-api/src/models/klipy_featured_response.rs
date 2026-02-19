@@ -22,7 +22,7 @@ pub struct KlipyFeaturedResponse {
 }
 
 impl KlipyFeaturedResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         gifs: Vec<models::KlipyGifResponse>,
         categories: Vec<models::KlipyCategoryTagResponse>,

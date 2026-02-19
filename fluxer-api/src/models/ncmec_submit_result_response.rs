@@ -22,7 +22,7 @@ pub struct NcmecSubmitResultResponse {
 }
 
 impl NcmecSubmitResultResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         success: bool,
         ncmec_report_id: Option<String>,

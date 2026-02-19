@@ -19,7 +19,7 @@ pub struct UserTagCheckResponse {
 }
 
 impl UserTagCheckResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(taken: bool) -> UserTagCheckResponse {
         UserTagCheckResponse { taken }
     }

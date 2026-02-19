@@ -56,7 +56,7 @@ pub struct SearchReportsRequest {
 }
 
 impl SearchReportsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SearchReportsRequest {
         SearchReportsRequest {
             query: None,
@@ -77,8 +77,9 @@ impl SearchReportsRequest {
     }
 }
 /// Field to sort reports by
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SortBy {
     #[serde(rename = "createdAt")]
     #[default]
@@ -90,8 +91,9 @@ pub enum SortBy {
 }
 
 /// Sort order direction
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SortOrder {
     #[serde(rename = "asc")]
     #[default]
@@ -99,4 +101,3 @@ pub enum SortOrder {
     #[serde(rename = "desc")]
     Desc,
 }
-

@@ -37,7 +37,7 @@ pub struct AuthSessionLocation {
 }
 
 impl AuthSessionLocation {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> AuthSessionLocation {
         AuthSessionLocation {
             city: None,

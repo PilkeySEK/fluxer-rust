@@ -44,7 +44,7 @@ pub struct SentryWebhook {
 }
 
 impl SentryWebhook {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SentryWebhook {
         SentryWebhook {
             action: None,

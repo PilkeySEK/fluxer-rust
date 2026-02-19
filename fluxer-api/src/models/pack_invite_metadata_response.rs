@@ -50,7 +50,7 @@ pub struct PackInviteMetadataResponse {
 }
 
 impl PackInviteMetadataResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         code: String,
         r#type: Type,
@@ -74,8 +74,9 @@ impl PackInviteMetadataResponse {
     }
 }
 /// The type of pack invite (emoji or sticker pack)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "2")]
     #[default]
@@ -83,4 +84,3 @@ pub enum Type {
     #[serde(rename = "3")]
     Variant3,
 }
-

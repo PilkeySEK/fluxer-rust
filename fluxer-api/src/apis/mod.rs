@@ -61,17 +61,16 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     ::url::form_urlencoded::byte_serialize(s.as_ref().as_bytes()).collect()
 }
 
-#[must_use] 
+#[must_use]
 pub fn parse_deep_object(prefix: &str, value: &serde_json::Value) -> Vec<(String, String)> {
     if let serde_json::Value::Object(object) = value {
         let mut params = vec![];
 
         for (key, value) in object {
             match value {
-                serde_json::Value::Object(_) => params.append(&mut parse_deep_object(
-                    &format!("{prefix}[{key}]"),
-                    value,
-                )),
+                serde_json::Value::Object(_) => {
+                    params.append(&mut parse_deep_object(&format!("{prefix}[{key}]"), value))
+                }
                 serde_json::Value::Array(array) => {
                     for (i, value) in array.iter().enumerate() {
                         params.append(&mut parse_deep_object(

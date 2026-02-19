@@ -18,7 +18,7 @@ pub struct UpdateVoiceServerResponse {
 }
 
 impl UpdateVoiceServerResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(server: models::UpdateVoiceServerResponseServer) -> UpdateVoiceServerResponse {
         UpdateVoiceServerResponse {
             server: Box::new(server),

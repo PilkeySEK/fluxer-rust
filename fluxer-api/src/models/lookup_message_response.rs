@@ -20,7 +20,7 @@ pub struct LookupMessageResponse {
 }
 
 impl LookupMessageResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         messages: Vec<models::LookupMessageResponseMessagesInner>,
         message_id: Option<String>,

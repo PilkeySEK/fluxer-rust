@@ -19,7 +19,7 @@ pub struct BanIpRequest {
 }
 
 impl BanIpRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(ip: String) -> BanIpRequest {
         BanIpRequest { ip }
     }

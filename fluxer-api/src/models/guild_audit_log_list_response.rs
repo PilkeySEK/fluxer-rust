@@ -25,7 +25,7 @@ pub struct GuildAuditLogListResponse {
 }
 
 impl GuildAuditLogListResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         audit_log_entries: Vec<models::GuildAuditLogEntryResponse>,
         users: Vec<models::UserPartialResponse>,

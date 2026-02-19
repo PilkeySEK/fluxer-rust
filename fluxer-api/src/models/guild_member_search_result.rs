@@ -46,7 +46,7 @@ pub struct GuildMemberSearchResult {
 }
 
 impl GuildMemberSearchResult {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         guild_id: String,

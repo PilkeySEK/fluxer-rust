@@ -20,7 +20,7 @@ pub struct MessageShredRequest {
 }
 
 impl MessageShredRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         user_id: String,
         entries: Vec<models::MessageShredRequestEntriesInner>,

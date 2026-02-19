@@ -27,7 +27,7 @@ pub struct PurgeGuildAssetResultSchema {
 }
 
 impl PurgeGuildAssetResultSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         asset_type: AssetType,
@@ -43,8 +43,9 @@ impl PurgeGuildAssetResultSchema {
     }
 }
 /// Type of guild asset
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum AssetType {
     #[serde(rename = "emoji")]
     #[default]
@@ -54,4 +55,3 @@ pub enum AssetType {
     #[serde(rename = "unknown")]
     Unknown,
 }
-

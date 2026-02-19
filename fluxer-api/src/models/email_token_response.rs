@@ -19,7 +19,7 @@ pub struct EmailTokenResponse {
 }
 
 impl EmailTokenResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(email_token: String) -> EmailTokenResponse {
         EmailTokenResponse { email_token }
     }

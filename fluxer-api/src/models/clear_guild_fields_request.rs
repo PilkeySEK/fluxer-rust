@@ -21,14 +21,15 @@ pub struct ClearGuildFieldsRequest {
 }
 
 impl ClearGuildFieldsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String, fields: Vec<Fields>) -> ClearGuildFieldsRequest {
         ClearGuildFieldsRequest { guild_id, fields }
     }
 }
 /// List of guild image fields to clear
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Fields {
     #[serde(rename = "icon")]
     #[default]
@@ -40,4 +41,3 @@ pub enum Fields {
     #[serde(rename = "embed_splash")]
     EmbedSplash,
 }
-

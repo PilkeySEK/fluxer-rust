@@ -22,7 +22,7 @@ pub struct DiscoveryApplicationRequest {
 }
 
 impl DiscoveryApplicationRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(description: String, category_type: i32) -> DiscoveryApplicationRequest {
         DiscoveryApplicationRequest {
             description,

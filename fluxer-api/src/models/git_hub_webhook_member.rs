@@ -24,7 +24,7 @@ pub struct GitHubWebhookMember {
 }
 
 impl GitHubWebhookMember {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: i32,
         login: String,

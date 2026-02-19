@@ -22,7 +22,7 @@ pub struct PasswordChangeVerifyRequest {
 }
 
 impl PasswordChangeVerifyRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(ticket: String, code: String) -> PasswordChangeVerifyRequest {
         PasswordChangeVerifyRequest { ticket, code }
     }

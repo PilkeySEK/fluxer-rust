@@ -41,7 +41,7 @@ pub struct AuthMfaRequiredResponse {
 }
 
 impl AuthMfaRequiredResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         mfa: Mfa,
         ticket: String,
@@ -62,11 +62,11 @@ impl AuthMfaRequiredResponse {
     }
 }
 /// Indicates MFA is required to complete authentication
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Mfa {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

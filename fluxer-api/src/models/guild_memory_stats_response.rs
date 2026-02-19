@@ -18,7 +18,7 @@ pub struct GuildMemoryStatsResponse {
 }
 
 impl GuildMemoryStatsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guilds: Vec<models::GuildMemoryStatsResponseGuildsInner>,
     ) -> GuildMemoryStatsResponse {

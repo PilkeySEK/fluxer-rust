@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `MessageContentType` : The type of content contained in a message
 /// The type of content contained in a message
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MessageContentType {
     #[serde(rename = "image")]
     #[default]
@@ -52,4 +53,3 @@ impl std::fmt::Display for MessageContentType {
         }
     }
 }
-

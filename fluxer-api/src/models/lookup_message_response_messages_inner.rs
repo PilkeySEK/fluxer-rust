@@ -32,7 +32,7 @@ pub struct LookupMessageResponseMessagesInner {
 }
 
 impl LookupMessageResponseMessagesInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         channel_id: String,

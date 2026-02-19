@@ -20,7 +20,7 @@ pub struct WellKnownFluxerResponsePush {
 
 impl WellKnownFluxerResponsePush {
     /// Push notification configuration
-    #[must_use] 
+    #[must_use]
     pub fn new(public_vapid_key: Option<String>) -> WellKnownFluxerResponsePush {
         WellKnownFluxerResponsePush { public_vapid_key }
     }

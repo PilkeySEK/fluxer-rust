@@ -104,7 +104,7 @@ pub struct ChannelUpdateLinkRequest {
 }
 
 impl ChannelUpdateLinkRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type) -> ChannelUpdateLinkRequest {
         ChannelUpdateLinkRequest {
             topic: None,
@@ -125,11 +125,11 @@ impl ChannelUpdateLinkRequest {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "998")]
     #[default]
     Variant998,
 }
-

@@ -21,7 +21,7 @@ pub struct UserGuildSettingsResponseMuteConfig {
 }
 
 impl UserGuildSettingsResponseMuteConfig {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         end_time: Option<String>,
         selected_time_window: i32,

@@ -28,7 +28,7 @@ pub struct CreateChunkedUploadResponse {
 }
 
 impl CreateChunkedUploadResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         upload_id: String,
         upload_filename: String,

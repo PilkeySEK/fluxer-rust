@@ -22,7 +22,7 @@ pub struct DeleteVoiceServerRequest {
 }
 
 impl DeleteVoiceServerRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(region_id: String, server_id: String) -> DeleteVoiceServerRequest {
         DeleteVoiceServerRequest {
             region_id,

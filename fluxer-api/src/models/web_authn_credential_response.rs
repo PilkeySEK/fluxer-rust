@@ -27,7 +27,7 @@ pub struct WebAuthnCredentialResponse {
 }
 
 impl WebAuthnCredentialResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         name: String,

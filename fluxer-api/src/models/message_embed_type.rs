@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `MessageEmbedType` : The type of embed content
 /// The type of embed content
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MessageEmbedType {
     #[serde(rename = "image")]
     #[default]
@@ -37,4 +38,3 @@ impl std::fmt::Display for MessageEmbedType {
         }
     }
 }
-

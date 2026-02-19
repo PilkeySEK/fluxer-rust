@@ -28,7 +28,7 @@ pub struct ScheduledMessageAllowedMentionsSchema {
 }
 
 impl ScheduledMessageAllowedMentionsSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ScheduledMessageAllowedMentionsSchema {
         ScheduledMessageAllowedMentionsSchema {
             parse: None,
@@ -39,8 +39,9 @@ impl ScheduledMessageAllowedMentionsSchema {
     }
 }
 /// Types of mentions to parse from content
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Parse {
     #[serde(rename = "users")]
     #[default]
@@ -50,4 +51,3 @@ pub enum Parse {
     #[serde(rename = "everyone")]
     Everyone,
 }
-

@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `MessageSortOrder` : The order to sort search results
 /// The order to sort search results
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MessageSortOrder {
     #[serde(rename = "asc")]
     #[default]
@@ -31,4 +32,3 @@ impl std::fmt::Display for MessageSortOrder {
         }
     }
 }
-

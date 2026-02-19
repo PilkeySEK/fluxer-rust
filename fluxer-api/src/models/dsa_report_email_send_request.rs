@@ -18,7 +18,7 @@ pub struct DsaReportEmailSendRequest {
 }
 
 impl DsaReportEmailSendRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String) -> DsaReportEmailSendRequest {
         DsaReportEmailSendRequest { email }
     }

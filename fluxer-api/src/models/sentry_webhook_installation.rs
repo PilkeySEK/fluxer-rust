@@ -18,7 +18,7 @@ pub struct SentryWebhookInstallation {
 }
 
 impl SentryWebhookInstallation {
-    #[must_use] 
+    #[must_use]
     pub fn new(uuid: String) -> SentryWebhookInstallation {
         SentryWebhookInstallation { uuid }
     }

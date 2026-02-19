@@ -104,7 +104,7 @@ pub struct ChannelUpdateTextRequest {
 }
 
 impl ChannelUpdateTextRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type) -> ChannelUpdateTextRequest {
         ChannelUpdateTextRequest {
             topic: None,
@@ -125,11 +125,11 @@ impl ChannelUpdateTextRequest {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
     Variant0,
 }
-

@@ -48,7 +48,7 @@ pub struct ChannelUpdateGroupDmRequest {
 }
 
 impl ChannelUpdateGroupDmRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type) -> ChannelUpdateGroupDmRequest {
         ChannelUpdateGroupDmRequest {
             r#type,
@@ -60,11 +60,11 @@ impl ChannelUpdateGroupDmRequest {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "3")]
     #[default]
     Variant3,
 }
-

@@ -26,7 +26,7 @@ pub struct ListSystemDmJobsResponse {
 }
 
 impl ListSystemDmJobsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(jobs: Vec<models::SystemDmJobResponse>) -> ListSystemDmJobsResponse {
         ListSystemDmJobsResponse {
             jobs,

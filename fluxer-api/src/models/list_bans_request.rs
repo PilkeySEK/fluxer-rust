@@ -19,7 +19,7 @@ pub struct ListBansRequest {
 }
 
 impl ListBansRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ListBansRequest {
         ListBansRequest { limit: None }
     }

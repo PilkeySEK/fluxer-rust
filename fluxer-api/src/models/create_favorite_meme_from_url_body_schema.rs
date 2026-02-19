@@ -54,7 +54,7 @@ pub struct CreateFavoriteMemeFromUrlBodySchema {
 }
 
 impl CreateFavoriteMemeFromUrlBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(url: String) -> CreateFavoriteMemeFromUrlBodySchema {
         CreateFavoriteMemeFromUrlBodySchema {
             alt_text: None,

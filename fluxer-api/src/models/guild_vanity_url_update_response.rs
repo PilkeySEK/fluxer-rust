@@ -19,7 +19,7 @@ pub struct GuildVanityUrlUpdateResponse {
 }
 
 impl GuildVanityUrlUpdateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String) -> GuildVanityUrlUpdateResponse {
         GuildVanityUrlUpdateResponse { code }
     }

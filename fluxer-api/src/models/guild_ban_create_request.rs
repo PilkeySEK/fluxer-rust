@@ -35,7 +35,7 @@ pub struct GuildBanCreateRequest {
 }
 
 impl GuildBanCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildBanCreateRequest {
         GuildBanCreateRequest {
             delete_message_days: None,

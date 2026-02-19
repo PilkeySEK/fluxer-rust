@@ -33,7 +33,7 @@ pub struct WellKnownFluxerResponseFeatures {
 
 impl WellKnownFluxerResponseFeatures {
     /// Feature flags for this instance
-    #[must_use] 
+    #[must_use]
     pub fn new(
         sms_mfa_enabled: bool,
         voice_enabled: bool,

@@ -115,7 +115,7 @@ pub struct ReportAdminResponseSchema {
 }
 
 impl ReportAdminResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         report_id: String,
         reporter_id: Option<String>,

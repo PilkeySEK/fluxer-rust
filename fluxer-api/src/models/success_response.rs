@@ -19,17 +19,17 @@ pub struct SuccessResponse {
 }
 
 impl SuccessResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(success: Success) -> SuccessResponse {
         SuccessResponse { success }
     }
 }
 /// Whether the operation succeeded
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Success {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

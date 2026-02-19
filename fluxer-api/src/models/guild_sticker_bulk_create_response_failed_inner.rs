@@ -22,7 +22,7 @@ pub struct GuildStickerBulkCreateResponseFailedInner {
 }
 
 impl GuildStickerBulkCreateResponseFailedInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, error: String) -> GuildStickerBulkCreateResponseFailedInner {
         GuildStickerBulkCreateResponseFailedInner { name, error }
     }

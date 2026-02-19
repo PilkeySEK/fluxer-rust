@@ -19,7 +19,7 @@ pub struct TicketResponse {
 }
 
 impl TicketResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(ticket: String) -> TicketResponse {
         TicketResponse { ticket }
     }

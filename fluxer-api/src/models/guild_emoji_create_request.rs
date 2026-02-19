@@ -26,7 +26,7 @@ pub struct GuildEmojiCreateRequest {
 }
 
 impl GuildEmojiCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, image: Vec<u8>) -> GuildEmojiCreateRequest {
         GuildEmojiCreateRequest { name, image }
     }

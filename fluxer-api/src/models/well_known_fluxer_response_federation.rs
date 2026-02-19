@@ -24,7 +24,7 @@ pub struct WellKnownFluxerResponseFederation {
 
 impl WellKnownFluxerResponseFederation {
     /// Federation configuration
-    #[must_use] 
+    #[must_use]
     pub fn new(enabled: bool, version: i32) -> WellKnownFluxerResponseFederation {
         WellKnownFluxerResponseFederation { enabled, version }
     }

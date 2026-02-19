@@ -68,7 +68,7 @@ pub struct SystemDmJobResponse {
 }
 
 impl SystemDmJobResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         job_id: String,
         status: Status,
@@ -96,8 +96,9 @@ impl SystemDmJobResponse {
     }
 }
 /// Current status of the system DM job
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "pending")]
     #[default]
@@ -111,4 +112,3 @@ pub enum Status {
     #[serde(rename = "failed")]
     Failed,
 }
-

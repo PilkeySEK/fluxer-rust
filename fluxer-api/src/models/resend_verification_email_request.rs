@@ -18,7 +18,7 @@ pub struct ResendVerificationEmailRequest {
 }
 
 impl ResendVerificationEmailRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> ResendVerificationEmailRequest {
         ResendVerificationEmailRequest { user_id }
     }

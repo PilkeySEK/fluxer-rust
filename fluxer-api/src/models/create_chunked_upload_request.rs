@@ -22,7 +22,7 @@ pub struct CreateChunkedUploadRequest {
 }
 
 impl CreateChunkedUploadRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(filename: String, file_size: i64) -> CreateChunkedUploadRequest {
         CreateChunkedUploadRequest {
             filename,

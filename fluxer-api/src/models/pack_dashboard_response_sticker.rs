@@ -30,7 +30,7 @@ pub struct PackDashboardResponseSticker {
 
 impl PackDashboardResponseSticker {
     /// Dashboard section for sticker packs
-    #[must_use] 
+    #[must_use]
     pub fn new(
         installed_limit: i32,
         created_limit: i32,

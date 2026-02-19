@@ -124,7 +124,7 @@ pub struct MessageEmbedResponse {
 }
 
 impl MessageEmbedResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: String) -> MessageEmbedResponse {
         MessageEmbedResponse {
             r#type,

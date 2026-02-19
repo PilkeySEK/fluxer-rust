@@ -22,7 +22,7 @@ pub struct SwapVisionarySlotsRequest {
 }
 
 impl SwapVisionarySlotsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(slot_index_a: i32, slot_index_b: i32) -> SwapVisionarySlotsRequest {
         SwapVisionarySlotsRequest {
             slot_index_a,

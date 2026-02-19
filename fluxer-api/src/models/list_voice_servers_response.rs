@@ -19,7 +19,7 @@ pub struct ListVoiceServersResponse {
 }
 
 impl ListVoiceServersResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(servers: Vec<models::VoiceServerAdminResponse>) -> ListVoiceServersResponse {
         ListVoiceServersResponse { servers }
     }

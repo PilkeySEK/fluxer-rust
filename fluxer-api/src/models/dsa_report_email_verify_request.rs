@@ -21,7 +21,7 @@ pub struct DsaReportEmailVerifyRequest {
 }
 
 impl DsaReportEmailVerifyRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String, code: String) -> DsaReportEmailVerifyRequest {
         DsaReportEmailVerifyRequest { email, code }
     }

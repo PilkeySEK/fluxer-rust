@@ -21,7 +21,7 @@ pub struct EmailRevertRequest {
 }
 
 impl EmailRevertRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String, password: String) -> EmailRevertRequest {
         EmailRevertRequest { token, password }
     }

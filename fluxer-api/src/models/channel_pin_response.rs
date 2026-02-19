@@ -21,7 +21,7 @@ pub struct ChannelPinResponse {
 }
 
 impl ChannelPinResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         message: models::ChannelPinMessageResponse,
         pinned_at: String,

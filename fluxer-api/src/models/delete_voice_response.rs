@@ -19,7 +19,7 @@ pub struct DeleteVoiceResponse {
 }
 
 impl DeleteVoiceResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(success: bool) -> DeleteVoiceResponse {
         DeleteVoiceResponse { success }
     }

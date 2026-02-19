@@ -26,7 +26,7 @@ pub struct DeleteAllUserMessagesResponse {
 }
 
 impl DeleteAllUserMessagesResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         success: Success,
         dry_run: bool,
@@ -43,11 +43,11 @@ impl DeleteAllUserMessagesResponse {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Success {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

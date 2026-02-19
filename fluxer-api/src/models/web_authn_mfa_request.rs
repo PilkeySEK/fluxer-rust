@@ -25,7 +25,7 @@ pub struct WebAuthnMfaRequest {
 }
 
 impl WebAuthnMfaRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         response: serde_json::Value,
         challenge: String,

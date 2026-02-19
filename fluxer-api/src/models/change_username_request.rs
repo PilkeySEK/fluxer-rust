@@ -22,7 +22,7 @@ pub struct ChangeUsernameRequest {
 }
 
 impl ChangeUsernameRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, username: String) -> ChangeUsernameRequest {
         ChangeUsernameRequest {
             user_id,

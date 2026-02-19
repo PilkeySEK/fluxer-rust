@@ -21,14 +21,15 @@ pub struct WellKnownFluxerResponseGif {
 
 impl WellKnownFluxerResponseGif {
     /// GIF provider configuration for clients
-    #[must_use] 
+    #[must_use]
     pub fn new(provider: Provider) -> WellKnownFluxerResponseGif {
         WellKnownFluxerResponseGif { provider }
     }
 }
 /// GIF provider used by the instance GIF picker
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Provider {
     #[serde(rename = "klipy")]
     #[default]
@@ -36,4 +37,3 @@ pub enum Provider {
     #[serde(rename = "tenor")]
     Tenor,
 }
-

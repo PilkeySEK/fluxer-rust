@@ -20,7 +20,7 @@ pub struct UpdateConnectionRequest {
 }
 
 impl UpdateConnectionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> UpdateConnectionRequest {
         UpdateConnectionRequest {
             visibility_flags: None,

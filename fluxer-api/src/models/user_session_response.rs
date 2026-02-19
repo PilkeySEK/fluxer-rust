@@ -36,7 +36,7 @@ pub struct UserSessionResponse {
 }
 
 impl UserSessionResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         session_id_hash: String,
         created_at: String,

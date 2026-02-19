@@ -22,7 +22,7 @@ pub struct CallEligibilityResponse {
 }
 
 impl CallEligibilityResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(ringable: bool, silent: bool) -> CallEligibilityResponse {
         CallEligibilityResponse { ringable, silent }
     }

@@ -41,7 +41,7 @@ pub struct WellKnownFluxerResponse {
 }
 
 impl WellKnownFluxerResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         api_code_version: i32,
         endpoints: models::WellKnownFluxerResponseEndpoints,

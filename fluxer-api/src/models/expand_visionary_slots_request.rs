@@ -19,7 +19,7 @@ pub struct ExpandVisionarySlotsRequest {
 }
 
 impl ExpandVisionarySlotsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(count: i32) -> ExpandVisionarySlotsRequest {
         ExpandVisionarySlotsRequest { count }
     }

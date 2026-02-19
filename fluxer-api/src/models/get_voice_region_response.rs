@@ -18,7 +18,7 @@ pub struct GetVoiceRegionResponse {
 }
 
 impl GetVoiceRegionResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(region: Option<models::VoiceRegionWithServersResponse>) -> GetVoiceRegionResponse {
         GetVoiceRegionResponse {
             region: region.map(Box::new),

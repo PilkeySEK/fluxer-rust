@@ -19,7 +19,7 @@ pub struct PushSubscriptionsListResponse {
 }
 
 impl PushSubscriptionsListResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         subscriptions: Vec<models::PushSubscriptionItemResponse>,
     ) -> PushSubscriptionsListResponse {

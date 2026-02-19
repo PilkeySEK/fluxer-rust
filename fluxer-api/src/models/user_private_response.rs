@@ -147,7 +147,7 @@ pub struct UserPrivateResponse {
 }
 
 impl UserPrivateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         username: String,

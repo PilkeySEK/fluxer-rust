@@ -41,7 +41,7 @@ pub struct GiftCodeMetadataResponse {
 }
 
 impl GiftCodeMetadataResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         code: String,
         duration_months: i32,

@@ -22,7 +22,7 @@ pub struct GuildEmojiBulkCreateResponseFailedInner {
 }
 
 impl GuildEmojiBulkCreateResponseFailedInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, error: String) -> GuildEmojiBulkCreateResponseFailedInner {
         GuildEmojiBulkCreateResponseFailedInner { name, error }
     }

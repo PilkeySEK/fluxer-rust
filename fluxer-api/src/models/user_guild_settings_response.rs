@@ -45,7 +45,7 @@ pub struct UserGuildSettingsResponse {
 }
 
 impl UserGuildSettingsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guild_id: Option<String>,
         message_notifications: models::UserNotificationSettings,

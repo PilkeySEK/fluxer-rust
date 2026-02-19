@@ -19,7 +19,7 @@ pub struct GuildEmojiUpdateRequest {
 }
 
 impl GuildEmojiUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> GuildEmojiUpdateRequest {
         GuildEmojiUpdateRequest { name }
     }

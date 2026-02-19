@@ -24,7 +24,7 @@ pub struct GitHubWebhookForkee {
 }
 
 impl GitHubWebhookForkee {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: i32, html_url: String, name: String, full_name: String) -> GitHubWebhookForkee {
         GitHubWebhookForkee {
             id,

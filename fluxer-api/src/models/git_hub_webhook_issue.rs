@@ -33,7 +33,7 @@ pub struct GitHubWebhookIssue {
 }
 
 impl GitHubWebhookIssue {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         number: i32,

@@ -30,7 +30,7 @@ pub struct GuildMemoryStatsResponseGuildsInner {
 }
 
 impl GuildMemoryStatsResponseGuildsInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guild_id: Option<String>,
         guild_name: String,

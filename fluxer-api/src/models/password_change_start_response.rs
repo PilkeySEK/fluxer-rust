@@ -27,7 +27,7 @@ pub struct PasswordChangeStartResponse {
 }
 
 impl PasswordChangeStartResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         ticket: String,
         code_expires_at: String,

@@ -31,7 +31,7 @@ pub struct OAuth2TokenResponse {
 }
 
 impl OAuth2TokenResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         access_token: String,
         token_type: String,

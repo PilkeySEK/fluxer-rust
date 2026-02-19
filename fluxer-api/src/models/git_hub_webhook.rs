@@ -151,7 +151,7 @@ pub struct GitHubWebhook {
 }
 
 impl GitHubWebhook {
-    #[must_use] 
+    #[must_use]
     pub fn new(sender: models::GitHubWebhookAnswerUser) -> GitHubWebhook {
         GitHubWebhook {
             action: None,

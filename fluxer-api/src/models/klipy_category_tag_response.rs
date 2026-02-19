@@ -25,7 +25,7 @@ pub struct KlipyCategoryTagResponse {
 }
 
 impl KlipyCategoryTagResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, src: String, proxy_src: String) -> KlipyCategoryTagResponse {
         KlipyCategoryTagResponse {
             name,

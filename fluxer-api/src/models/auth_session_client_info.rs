@@ -44,7 +44,7 @@ pub struct AuthSessionClientInfo {
 }
 
 impl AuthSessionClientInfo {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> AuthSessionClientInfo {
         AuthSessionClientInfo {
             platform: None,

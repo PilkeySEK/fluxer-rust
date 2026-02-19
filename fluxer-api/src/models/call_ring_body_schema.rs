@@ -19,7 +19,7 @@ pub struct CallRingBodySchema {
 }
 
 impl CallRingBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> CallRingBodySchema {
         CallRingBodySchema { recipients: None }
     }

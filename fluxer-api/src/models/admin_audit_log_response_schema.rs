@@ -33,7 +33,7 @@ pub struct AdminAuditLogResponseSchema {
 }
 
 impl AdminAuditLogResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         log_id: String,
         admin_user_id: String,

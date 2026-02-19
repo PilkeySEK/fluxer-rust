@@ -19,7 +19,7 @@ pub struct GetIndexRefreshStatusRequest {
 }
 
 impl GetIndexRefreshStatusRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(job_id: String) -> GetIndexRefreshStatusRequest {
         GetIndexRefreshStatusRequest { job_id }
     }

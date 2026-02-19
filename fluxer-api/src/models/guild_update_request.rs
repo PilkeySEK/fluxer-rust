@@ -116,7 +116,7 @@ pub struct GuildUpdateRequest {
 }
 
 impl GuildUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildUpdateRequest {
         GuildUpdateRequest {
             name: None,
@@ -145,8 +145,9 @@ impl GuildUpdateRequest {
     }
 }
 /// Alignment of the splash card (center, left, or right)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SplashCardAlignment {
     #[serde(rename = "0")]
     #[default]
@@ -158,8 +159,9 @@ pub enum SplashCardAlignment {
 }
 
 /// MFA method to use for verification
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MfaMethod {
     #[serde(rename = "totp")]
     #[default]
@@ -169,4 +171,3 @@ pub enum MfaMethod {
     #[serde(rename = "webauthn")]
     Webauthn,
 }
-

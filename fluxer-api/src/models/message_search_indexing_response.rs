@@ -19,17 +19,17 @@ pub struct MessageSearchIndexingResponse {
 }
 
 impl MessageSearchIndexingResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(indexing: Indexing) -> MessageSearchIndexingResponse {
         MessageSearchIndexingResponse { indexing }
     }
 }
 /// Indicates that one or more channels are being indexed
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Indexing {
     #[serde(rename = "true")]
     #[default]
     True,
 }
-

@@ -20,7 +20,7 @@ pub struct BulkOperationResponse {
 }
 
 impl BulkOperationResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         successful: Vec<String>,
         failed: Vec<models::BulkOperationFailedResponse>,

@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `UserStatusType` : User online status
 /// User online status
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum UserStatusType {
     #[serde(rename = "online")]
     #[default]
@@ -37,4 +38,3 @@ impl std::fmt::Display for UserStatusType {
         }
     }
 }
-

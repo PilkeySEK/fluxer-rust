@@ -18,7 +18,7 @@ pub struct ListIpBansResponseSchema {
 }
 
 impl ListIpBansResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(bans: Vec<models::IpBanListEntrySchema>) -> ListIpBansResponseSchema {
         ListIpBansResponseSchema { bans }
     }

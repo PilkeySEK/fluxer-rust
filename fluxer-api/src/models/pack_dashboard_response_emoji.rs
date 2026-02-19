@@ -30,7 +30,7 @@ pub struct PackDashboardResponseEmoji {
 
 impl PackDashboardResponseEmoji {
     /// Dashboard section for emoji packs
-    #[must_use] 
+    #[must_use]
     pub fn new(
         installed_limit: i32,
         created_limit: i32,

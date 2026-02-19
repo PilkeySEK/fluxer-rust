@@ -38,7 +38,7 @@ pub struct RegisterRequest {
 }
 
 impl RegisterRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(date_of_birth: String, consent: bool) -> RegisterRequest {
         RegisterRequest {
             email: None,

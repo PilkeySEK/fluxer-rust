@@ -20,7 +20,7 @@ pub struct DeleteMessageRequest {
 }
 
 impl DeleteMessageRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(channel_id: String, message_id: String) -> DeleteMessageRequest {
         DeleteMessageRequest {
             channel_id,

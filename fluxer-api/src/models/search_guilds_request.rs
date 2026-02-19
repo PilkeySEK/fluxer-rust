@@ -22,7 +22,7 @@ pub struct SearchGuildsRequest {
 }
 
 impl SearchGuildsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SearchGuildsRequest {
         SearchGuildsRequest {
             query: None,

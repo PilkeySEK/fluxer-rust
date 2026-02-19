@@ -19,7 +19,7 @@ pub struct BulkDeleteMessagesRequest {
 }
 
 impl BulkDeleteMessagesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(message_ids: Vec<String>) -> BulkDeleteMessagesRequest {
         BulkDeleteMessagesRequest { message_ids }
     }

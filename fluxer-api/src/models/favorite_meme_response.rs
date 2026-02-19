@@ -95,7 +95,7 @@ pub struct FavoriteMemeResponse {
 }
 
 impl FavoriteMemeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         user_id: String,

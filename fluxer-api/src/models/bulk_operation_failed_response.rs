@@ -20,7 +20,7 @@ pub struct BulkOperationFailedResponse {
 }
 
 impl BulkOperationFailedResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, error: String) -> BulkOperationFailedResponse {
         BulkOperationFailedResponse { id, error }
     }

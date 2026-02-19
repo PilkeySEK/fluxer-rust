@@ -47,7 +47,7 @@ pub struct CustomStatusResponse {
 }
 
 impl CustomStatusResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(emoji_animated: bool) -> CustomStatusResponse {
         CustomStatusResponse {
             text: None,

@@ -21,7 +21,7 @@ pub struct ResolveReportRequest {
 }
 
 impl ResolveReportRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(report_id: String) -> ResolveReportRequest {
         ResolveReportRequest {
             report_id,

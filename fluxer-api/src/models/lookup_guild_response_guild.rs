@@ -63,7 +63,7 @@ pub struct LookupGuildResponseGuild {
 }
 
 impl LookupGuildResponseGuild {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         owner_id: String,

@@ -24,7 +24,7 @@ pub struct UpdateUserFlagsRequest {
 }
 
 impl UpdateUserFlagsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> UpdateUserFlagsRequest {
         UpdateUserFlagsRequest {
             user_id,

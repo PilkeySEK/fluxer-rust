@@ -29,7 +29,7 @@ pub struct ListArchivesRequest {
 }
 
 impl ListArchivesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ListArchivesRequest {
         ListArchivesRequest {
             subject_type: None,
@@ -41,8 +41,9 @@ impl ListArchivesRequest {
     }
 }
 /// Type of archives to list
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SubjectType {
     #[serde(rename = "user")]
     #[default]
@@ -52,4 +53,3 @@ pub enum SubjectType {
     #[serde(rename = "all")]
     All,
 }
-

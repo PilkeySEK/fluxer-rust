@@ -25,7 +25,7 @@ pub struct UserPrivateResponsePendingBulkMessageDeletion {
 }
 
 impl UserPrivateResponsePendingBulkMessageDeletion {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         scheduled_at: String,
         channel_count: i32,

@@ -24,7 +24,7 @@ pub struct StreamPreviewUploadBodySchema {
 }
 
 impl StreamPreviewUploadBodySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(channel_id: String, thumbnail: String) -> StreamPreviewUploadBodySchema {
         StreamPreviewUploadBodySchema {
             channel_id,

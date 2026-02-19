@@ -27,7 +27,7 @@ pub struct UserGuildSettingsResponseChannelOverridesValue {
 }
 
 impl UserGuildSettingsResponseChannelOverridesValue {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         collapsed: bool,
         message_notifications: models::UserNotificationSettings,

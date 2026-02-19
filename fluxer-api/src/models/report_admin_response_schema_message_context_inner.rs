@@ -34,7 +34,7 @@ pub struct ReportAdminResponseSchemaMessageContextInner {
 }
 
 impl ReportAdminResponseSchemaMessageContextInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         channel_id: String,

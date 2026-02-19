@@ -27,7 +27,7 @@ pub struct WellKnownFluxerResponsePublicKey {
 
 impl WellKnownFluxerResponsePublicKey {
     /// Public key for E2E encryption
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         algorithm: Algorithm,
@@ -41,11 +41,11 @@ impl WellKnownFluxerResponsePublicKey {
     }
 }
 /// Key algorithm
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Algorithm {
     #[serde(rename = "x25519")]
     #[default]
     X25519,
 }
-

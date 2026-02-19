@@ -25,7 +25,7 @@ pub struct EmbedFieldResponse {
 }
 
 impl EmbedFieldResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String, value: String, inline: bool) -> EmbedFieldResponse {
         EmbedFieldResponse {
             name,

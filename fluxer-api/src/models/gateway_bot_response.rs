@@ -24,7 +24,7 @@ pub struct GatewayBotResponse {
 }
 
 impl GatewayBotResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         url: String,
         shards: i32,

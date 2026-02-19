@@ -24,7 +24,7 @@ pub struct ResolveReportResponse {
 }
 
 impl ResolveReportResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         report_id: String,
         status: models::ReportStatus,

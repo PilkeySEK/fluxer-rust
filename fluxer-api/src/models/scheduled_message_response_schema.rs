@@ -43,7 +43,7 @@ pub struct ScheduledMessageResponseSchema {
 }
 
 impl ScheduledMessageResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         channel_id: String,
@@ -71,8 +71,9 @@ impl ScheduledMessageResponseSchema {
     }
 }
 /// The current status of the scheduled message
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "pending")]
     #[default]
@@ -88,4 +89,3 @@ pub enum Status {
     #[serde(rename = "cancelled")]
     Cancelled,
 }
-

@@ -21,7 +21,7 @@ pub struct SetUserSystemStatusRequest {
 }
 
 impl SetUserSystemStatusRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, system: bool) -> SetUserSystemStatusRequest {
         SetUserSystemStatusRequest { user_id, system }
     }

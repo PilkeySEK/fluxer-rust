@@ -30,7 +30,7 @@ pub struct ScheduleAccountDeletionRequest {
 }
 
 impl ScheduleAccountDeletionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, reason_code: i32) -> ScheduleAccountDeletionRequest {
         ScheduleAccountDeletionRequest {
             user_id,

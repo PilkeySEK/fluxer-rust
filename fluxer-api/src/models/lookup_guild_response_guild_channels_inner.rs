@@ -27,7 +27,7 @@ pub struct LookupGuildResponseGuildChannelsInner {
 }
 
 impl LookupGuildResponseGuildChannelsInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         name: Option<String>,
@@ -45,8 +45,9 @@ impl LookupGuildResponseGuildChannelsInner {
     }
 }
 /// The type of the channel
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
@@ -64,4 +65,3 @@ pub enum Type {
     #[serde(rename = "999")]
     Variant999,
 }
-

@@ -42,7 +42,7 @@ pub struct BotProfileUpdateRequest {
 }
 
 impl BotProfileUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> BotProfileUpdateRequest {
         BotProfileUpdateRequest {
             username: None,

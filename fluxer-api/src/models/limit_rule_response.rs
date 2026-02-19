@@ -24,7 +24,7 @@ pub struct LimitRuleResponse {
 }
 
 impl LimitRuleResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, overrides: std::collections::HashMap<String, f64>) -> LimitRuleResponse {
         LimitRuleResponse {
             id,

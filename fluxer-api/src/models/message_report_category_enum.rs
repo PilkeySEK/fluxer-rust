@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `MessageReportCategoryEnum` : Category of the message report
 /// Category of the message report
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MessageReportCategoryEnum {
     #[serde(rename = "harassment")]
     #[default]
@@ -61,4 +62,3 @@ impl std::fmt::Display for MessageReportCategoryEnum {
         }
     }
 }
-

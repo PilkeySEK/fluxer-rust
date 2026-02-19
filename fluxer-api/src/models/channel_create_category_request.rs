@@ -65,7 +65,7 @@ pub struct ChannelCreateCategoryRequest {
 }
 
 impl ChannelCreateCategoryRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type, name: String) -> ChannelCreateCategoryRequest {
         ChannelCreateCategoryRequest {
             topic: None,
@@ -81,11 +81,11 @@ impl ChannelCreateCategoryRequest {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "4")]
     #[default]
     Variant4,
 }
-

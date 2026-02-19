@@ -19,7 +19,7 @@ pub struct OkResponse {
 }
 
 impl OkResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(ok: bool) -> OkResponse {
         OkResponse { ok }
     }

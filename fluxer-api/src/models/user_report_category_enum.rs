@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `UserReportCategoryEnum` : Category of the user report
 /// Category of the user report
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum UserReportCategoryEnum {
     #[serde(rename = "harassment")]
     #[default]
@@ -46,4 +47,3 @@ impl std::fmt::Display for UserReportCategoryEnum {
         }
     }
 }
-

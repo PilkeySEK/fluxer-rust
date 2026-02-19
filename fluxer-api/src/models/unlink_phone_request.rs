@@ -18,7 +18,7 @@ pub struct UnlinkPhoneRequest {
 }
 
 impl UnlinkPhoneRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> UnlinkPhoneRequest {
         UnlinkPhoneRequest { user_id }
     }

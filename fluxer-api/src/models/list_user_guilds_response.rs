@@ -18,7 +18,7 @@ pub struct ListUserGuildsResponse {
 }
 
 impl ListUserGuildsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(guilds: Vec<models::GuildAdminResponse>) -> ListUserGuildsResponse {
         ListUserGuildsResponse { guilds }
     }

@@ -100,7 +100,7 @@ pub struct GuildMemberUpdateRequest {
 }
 
 impl GuildMemberUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildMemberUpdateRequest {
         GuildMemberUpdateRequest {
             nick: None,

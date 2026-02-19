@@ -24,7 +24,7 @@ pub struct EmailChangeRequestNewRequest {
 }
 
 impl EmailChangeRequestNewRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         ticket: String,
         new_email: String,

@@ -18,7 +18,7 @@ pub struct CodesResponse {
 }
 
 impl CodesResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(codes: Vec<String>) -> CodesResponse {
         CodesResponse { codes }
     }

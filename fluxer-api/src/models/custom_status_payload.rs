@@ -44,7 +44,7 @@ pub struct CustomStatusPayload {
 }
 
 impl CustomStatusPayload {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> CustomStatusPayload {
         CustomStatusPayload {
             text: None,

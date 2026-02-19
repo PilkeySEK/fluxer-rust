@@ -18,7 +18,7 @@ pub struct PhoneSendVerificationRequest {
 }
 
 impl PhoneSendVerificationRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(phone: String) -> PhoneSendVerificationRequest {
         PhoneSendVerificationRequest { phone }
     }

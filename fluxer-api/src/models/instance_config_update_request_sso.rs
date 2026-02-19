@@ -92,7 +92,7 @@ pub struct InstanceConfigUpdateRequestSso {
 }
 
 impl InstanceConfigUpdateRequestSso {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> InstanceConfigUpdateRequestSso {
         InstanceConfigUpdateRequestSso {
             enabled: None,

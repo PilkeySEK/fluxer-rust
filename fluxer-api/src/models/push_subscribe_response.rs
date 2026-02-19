@@ -19,7 +19,7 @@ pub struct PushSubscribeResponse {
 }
 
 impl PushSubscribeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(subscription_id: String) -> PushSubscribeResponse {
         PushSubscribeResponse { subscription_id }
     }

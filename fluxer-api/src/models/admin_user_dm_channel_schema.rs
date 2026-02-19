@@ -26,7 +26,7 @@ pub struct AdminUserDmChannelSchema {
 }
 
 impl AdminUserDmChannelSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         channel_id: String,
         channel_type: Option<i32>,

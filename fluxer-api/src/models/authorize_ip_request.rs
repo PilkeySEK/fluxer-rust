@@ -19,7 +19,7 @@ pub struct AuthorizeIpRequest {
 }
 
 impl AuthorizeIpRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(token: String) -> AuthorizeIpRequest {
         AuthorizeIpRequest { token }
     }

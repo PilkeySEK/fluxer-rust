@@ -18,7 +18,7 @@ pub struct ListArchivesResponseSchema {
 }
 
 impl ListArchivesResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(archives: Vec<models::AdminArchiveResponseSchema>) -> ListArchivesResponseSchema {
         ListArchivesResponseSchema { archives }
     }

@@ -19,7 +19,7 @@ pub struct GuildStickerBulkCreateRequest {
 }
 
 impl GuildStickerBulkCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(stickers: Vec<models::GuildStickerCreateRequest>) -> GuildStickerBulkCreateRequest {
         GuildStickerBulkCreateRequest { stickers }
     }

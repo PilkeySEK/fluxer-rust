@@ -104,7 +104,7 @@ pub struct ChannelUpdateCategoryRequest {
 }
 
 impl ChannelUpdateCategoryRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type) -> ChannelUpdateCategoryRequest {
         ChannelUpdateCategoryRequest {
             topic: None,
@@ -125,11 +125,11 @@ impl ChannelUpdateCategoryRequest {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "4")]
     #[default]
     Variant4,
 }
-

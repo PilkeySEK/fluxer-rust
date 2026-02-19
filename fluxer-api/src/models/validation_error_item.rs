@@ -25,7 +25,7 @@ pub struct ValidationErrorItem {
 }
 
 impl ValidationErrorItem {
-    #[must_use] 
+    #[must_use]
     pub fn new(path: String, message: String) -> ValidationErrorItem {
         ValidationErrorItem {
             path,

@@ -19,7 +19,7 @@ pub struct PreloadMessagesRequest {
 }
 
 impl PreloadMessagesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(channels: Vec<String>) -> PreloadMessagesRequest {
         PreloadMessagesRequest { channels }
     }

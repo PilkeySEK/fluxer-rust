@@ -30,7 +30,7 @@ pub struct WellKnownFluxerResponseOauth2 {
 
 impl WellKnownFluxerResponseOauth2 {
     /// `OAuth2` endpoints for federation
-    #[must_use] 
+    #[must_use]
     pub fn new(
         authorization_endpoint: String,
         token_endpoint: String,

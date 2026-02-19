@@ -24,7 +24,7 @@ pub struct Error {
 }
 
 impl Error {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: models::ApiErrorCode, message: String) -> Error {
         Error {
             code,

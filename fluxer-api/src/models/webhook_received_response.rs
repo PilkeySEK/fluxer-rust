@@ -19,7 +19,7 @@ pub struct WebhookReceivedResponse {
 }
 
 impl WebhookReceivedResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(received: bool) -> WebhookReceivedResponse {
         WebhookReceivedResponse { received }
     }

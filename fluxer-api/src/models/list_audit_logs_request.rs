@@ -30,7 +30,7 @@ pub struct ListAuditLogsRequest {
 }
 
 impl ListAuditLogsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ListAuditLogsRequest {
         ListAuditLogsRequest {
             admin_user_id: None,

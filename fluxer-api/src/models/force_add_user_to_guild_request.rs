@@ -20,7 +20,7 @@ pub struct ForceAddUserToGuildRequest {
 }
 
 impl ForceAddUserToGuildRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, guild_id: String) -> ForceAddUserToGuildRequest {
         ForceAddUserToGuildRequest { user_id, guild_id }
     }

@@ -24,8 +24,9 @@ impl Default for MessageShredStatusResponse {
     }
 }
 /// Current message shred job status
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "in_progress")]
     #[default]
@@ -35,4 +36,3 @@ pub enum Status {
     #[serde(rename = "failed")]
     Failed,
 }
-

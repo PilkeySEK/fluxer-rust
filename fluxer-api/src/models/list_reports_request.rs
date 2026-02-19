@@ -24,7 +24,7 @@ pub struct ListReportsRequest {
 }
 
 impl ListReportsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ListReportsRequest {
         ListReportsRequest {
             status: None,

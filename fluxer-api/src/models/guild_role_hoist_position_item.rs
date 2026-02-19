@@ -21,7 +21,7 @@ pub struct GuildRoleHoistPositionItem {
 }
 
 impl GuildRoleHoistPositionItem {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, hoist_position: i32) -> GuildRoleHoistPositionItem {
         GuildRoleHoistPositionItem { id, hoist_position }
     }

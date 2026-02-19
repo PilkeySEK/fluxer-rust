@@ -36,7 +36,7 @@ pub struct SearchAuditLogsRequest {
 }
 
 impl SearchAuditLogsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SearchAuditLogsRequest {
         SearchAuditLogsRequest {
             query: None,
@@ -50,8 +50,9 @@ impl SearchAuditLogsRequest {
     }
 }
 /// Field to sort audit logs by
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SortBy {
     #[serde(rename = "createdAt")]
     #[default]
@@ -61,8 +62,9 @@ pub enum SortBy {
 }
 
 /// Sort order direction
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SortOrder {
     #[serde(rename = "asc")]
     #[default]
@@ -70,4 +72,3 @@ pub enum SortOrder {
     #[serde(rename = "desc")]
     Desc,
 }
-

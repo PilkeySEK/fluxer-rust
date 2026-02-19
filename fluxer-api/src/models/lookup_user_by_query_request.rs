@@ -18,7 +18,7 @@ pub struct LookupUserByQueryRequest {
 }
 
 impl LookupUserByQueryRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(query: String) -> LookupUserByQueryRequest {
         LookupUserByQueryRequest { query }
     }

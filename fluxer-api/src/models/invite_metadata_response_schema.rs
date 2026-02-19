@@ -25,8 +25,9 @@ impl Default for InviteMetadataResponseSchema {
     }
 }
 /// The type of invite (guild)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
@@ -38,4 +39,3 @@ pub enum Type {
     #[serde(rename = "3")]
     Variant3,
 }
-

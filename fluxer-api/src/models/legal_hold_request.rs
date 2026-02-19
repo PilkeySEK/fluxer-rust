@@ -19,7 +19,7 @@ pub struct LegalHoldRequest {
 }
 
 impl LegalHoldRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> LegalHoldRequest {
         LegalHoldRequest { expires_at: None }
     }

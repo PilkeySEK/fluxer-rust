@@ -18,7 +18,7 @@ pub struct MessageShredStatusRequest {
 }
 
 impl MessageShredStatusRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(job_id: String) -> MessageShredStatusRequest {
         MessageShredStatusRequest { job_id }
     }

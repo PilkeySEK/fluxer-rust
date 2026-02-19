@@ -20,7 +20,7 @@ pub struct ChangeEmailRequest {
 }
 
 impl ChangeEmailRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, email: String) -> ChangeEmailRequest {
         ChangeEmailRequest { user_id, email }
     }

@@ -37,7 +37,7 @@ pub struct PackInviteCreateRequest {
 }
 
 impl PackInviteCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> PackInviteCreateRequest {
         PackInviteCreateRequest {
             max_uses: None,

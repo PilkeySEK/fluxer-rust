@@ -23,7 +23,7 @@ pub struct GuildVanityUrlUpdateRequest {
 }
 
 impl GuildVanityUrlUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> GuildVanityUrlUpdateRequest {
         GuildVanityUrlUpdateRequest { code: None }
     }

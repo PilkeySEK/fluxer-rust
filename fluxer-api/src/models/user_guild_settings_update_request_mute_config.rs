@@ -26,7 +26,7 @@ pub struct UserGuildSettingsUpdateRequestMuteConfig {
 }
 
 impl UserGuildSettingsUpdateRequestMuteConfig {
-    #[must_use] 
+    #[must_use]
     pub fn new(selected_time_window: i32) -> UserGuildSettingsUpdateRequestMuteConfig {
         UserGuildSettingsUpdateRequestMuteConfig {
             end_time: None,

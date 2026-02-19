@@ -33,7 +33,7 @@ pub struct CreateAdminApiKeyResponse {
 }
 
 impl CreateAdminApiKeyResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         key_id: String,
         key: String,

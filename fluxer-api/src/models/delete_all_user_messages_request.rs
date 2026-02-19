@@ -20,7 +20,7 @@ pub struct DeleteAllUserMessagesRequest {
 }
 
 impl DeleteAllUserMessagesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> DeleteAllUserMessagesRequest {
         DeleteAllUserMessagesRequest {
             user_id,

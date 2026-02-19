@@ -29,7 +29,7 @@ pub struct WellKnownFluxerResponseSso {
 
 impl WellKnownFluxerResponseSso {
     /// Single sign-on configuration
-    #[must_use] 
+    #[must_use]
     pub fn new(
         enabled: bool,
         enforced: bool,

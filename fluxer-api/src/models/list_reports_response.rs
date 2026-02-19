@@ -18,7 +18,7 @@ pub struct ListReportsResponse {
 }
 
 impl ListReportsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(reports: Vec<models::ReportAdminResponseSchema>) -> ListReportsResponse {
         ListReportsResponse { reports }
     }

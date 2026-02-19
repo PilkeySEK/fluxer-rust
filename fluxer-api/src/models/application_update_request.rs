@@ -35,7 +35,7 @@ pub struct ApplicationUpdateRequest {
 }
 
 impl ApplicationUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ApplicationUpdateRequest {
         ApplicationUpdateRequest {
             name: None,

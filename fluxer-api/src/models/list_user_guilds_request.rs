@@ -26,7 +26,7 @@ pub struct ListUserGuildsRequest {
 }
 
 impl ListUserGuildsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> ListUserGuildsRequest {
         ListUserGuildsRequest {
             user_id,

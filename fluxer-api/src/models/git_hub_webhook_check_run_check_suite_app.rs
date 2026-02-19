@@ -18,7 +18,7 @@ pub struct GitHubWebhookCheckRunCheckSuiteApp {
 }
 
 impl GitHubWebhookCheckRunCheckSuiteApp {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> GitHubWebhookCheckRunCheckSuiteApp {
         GitHubWebhookCheckRunCheckSuiteApp { name }
     }

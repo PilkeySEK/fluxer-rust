@@ -35,7 +35,7 @@ pub struct ListAdminApiKeyResponse {
 }
 
 impl ListAdminApiKeyResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         key_id: String,
         name: String,

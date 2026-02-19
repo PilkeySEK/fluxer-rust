@@ -18,7 +18,7 @@ pub struct ReloadGuildRequest {
 }
 
 impl ReloadGuildRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String) -> ReloadGuildRequest {
         ReloadGuildRequest { guild_id }
     }

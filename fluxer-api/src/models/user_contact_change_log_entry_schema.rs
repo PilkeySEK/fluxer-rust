@@ -30,7 +30,7 @@ pub struct UserContactChangeLogEntrySchema {
 }
 
 impl UserContactChangeLogEntrySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         event_id: String,
         field: String,

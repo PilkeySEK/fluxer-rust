@@ -24,7 +24,7 @@ pub struct CreateConnectionRequest {
 }
 
 impl CreateConnectionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type, identifier: String) -> CreateConnectionRequest {
         CreateConnectionRequest {
             r#type,
@@ -34,8 +34,9 @@ impl CreateConnectionRequest {
     }
 }
 /// The type of connection to create
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "bsky")]
     #[default]
@@ -43,4 +44,3 @@ pub enum Type {
     #[serde(rename = "domain")]
     Domain,
 }
-

@@ -44,7 +44,7 @@ pub struct ChannelInviteCreateRequest {
 }
 
 impl ChannelInviteCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ChannelInviteCreateRequest {
         ChannelInviteCreateRequest {
             max_uses: None,

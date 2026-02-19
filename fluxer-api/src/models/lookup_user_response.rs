@@ -18,7 +18,7 @@ pub struct LookupUserResponse {
 }
 
 impl LookupUserResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(users: Vec<models::UserAdminResponseSchema>) -> LookupUserResponse {
         LookupUserResponse { users }
     }

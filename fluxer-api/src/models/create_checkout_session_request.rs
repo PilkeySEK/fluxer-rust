@@ -19,7 +19,7 @@ pub struct CreateCheckoutSessionRequest {
 }
 
 impl CreateCheckoutSessionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(price_id: String) -> CreateCheckoutSessionRequest {
         CreateCheckoutSessionRequest { price_id }
     }

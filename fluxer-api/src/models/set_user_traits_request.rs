@@ -21,7 +21,7 @@ pub struct SetUserTraitsRequest {
 }
 
 impl SetUserTraitsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, traits: Vec<String>) -> SetUserTraitsRequest {
         SetUserTraitsRequest { user_id, traits }
     }

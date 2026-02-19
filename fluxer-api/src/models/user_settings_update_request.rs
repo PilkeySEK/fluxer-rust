@@ -139,7 +139,7 @@ pub struct UserSettingsUpdateRequest {
 }
 
 impl UserSettingsUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> UserSettingsUpdateRequest {
         UserSettingsUpdateRequest {
             flags: None,

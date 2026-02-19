@@ -18,7 +18,7 @@ pub struct CreateVoiceServerResponse {
 }
 
 impl CreateVoiceServerResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(server: models::CreateVoiceServerResponseServer) -> CreateVoiceServerResponse {
         CreateVoiceServerResponse {
             server: Box::new(server),

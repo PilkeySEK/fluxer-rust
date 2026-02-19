@@ -22,7 +22,7 @@ pub struct GenerateGiftCodesRequest {
 }
 
 impl GenerateGiftCodesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(count: i32, product_type: ProductType) -> GenerateGiftCodesRequest {
         GenerateGiftCodesRequest {
             count,
@@ -31,8 +31,9 @@ impl GenerateGiftCodesRequest {
     }
 }
 /// Type of gift subscription
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum ProductType {
     #[serde(rename = "gift_1_month")]
     #[default]
@@ -40,4 +41,3 @@ pub enum ProductType {
     #[serde(rename = "gift_1_year")]
     Gift1Year,
 }
-

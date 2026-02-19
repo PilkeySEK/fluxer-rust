@@ -38,7 +38,7 @@ pub struct GuildBanResponse {
 }
 
 impl GuildBanResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         user: models::UserPartialResponse,
         moderator_id: String,

@@ -19,7 +19,7 @@ pub struct WebAuthnChallengeResponse {
 }
 
 impl WebAuthnChallengeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(challenge: String) -> WebAuthnChallengeResponse {
         WebAuthnChallengeResponse { challenge }
     }

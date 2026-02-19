@@ -21,7 +21,7 @@ pub struct ReserveVisionarySlotRequest {
 }
 
 impl ReserveVisionarySlotRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(slot_index: i32, user_id: Option<String>) -> ReserveVisionarySlotRequest {
         ReserveVisionarySlotRequest {
             slot_index,

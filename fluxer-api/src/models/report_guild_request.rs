@@ -23,7 +23,7 @@ pub struct ReportGuildRequest {
 }
 
 impl ReportGuildRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String, category: models::GuildReportCategoryEnum) -> ReportGuildRequest {
         ReportGuildRequest {
             guild_id,

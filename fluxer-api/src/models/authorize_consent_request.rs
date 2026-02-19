@@ -35,7 +35,7 @@ pub struct AuthorizeConsentRequest {
 }
 
 impl AuthorizeConsentRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(client_id: String, scope: String) -> AuthorizeConsentRequest {
         AuthorizeConsentRequest {
             response_type: None,

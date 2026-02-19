@@ -124,7 +124,7 @@ pub struct ChannelPinMessageResponse {
 
 impl ChannelPinMessageResponse {
     /// The pinned message
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         channel_id: String,
@@ -162,8 +162,9 @@ impl ChannelPinMessageResponse {
     }
 }
 /// The type of message
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
@@ -185,4 +186,3 @@ pub enum Type {
     #[serde(rename = "19")]
     Variant19,
 }
-

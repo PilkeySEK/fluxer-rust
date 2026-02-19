@@ -25,8 +25,9 @@ impl Default for DsaReportRequest {
     }
 }
 /// EU country code of the reporter residence
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum ReporterCountryOfResidence {
     #[serde(rename = "AT")]
     #[default]
@@ -86,11 +87,11 @@ pub enum ReporterCountryOfResidence {
 }
 
 /// Type of report
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum ReportType {
     #[serde(rename = "guild")]
     #[default]
     Guild,
 }
-

@@ -21,7 +21,7 @@ pub struct SetUserAclsRequest {
 }
 
 impl SetUserAclsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String, acls: Vec<String>) -> SetUserAclsRequest {
         SetUserAclsRequest { user_id, acls }
     }

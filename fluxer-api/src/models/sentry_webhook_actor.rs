@@ -22,7 +22,7 @@ pub struct SentryWebhookActor {
 }
 
 impl SentryWebhookActor {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: String, id: String, name: String) -> SentryWebhookActor {
         SentryWebhookActor { r#type, id, name }
     }

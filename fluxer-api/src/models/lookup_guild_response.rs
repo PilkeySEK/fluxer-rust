@@ -18,7 +18,7 @@ pub struct LookupGuildResponse {
 }
 
 impl LookupGuildResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild: Option<models::LookupGuildResponseGuild>) -> LookupGuildResponse {
         LookupGuildResponse {
             guild: guild.map(Box::new),

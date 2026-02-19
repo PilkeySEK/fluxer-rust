@@ -19,7 +19,7 @@ pub struct UsernameSuggestionsResponse {
 }
 
 impl UsernameSuggestionsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(suggestions: Vec<String>) -> UsernameSuggestionsResponse {
         UsernameSuggestionsResponse { suggestions }
     }

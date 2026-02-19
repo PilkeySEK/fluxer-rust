@@ -20,7 +20,7 @@ pub struct AddSnowflakeReservationRequest {
 }
 
 impl AddSnowflakeReservationRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String, snowflake: String) -> AddSnowflakeReservationRequest {
         AddSnowflakeReservationRequest { email, snowflake }
     }

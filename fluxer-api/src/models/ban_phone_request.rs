@@ -18,7 +18,7 @@ pub struct BanPhoneRequest {
 }
 
 impl BanPhoneRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(phone: String) -> BanPhoneRequest {
         BanPhoneRequest { phone }
     }

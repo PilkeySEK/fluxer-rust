@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `GuildReportCategoryEnum` : Category of the guild report
 /// Category of the guild report
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum GuildReportCategoryEnum {
     #[serde(rename = "harassment")]
     #[default]
@@ -52,4 +53,3 @@ impl std::fmt::Display for GuildReportCategoryEnum {
         }
     }
 }
-

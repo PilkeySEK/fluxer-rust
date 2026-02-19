@@ -22,7 +22,7 @@ pub struct MfaTotpRequest {
 }
 
 impl MfaTotpRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, ticket: String) -> MfaTotpRequest {
         MfaTotpRequest { code, ticket }
     }

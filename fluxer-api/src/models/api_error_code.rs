@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `ApiErrorCode` : Error codes returned by API operations
 /// Error codes returned by API operations
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum ApiErrorCode {
     #[serde(rename = "ACCESS_DENIED")]
     #[default]
@@ -937,4 +938,3 @@ impl std::fmt::Display for ApiErrorCode {
         }
     }
 }
-

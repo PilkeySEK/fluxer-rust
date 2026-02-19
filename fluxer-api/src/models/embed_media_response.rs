@@ -78,7 +78,7 @@ pub struct EmbedMediaResponse {
 }
 
 impl EmbedMediaResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(url: String, flags: i32) -> EmbedMediaResponse {
         EmbedMediaResponse {
             url,

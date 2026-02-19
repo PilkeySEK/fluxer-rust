@@ -38,7 +38,7 @@ pub struct GitHubWebhookDiscussion {
 }
 
 impl GitHubWebhookDiscussion {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         title: String,
         number: i32,

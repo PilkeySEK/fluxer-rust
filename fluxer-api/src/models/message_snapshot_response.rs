@@ -74,7 +74,7 @@ pub struct MessageSnapshotResponse {
 }
 
 impl MessageSnapshotResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(timestamp: String, r#type: Type, flags: i32) -> MessageSnapshotResponse {
         MessageSnapshotResponse {
             content: None,
@@ -91,8 +91,9 @@ impl MessageSnapshotResponse {
     }
 }
 /// The type of message
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
@@ -114,4 +115,3 @@ pub enum Type {
     #[serde(rename = "19")]
     Variant19,
 }
-

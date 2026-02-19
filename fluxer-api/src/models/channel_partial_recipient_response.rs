@@ -19,7 +19,7 @@ pub struct ChannelPartialRecipientResponse {
 }
 
 impl ChannelPartialRecipientResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(username: String) -> ChannelPartialRecipientResponse {
         ChannelPartialRecipientResponse { username }
     }

@@ -42,7 +42,7 @@ pub struct SsoConfigResponse {
 }
 
 impl SsoConfigResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         enabled: bool,
         display_name: Option<String>,

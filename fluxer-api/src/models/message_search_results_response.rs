@@ -28,7 +28,7 @@ pub struct MessageSearchResultsResponse {
 }
 
 impl MessageSearchResultsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         messages: Vec<models::MessageSearchResultsResponseMessagesInner>,
         total: i32,

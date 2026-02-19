@@ -40,7 +40,7 @@ pub struct EmbedAuthorResponse {
 }
 
 impl EmbedAuthorResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(name: String) -> EmbedAuthorResponse {
         EmbedAuthorResponse {
             name,

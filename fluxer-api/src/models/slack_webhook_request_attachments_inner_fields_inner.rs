@@ -25,7 +25,7 @@ pub struct SlackWebhookRequestAttachmentsInnerFieldsInner {
 }
 
 impl SlackWebhookRequestAttachmentsInnerFieldsInner {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> SlackWebhookRequestAttachmentsInnerFieldsInner {
         SlackWebhookRequestAttachmentsInnerFieldsInner {
             title: None,

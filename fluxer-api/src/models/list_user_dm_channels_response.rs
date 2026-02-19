@@ -18,7 +18,7 @@ pub struct ListUserDmChannelsResponse {
 }
 
 impl ListUserDmChannelsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(channels: Vec<models::AdminUserDmChannelSchema>) -> ListUserDmChannelsResponse {
         ListUserDmChannelsResponse { channels }
     }

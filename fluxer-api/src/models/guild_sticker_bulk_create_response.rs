@@ -22,7 +22,7 @@ pub struct GuildStickerBulkCreateResponse {
 }
 
 impl GuildStickerBulkCreateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         success: Vec<models::GuildStickerResponse>,
         failed: Vec<models::GuildStickerBulkCreateResponseFailedInner>,

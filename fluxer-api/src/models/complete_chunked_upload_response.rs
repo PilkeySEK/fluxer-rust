@@ -25,7 +25,7 @@ pub struct CompleteChunkedUploadResponse {
 }
 
 impl CompleteChunkedUploadResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         upload_filename: String,
         file_size: i32,

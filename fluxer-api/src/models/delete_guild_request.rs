@@ -18,7 +18,7 @@ pub struct DeleteGuildRequest {
 }
 
 impl DeleteGuildRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String) -> DeleteGuildRequest {
         DeleteGuildRequest { guild_id }
     }

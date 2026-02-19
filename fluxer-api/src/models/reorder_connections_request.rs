@@ -19,7 +19,7 @@ pub struct ReorderConnectionsRequest {
 }
 
 impl ReorderConnectionsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(connection_ids: Vec<String>) -> ReorderConnectionsRequest {
         ReorderConnectionsRequest { connection_ids }
     }

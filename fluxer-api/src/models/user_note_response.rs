@@ -19,7 +19,7 @@ pub struct UserNoteResponse {
 }
 
 impl UserNoteResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(note: String) -> UserNoteResponse {
         UserNoteResponse { note }
     }

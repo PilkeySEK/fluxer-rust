@@ -20,7 +20,7 @@ pub struct SearchGuildsResponse {
 }
 
 impl SearchGuildsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(guilds: Vec<models::GuildAdminResponse>, total: f64) -> SearchGuildsResponse {
         SearchGuildsResponse { guilds, total }
     }

@@ -18,7 +18,7 @@ pub struct DisableMfaRequest {
 }
 
 impl DisableMfaRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> DisableMfaRequest {
         DisableMfaRequest { user_id }
     }

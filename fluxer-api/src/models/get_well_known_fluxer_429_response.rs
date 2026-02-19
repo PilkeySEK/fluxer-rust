@@ -26,7 +26,7 @@ pub struct GetWellKnownFluxer429Response {
 }
 
 impl GetWellKnownFluxer429Response {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: Code, message: String, retry_after: f64) -> GetWellKnownFluxer429Response {
         GetWellKnownFluxer429Response {
             code,
@@ -37,11 +37,11 @@ impl GetWellKnownFluxer429Response {
     }
 }
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Code {
     #[serde(rename = "RATE_LIMITED")]
     #[default]
     RateLimited,
 }
-

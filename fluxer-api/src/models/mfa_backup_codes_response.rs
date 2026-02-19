@@ -19,7 +19,7 @@ pub struct MfaBackupCodesResponse {
 }
 
 impl MfaBackupCodesResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(backup_codes: Vec<models::MfaBackupCodeResponse>) -> MfaBackupCodesResponse {
         MfaBackupCodesResponse { backup_codes }
     }

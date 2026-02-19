@@ -49,7 +49,7 @@ pub struct OAuth2UserInfoResponse {
 }
 
 impl OAuth2UserInfoResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         sub: String,
         id: String,

@@ -36,7 +36,7 @@ pub struct EmailChangeStartResponse {
 }
 
 impl EmailChangeStartResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         ticket: String,
         require_original: bool,

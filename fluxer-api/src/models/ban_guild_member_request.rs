@@ -39,7 +39,7 @@ pub struct BanGuildMemberRequest {
 }
 
 impl BanGuildMemberRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_id: String, user_id: String) -> BanGuildMemberRequest {
         BanGuildMemberRequest {
             delete_message_days: None,

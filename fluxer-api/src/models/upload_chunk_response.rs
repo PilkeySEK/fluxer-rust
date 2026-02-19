@@ -19,7 +19,7 @@ pub struct UploadChunkResponse {
 }
 
 impl UploadChunkResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(etag: String) -> UploadChunkResponse {
         UploadChunkResponse { etag }
     }

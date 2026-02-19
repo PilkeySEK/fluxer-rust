@@ -52,7 +52,7 @@ pub struct ScheduledMessageResponseSchemaPayload {
 
 impl ScheduledMessageResponseSchemaPayload {
     /// The message content and metadata to be sent
-    #[must_use] 
+    #[must_use]
     pub fn new() -> ScheduledMessageResponseSchemaPayload {
         ScheduledMessageResponseSchemaPayload {
             content: None,

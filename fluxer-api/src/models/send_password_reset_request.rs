@@ -18,7 +18,7 @@ pub struct SendPasswordResetRequest {
 }
 
 impl SendPasswordResetRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> SendPasswordResetRequest {
         SendPasswordResetRequest { user_id }
     }

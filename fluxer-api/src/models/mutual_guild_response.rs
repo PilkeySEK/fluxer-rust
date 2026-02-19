@@ -21,7 +21,7 @@ pub struct MutualGuildResponse {
 }
 
 impl MutualGuildResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, nick: Option<String>) -> MutualGuildResponse {
         MutualGuildResponse { id, nick }
     }

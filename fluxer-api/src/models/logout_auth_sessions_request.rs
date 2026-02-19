@@ -21,7 +21,7 @@ pub struct LogoutAuthSessionsRequest {
 }
 
 impl LogoutAuthSessionsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(session_id_hashes: Vec<String>) -> LogoutAuthSessionsRequest {
         LogoutAuthSessionsRequest {
             session_id_hashes,

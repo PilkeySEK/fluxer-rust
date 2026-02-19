@@ -20,7 +20,7 @@ pub struct AuditLogsListResponseSchema {
 }
 
 impl AuditLogsListResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         logs: Vec<models::AdminAuditLogResponseSchema>,
         total: f64,

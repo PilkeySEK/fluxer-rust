@@ -53,7 +53,7 @@ pub struct GroupDmInviteMetadataResponse {
 }
 
 impl GroupDmInviteMetadataResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         code: String,
         r#type: Type,
@@ -79,11 +79,11 @@ impl GroupDmInviteMetadataResponse {
     }
 }
 /// The type of invite (group DM)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "1")]
     #[default]
     Variant1,
 }
-

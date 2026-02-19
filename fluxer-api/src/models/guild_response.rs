@@ -168,7 +168,7 @@ pub struct GuildResponse {
 }
 
 impl GuildResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         name: String,
@@ -218,8 +218,9 @@ impl GuildResponse {
     }
 }
 /// The alignment of the splash card
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SplashCardAlignment {
     #[serde(rename = "0")]
     #[default]
@@ -229,4 +230,3 @@ pub enum SplashCardAlignment {
     #[serde(rename = "2")]
     Variant2,
 }
-

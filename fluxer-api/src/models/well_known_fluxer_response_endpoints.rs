@@ -51,7 +51,7 @@ pub struct WellKnownFluxerResponseEndpoints {
 
 impl WellKnownFluxerResponseEndpoints {
     /// Endpoint URLs for various services
-    #[must_use] 
+    #[must_use]
     pub fn new(
         api: String,
         api_client: String,

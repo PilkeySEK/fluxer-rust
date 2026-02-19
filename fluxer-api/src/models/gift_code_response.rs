@@ -32,7 +32,7 @@ pub struct GiftCodeResponse {
 }
 
 impl GiftCodeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(code: String, duration_months: i32, redeemed: bool) -> GiftCodeResponse {
         GiftCodeResponse {
             code,

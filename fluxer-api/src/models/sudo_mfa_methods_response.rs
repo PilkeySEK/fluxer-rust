@@ -28,7 +28,7 @@ pub struct SudoMfaMethodsResponse {
 }
 
 impl SudoMfaMethodsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(totp: bool, sms: bool, webauthn: bool, has_mfa: bool) -> SudoMfaMethodsResponse {
         SudoMfaMethodsResponse {
             totp,

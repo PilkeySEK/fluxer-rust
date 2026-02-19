@@ -43,7 +43,7 @@ pub struct GuildAuditLogEntryResponse {
 }
 
 impl GuildAuditLogEntryResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, action_type: models::AuditLogActionType) -> GuildAuditLogEntryResponse {
         GuildAuditLogEntryResponse {
             id,

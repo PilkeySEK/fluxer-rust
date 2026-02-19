@@ -31,7 +31,7 @@ pub struct GuildMemberSearchResponse {
 }
 
 impl GuildMemberSearchResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         guild_id: String,
         members: Vec<models::GuildMemberSearchResult>,

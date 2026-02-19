@@ -22,7 +22,7 @@ pub struct LimitFilterResponse {
 }
 
 impl LimitFilterResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> LimitFilterResponse {
         LimitFilterResponse {
             traits: None,

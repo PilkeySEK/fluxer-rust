@@ -42,7 +42,7 @@ pub struct UserSettingsUpdateRequestGuildFoldersInner {
 }
 
 impl UserSettingsUpdateRequestGuildFoldersInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: i32, guild_ids: Vec<String>) -> UserSettingsUpdateRequestGuildFoldersInner {
         UserSettingsUpdateRequestGuildFoldersInner {
             id,
@@ -55,8 +55,9 @@ impl UserSettingsUpdateRequestGuildFoldersInner {
     }
 }
 /// Selected icon for the guild folder
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Icon {
     #[serde(rename = "folder")]
     #[default]
@@ -74,4 +75,3 @@ pub enum Icon {
     #[serde(rename = "music_note")]
     MusicNote,
 }
-

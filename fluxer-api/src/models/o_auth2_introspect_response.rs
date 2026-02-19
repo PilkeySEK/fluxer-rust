@@ -36,7 +36,7 @@ pub struct OAuth2IntrospectResponse {
 }
 
 impl OAuth2IntrospectResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(active: bool) -> OAuth2IntrospectResponse {
         OAuth2IntrospectResponse {
             active,

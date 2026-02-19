@@ -21,7 +21,7 @@ pub struct WellKnownFluxerResponseAppPublic {
 
 impl WellKnownFluxerResponseAppPublic {
     /// Public application configuration for client-side features
-    #[must_use] 
+    #[must_use]
     pub fn new(sentry_dsn: String) -> WellKnownFluxerResponseAppPublic {
         WellKnownFluxerResponseAppPublic { sentry_dsn }
     }

@@ -30,7 +30,7 @@ pub struct SavedMessageEntryResponse {
 }
 
 impl SavedMessageEntryResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         channel_id: String,
@@ -48,8 +48,9 @@ impl SavedMessageEntryResponse {
     }
 }
 /// Availability status of the saved message
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Status {
     #[serde(rename = "available")]
     #[default]
@@ -57,4 +58,3 @@ pub enum Status {
     #[serde(rename = "missing_permissions")]
     MissingPermissions,
 }
-

@@ -33,7 +33,7 @@ pub struct MfaBackupCodesRequest {
 }
 
 impl MfaBackupCodesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(regenerate: bool) -> MfaBackupCodesRequest {
         MfaBackupCodesRequest {
             regenerate,
@@ -46,8 +46,9 @@ impl MfaBackupCodesRequest {
     }
 }
 /// MFA method to use for verification
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MfaMethod {
     #[serde(rename = "totp")]
     #[default]
@@ -57,4 +58,3 @@ pub enum MfaMethod {
     #[serde(rename = "webauthn")]
     Webauthn,
 }
-

@@ -44,7 +44,7 @@ pub struct DsaReportUserRequest {
 }
 
 impl DsaReportUserRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         ticket: String,
         reporter_full_legal_name: String,
@@ -66,8 +66,9 @@ impl DsaReportUserRequest {
     }
 }
 /// EU country code of the reporter residence
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum ReporterCountryOfResidence {
     #[serde(rename = "AT")]
     #[default]
@@ -127,11 +128,11 @@ pub enum ReporterCountryOfResidence {
 }
 
 /// Type of report
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum ReportType {
     #[serde(rename = "user")]
     #[default]
     User,
 }
-

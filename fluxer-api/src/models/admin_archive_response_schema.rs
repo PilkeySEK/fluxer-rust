@@ -48,7 +48,7 @@ pub struct AdminArchiveResponseSchema {
 }
 
 impl AdminArchiveResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         archive_id: String,
         subject_type: SubjectType,
@@ -84,8 +84,9 @@ impl AdminArchiveResponseSchema {
     }
 }
 /// Type of subject being archived
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum SubjectType {
     #[serde(rename = "user")]
     #[default]
@@ -93,4 +94,3 @@ pub enum SubjectType {
     #[serde(rename = "guild")]
     Guild,
 }
-

@@ -18,7 +18,7 @@ pub struct EmailChangeBouncedRequestNewRequest {
 }
 
 impl EmailChangeBouncedRequestNewRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(new_email: String) -> EmailChangeBouncedRequestNewRequest {
         EmailChangeBouncedRequestNewRequest { new_email }
     }

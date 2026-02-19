@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 
 /// `MessageAuthorType` : The type of author who sent the message
 /// The type of author who sent the message
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum MessageAuthorType {
     #[serde(rename = "user")]
     #[default]
@@ -34,4 +35,3 @@ impl std::fmt::Display for MessageAuthorType {
         }
     }
 }
-

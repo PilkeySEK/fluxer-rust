@@ -24,7 +24,7 @@ pub struct PasswordChangeCompleteRequest {
 }
 
 impl PasswordChangeCompleteRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         ticket: String,
         verification_proof: String,

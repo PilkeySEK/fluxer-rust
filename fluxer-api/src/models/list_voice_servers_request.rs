@@ -19,7 +19,7 @@ pub struct ListVoiceServersRequest {
 }
 
 impl ListVoiceServersRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(region_id: String) -> ListVoiceServersRequest {
         ListVoiceServersRequest { region_id }
     }

@@ -20,7 +20,7 @@ pub struct DownloadUrlResponseSchema {
 }
 
 impl DownloadUrlResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(download_url: String, expires_at: String) -> DownloadUrlResponseSchema {
         DownloadUrlResponseSchema {
             download_url,

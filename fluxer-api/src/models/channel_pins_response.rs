@@ -22,7 +22,7 @@ pub struct ChannelPinsResponse {
 }
 
 impl ChannelPinsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(items: Vec<models::ChannelPinResponse>, has_more: bool) -> ChannelPinsResponse {
         ChannelPinsResponse { items, has_more }
     }

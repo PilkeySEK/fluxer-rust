@@ -19,7 +19,7 @@ pub struct PhoneVerifyResponse {
 }
 
 impl PhoneVerifyResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(phone_token: String) -> PhoneVerifyResponse {
         PhoneVerifyResponse { phone_token }
     }

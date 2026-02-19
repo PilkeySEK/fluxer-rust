@@ -18,7 +18,7 @@ pub struct CancelBulkMessageDeletionRequest {
 }
 
 impl CancelBulkMessageDeletionRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> CancelBulkMessageDeletionRequest {
         CancelBulkMessageDeletionRequest { user_id }
     }

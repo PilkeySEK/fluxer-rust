@@ -18,7 +18,7 @@ pub struct ListUserSessionsResponse {
 }
 
 impl ListUserSessionsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(sessions: Vec<models::UserSessionResponse>) -> ListUserSessionsResponse {
         ListUserSessionsResponse { sessions }
     }

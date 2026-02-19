@@ -43,7 +43,7 @@ pub struct HarvestStatusResponseSchemaNullable {
 }
 
 impl HarvestStatusResponseSchemaNullable {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         harvest_id: String,
         status: models::HarvestStatusEnum,

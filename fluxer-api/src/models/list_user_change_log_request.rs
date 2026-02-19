@@ -24,7 +24,7 @@ pub struct ListUserChangeLogRequest {
 }
 
 impl ListUserChangeLogRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(user_id: String) -> ListUserChangeLogRequest {
         ListUserChangeLogRequest {
             user_id,

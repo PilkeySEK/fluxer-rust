@@ -21,7 +21,7 @@ pub struct IpBanListEntrySchema {
 }
 
 impl IpBanListEntrySchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(ip: String, reverse_dns: Option<String>) -> IpBanListEntrySchema {
         IpBanListEntrySchema { ip, reverse_dns }
     }

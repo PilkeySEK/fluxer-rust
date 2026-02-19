@@ -46,7 +46,7 @@ pub struct HarvestStatusResponseSchema {
 }
 
 impl HarvestStatusResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         harvest_id: String,
         status: models::HarvestStatusEnum,

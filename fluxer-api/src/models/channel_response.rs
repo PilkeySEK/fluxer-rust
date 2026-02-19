@@ -119,7 +119,7 @@ pub struct ChannelResponse {
 }
 
 impl ChannelResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String, r#type: i32) -> ChannelResponse {
         ChannelResponse {
             id,

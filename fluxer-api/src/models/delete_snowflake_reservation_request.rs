@@ -18,7 +18,7 @@ pub struct DeleteSnowflakeReservationRequest {
 }
 
 impl DeleteSnowflakeReservationRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(email: String) -> DeleteSnowflakeReservationRequest {
         DeleteSnowflakeReservationRequest { email }
     }

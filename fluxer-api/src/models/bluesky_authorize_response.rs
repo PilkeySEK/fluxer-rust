@@ -19,7 +19,7 @@ pub struct BlueskyAuthorizeResponse {
 }
 
 impl BlueskyAuthorizeResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(authorize_url: String) -> BlueskyAuthorizeResponse {
         BlueskyAuthorizeResponse { authorize_url }
     }

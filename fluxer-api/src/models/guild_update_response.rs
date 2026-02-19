@@ -18,7 +18,7 @@ pub struct GuildUpdateResponse {
 }
 
 impl GuildUpdateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild: models::GuildUpdateResponseGuild) -> GuildUpdateResponse {
         GuildUpdateResponse {
             guild: Box::new(guild),

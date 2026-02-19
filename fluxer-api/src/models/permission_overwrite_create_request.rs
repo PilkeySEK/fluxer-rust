@@ -23,7 +23,7 @@ pub struct PermissionOverwriteCreateRequest {
 }
 
 impl PermissionOverwriteCreateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(r#type: Type) -> PermissionOverwriteCreateRequest {
         PermissionOverwriteCreateRequest {
             r#type,
@@ -33,8 +33,9 @@ impl PermissionOverwriteCreateRequest {
     }
 }
 /// The type of overwrite (0 = role, 1 = member)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "0")]
     #[default]
@@ -42,4 +43,3 @@ pub enum Type {
     #[serde(rename = "1")]
     Variant1,
 }
-

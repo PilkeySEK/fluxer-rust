@@ -34,7 +34,7 @@ pub struct NodeStatsResponse {
 }
 
 impl NodeStatsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         status: String,
         sessions: i32,

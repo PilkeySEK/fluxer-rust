@@ -32,7 +32,7 @@ pub struct UserGuildSettingsUpdateRequestChannelOverridesValue {
 }
 
 impl UserGuildSettingsUpdateRequestChannelOverridesValue {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         collapsed: bool,
         message_notifications: models::UserNotificationSettings,

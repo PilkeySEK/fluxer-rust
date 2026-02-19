@@ -19,7 +19,7 @@ pub struct ReloadGuildsRequest {
 }
 
 impl ReloadGuildsRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_ids: Vec<String>) -> ReloadGuildsRequest {
         ReloadGuildsRequest { guild_ids }
     }

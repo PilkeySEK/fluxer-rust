@@ -40,7 +40,7 @@ pub struct WebhookResponse {
 }
 
 impl WebhookResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         id: String,
         guild_id: String,

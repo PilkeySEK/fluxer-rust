@@ -18,7 +18,7 @@ pub struct GitHubWebhookCheckRunCheckSuitePullRequestsInner {
 }
 
 impl GitHubWebhookCheckRunCheckSuitePullRequestsInner {
-    #[must_use] 
+    #[must_use]
     pub fn new(number: i32) -> GitHubWebhookCheckRunCheckSuitePullRequestsInner {
         GitHubWebhookCheckRunCheckSuitePullRequestsInner { number }
     }

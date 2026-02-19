@@ -20,7 +20,7 @@ pub struct AuditLogChangeSchemaOldValueOneOf {
 }
 
 impl AuditLogChangeSchemaOldValueOneOf {
-    #[must_use] 
+    #[must_use]
     pub fn new(added: Vec<String>, removed: Vec<String>) -> AuditLogChangeSchemaOldValueOneOf {
         AuditLogChangeSchemaOldValueOneOf { added, removed }
     }

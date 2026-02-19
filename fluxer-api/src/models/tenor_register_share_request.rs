@@ -28,7 +28,7 @@ pub struct TenorRegisterShareRequest {
 }
 
 impl TenorRegisterShareRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(id: String) -> TenorRegisterShareRequest {
         TenorRegisterShareRequest {
             id,

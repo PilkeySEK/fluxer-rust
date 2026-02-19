@@ -31,7 +31,7 @@ pub struct ConnectionVerificationResponse {
 }
 
 impl ConnectionVerificationResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         token: String,
         r#type: Type,
@@ -49,8 +49,9 @@ impl ConnectionVerificationResponse {
     }
 }
 /// The type of connection being verified
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Type {
     #[serde(rename = "bsky")]
     #[default]
@@ -58,4 +59,3 @@ pub enum Type {
     #[serde(rename = "domain")]
     Domain,
 }
-

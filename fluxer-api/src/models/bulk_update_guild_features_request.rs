@@ -25,7 +25,7 @@ pub struct BulkUpdateGuildFeaturesRequest {
 }
 
 impl BulkUpdateGuildFeaturesRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(guild_ids: Vec<String>) -> BulkUpdateGuildFeaturesRequest {
         BulkUpdateGuildFeaturesRequest {
             guild_ids,

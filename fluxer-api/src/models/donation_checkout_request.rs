@@ -27,7 +27,7 @@ pub struct DonationCheckoutRequest {
 }
 
 impl DonationCheckoutRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         email: String,
         amount_cents: i32,
@@ -43,8 +43,9 @@ impl DonationCheckoutRequest {
     }
 }
 /// Currency for the donation
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Currency {
     #[serde(rename = "usd")]
     #[default]
@@ -54,8 +55,9 @@ pub enum Currency {
 }
 
 ///
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize, Default,
+)]
 pub enum Interval {
     #[serde(rename = "month")]
     #[default]
@@ -63,4 +65,3 @@ pub enum Interval {
     #[serde(rename = "year")]
     Year,
 }
-

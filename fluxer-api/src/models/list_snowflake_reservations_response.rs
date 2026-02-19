@@ -19,7 +19,7 @@ pub struct ListSnowflakeReservationsResponse {
 }
 
 impl ListSnowflakeReservationsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         reservations: Vec<models::SnowflakeReservationEntry>,
     ) -> ListSnowflakeReservationsResponse {

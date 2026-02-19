@@ -22,7 +22,7 @@ pub struct GuildEmojiBulkCreateResponse {
 }
 
 impl GuildEmojiBulkCreateResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         success: Vec<models::GuildEmojiResponse>,
         failed: Vec<models::GuildEmojiBulkCreateResponseFailedInner>,

@@ -24,7 +24,7 @@ pub struct SearchReportsResponse {
 }
 
 impl SearchReportsResponse {
-    #[must_use] 
+    #[must_use]
     pub fn new(
         reports: Vec<models::ReportAdminResponseSchema>,
         total: f64,

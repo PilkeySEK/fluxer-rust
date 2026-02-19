@@ -23,7 +23,7 @@ pub struct UserNoteUpdateRequest {
 }
 
 impl UserNoteUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> UserNoteUpdateRequest {
         UserNoteUpdateRequest { note: None }
     }

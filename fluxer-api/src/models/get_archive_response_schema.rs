@@ -18,7 +18,7 @@ pub struct GetArchiveResponseSchema {
 }
 
 impl GetArchiveResponseSchema {
-    #[must_use] 
+    #[must_use]
     pub fn new(archive: Option<models::AdminArchiveResponseSchema>) -> GetArchiveResponseSchema {
         GetArchiveResponseSchema {
             archive: archive.map(Box::new),

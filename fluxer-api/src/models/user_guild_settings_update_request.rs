@@ -61,7 +61,7 @@ pub struct UserGuildSettingsUpdateRequest {
 }
 
 impl UserGuildSettingsUpdateRequest {
-    #[must_use] 
+    #[must_use]
     pub fn new() -> UserGuildSettingsUpdateRequest {
         UserGuildSettingsUpdateRequest {
             message_notifications: None,
