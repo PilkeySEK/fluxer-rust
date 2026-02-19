@@ -1,0 +1,13 @@
+# GuildCreateRequest
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**name** | **String** | The name of the guild (1-100 characters) | 
+**icon** | Option<**String**> | Base64-encoded image data | [optional]
+**empty_features** | Option<**bool**> | Whether to create the guild without default features | [optional]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

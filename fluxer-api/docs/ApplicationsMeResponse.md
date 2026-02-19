@@ -1,0 +1,18 @@
+# ApplicationsMeResponse
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **String** | The unique identifier of the application | 
+**name** | **String** | The name of the application | 
+**icon** | Option<**String**> |  | 
+**description** | Option<**String**> |  | 
+**bot_public** | **bool** | Whether the bot can be invited by anyone | 
+**bot_require_code_grant** | **bool** | Whether the bot requires OAuth2 code grant | 
+**flags** | **i32** | The application flags | 
+**bot** | Option<[**models::ApplicationBotResponse**](ApplicationBotResponse.md)> |  | [optional]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

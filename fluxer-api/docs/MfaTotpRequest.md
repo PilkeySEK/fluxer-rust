@@ -1,0 +1,12 @@
+# MfaTotpRequest
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**code** | **String** | The TOTP code from the authenticator app | 
+**ticket** | **String** | The MFA ticket from the login response | 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

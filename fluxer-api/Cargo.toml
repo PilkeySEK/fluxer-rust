@@ -1,0 +1,33 @@
+[package]
+name = "fluxer-api"
+version = "0.1.0"
+authors = ["PilkeySEK"]
+description = "Generated API for Fluxer, a free and open source instant messaging and VoIP platform."
+license = "AGPL-3.0"
+edition = "2024"
+categories = ["api-bindings", "web-programming::http-client"]
+keywords = ["api", "http"]
+
+[dependencies]
+reqwest = { version = "0.13.2", default-features = false, features = ["json", "multipart", "query", "form"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+serde_repr = "0.1.20"
+serde_with = { version = "3.16.1", default-features = false, features = ["base64", "std", "macros"] }
+url = "2.5.8"
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls"]
+
+[lints.clippy]
+pedantic = { level = "warn", priority = 1 }
+fn-params-excessive-bools = { level = "allow", priority = 2 }
+struct-excessive-bools = { level = "allow", priority = 2 }
+default-trait-access = { level = "allow", priority = 2 }
+empty-docs = { level = "allow", priority = 2 }
+missing-errors-doc = { level = "allow", priority = 2 }
+too-many-lines = { level = "allow", priority = 2 }
+multiple-crate-versions = { level = "allow", priority = 2 }
+cargo = "warn"
