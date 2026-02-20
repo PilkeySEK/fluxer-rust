@@ -7,7 +7,9 @@ use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, tungstenite::Message};
 
 use crate::{
     client::client_config::GatewayClientConfiguration,
-    model::event::{GatewayEvent, GatewayEventData, GatewayEventPayload, GatewayOpCode},
+    model::event::{
+        GatewayEvent, GatewayEventPayload, IncomingGatewayEventData, IncomingGatewayOpCode,
+    },
 };
 
 pub mod client_config;
@@ -64,7 +66,7 @@ impl<'a> GatewayClient<'a> {
     /// by `serde_json`.
     pub async fn next_payload(
         stream: &mut GatewayConnectionReadHalf,
-    ) -> Result<GatewayEventPayload, GatewayClientError> {
+    ) -> Result<GatewayEventPayload<IncomingGatewayOpCode>, GatewayClientError> {
         let next_message = Self::next_message_raw(stream).await?;
         let Message::Text(next_message) = next_message else {
             return Err(GatewayClientError::new(
@@ -72,7 +74,7 @@ impl<'a> GatewayClient<'a> {
             ));
         };
 
-        serde_json::from_str::<GatewayEventPayload>(next_message.as_str())
+        serde_json::from_str::<GatewayEventPayload<IncomingGatewayOpCode>>(next_message.as_str())
             .map_err(|e| GatewayClientError::new(GatewayClientErrorType::DeserializeError(e)))
     }
 
@@ -81,31 +83,40 @@ impl<'a> GatewayClient<'a> {
     /// error when invalid data is received.
     pub async fn next_event(
         stream: &mut GatewayConnectionReadHalf,
-    ) -> Result<GatewayEvent, GatewayClientError> {
+    ) -> Result<GatewayEvent<IncomingGatewayEventData, IncomingGatewayOpCode>, GatewayClientError>
+    {
         let payload = Self::next_payload(stream).await?;
         Ok(match payload.op {
-            GatewayOpCode::Hello => {
+            IncomingGatewayOpCode::Hello => {
                 let Some(d) = payload.d.clone() else {
                     return Err(GatewayClientError::new(
                         GatewayClientErrorType::NoDataFieldInPayload,
                     ));
                 };
                 GatewayEvent {
-                    data: GatewayEventData::Hello(serde_json::from_value(d).map_err(|e| {
-                        GatewayClientError::new(GatewayClientErrorType::DeserializeError(e))
-                    })?),
+                    data: IncomingGatewayEventData::Hello(serde_json::from_value(d).map_err(
+                        |e| GatewayClientError::new(GatewayClientErrorType::DeserializeError(e)),
+                    )?),
                     payload,
                 }
             }
-            GatewayOpCode::HeartbeatAck => GatewayEvent {
-                data: GatewayEventData::HeartbeatAck,
+            IncomingGatewayOpCode::HeartbeatAck => GatewayEvent {
+                data: IncomingGatewayEventData::HeartbeatAck,
                 payload,
             },
-            GatewayOpCode::Heartbeat => GatewayEvent {
-                data: GatewayEventData::Heartbeat,
+            IncomingGatewayOpCode::Heartbeat => GatewayEvent {
+                data: IncomingGatewayEventData::Heartbeat,
                 payload,
             },
-            _ => todo!(),
+            IncomingGatewayOpCode::InvalidSession => GatewayEvent {
+                data: IncomingGatewayEventData::InvalidSession,
+                payload,
+            },
+            IncomingGatewayOpCode::Reconnect => GatewayEvent {
+                data: IncomingGatewayEventData::Reconnect,
+                payload,
+            },
+            IncomingGatewayOpCode::Dispatch => todo!(),
         })
     }
 }
