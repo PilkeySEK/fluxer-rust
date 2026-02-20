@@ -5,7 +5,7 @@ pub type GatewayVersion = i32;
 
 bitflags::bitflags! {
     /// See https://docs.discord.com/developers/events/gateway#gateway-intents
-    #[derive(serde::Serialize, Copy, Clone, Debug)]
+    #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, Debug)]
     pub struct GatewayIntents: u32 {
         const GUILDS = 1 << 0;
         const GUILD_MEMBERS = 1 << 1;

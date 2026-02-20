@@ -12,6 +12,7 @@ tokio-tungstenite = { version = "0.28.0", features = ["native-tls"] }
 futures-util = { version = "0.3.32", default-features = false, features = ["sink", "std"] }
 fluxer-api = "1.0.0"
 serde_repr = "0.1.20"
+time = { version = "0.3.47", features = ["formatting", "parsing", "serde"] }
 
 [lints.clippy]
 pedantic = { level = "warn" }

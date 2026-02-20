@@ -9,6 +9,8 @@ pub enum GatewayClientErrorType {
     DeserializeError(serde_json::Error),
     UnsupportedMessageEncoding,
     NoDataFieldInPayload,
+    NoEventNameFieldInPayload,
+    UnknownEvent(String),
 }
 
 #[derive(Debug)]
@@ -22,7 +24,7 @@ impl GatewayClientError {
         &self.kind
     }
 
-    pub(super) fn new(kind: GatewayClientErrorType) -> Self {
+    pub(crate) fn new(kind: GatewayClientErrorType) -> Self {
         Self { kind }
     }
 }
@@ -48,6 +50,12 @@ impl fmt::Display for GatewayClientError {
             }
             GatewayClientErrorType::NoDataFieldInPayload => {
                 f.write_str("Expected data \"d\" in payload, but it is not present")
+            }
+            GatewayClientErrorType::UnknownEvent(event_name) => {
+                f.write_fmt(format_args!("Unknown event: {event_name}"))
+            }
+            GatewayClientErrorType::NoEventNameFieldInPayload => {
+                f.write_str("Expected event name \"t\" in payload, but it is not present")
             }
         }
     }

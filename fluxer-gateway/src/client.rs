@@ -1,14 +1,18 @@
 use futures_util::{
-    StreamExt,
+    SinkExt, StreamExt,
     stream::{SplitSink, SplitStream},
 };
 use tokio::net::TcpStream;
-use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, tungstenite::Message};
+use tokio_tungstenite::{
+    MaybeTlsStream, WebSocketStream,
+    tungstenite::{Message, Utf8Bytes},
+};
 
 use crate::{
     client::client_config::GatewayClientConfiguration,
     model::event::{
         GatewayEvent, GatewayEventPayload, IncomingGatewayEventData, IncomingGatewayOpCode,
+        OutgoingGatewayEventData, OutgoingGatewayOpCode, dispatch::DispatchEvent,
     },
 };
 
@@ -116,7 +120,51 @@ impl<'a> GatewayClient<'a> {
                 data: IncomingGatewayEventData::Reconnect,
                 payload,
             },
-            IncomingGatewayOpCode::Dispatch => todo!(),
+            IncomingGatewayOpCode::Dispatch => {
+                let dispatch_event: DispatchEvent = payload.clone().try_into()?;
+                GatewayEvent {
+                    data: IncomingGatewayEventData::Dispatch(Box::new(dispatch_event)),
+                    payload,
+                }
+            }
         })
+    }
+
+    /// Send a raw message.
+    /// # Errors
+    /// If sending failed, will return a tungstenite error.
+    pub async fn send_raw(
+        sink: &mut GatewayConnectionWriteHalf,
+        message: Message,
+    ) -> Result<(), GatewayClientError> {
+        sink.send(message)
+            .await
+            .map_err(|e| GatewayClientError::new(GatewayClientErrorType::TungsteniteError(e)))
+    }
+
+    /// # Errors
+    /// If sending failed, will return a tungstenite error.
+    /// # Panics
+    /// Panics if `serde_json::to_value()` or `serde_json::to_string()` fails (which shouldn't happen in this case).
+    pub async fn send(
+        sink: &mut GatewayConnectionWriteHalf,
+        event: OutgoingGatewayEventData,
+    ) -> Result<(), GatewayClientError> {
+        match event {
+            OutgoingGatewayEventData::Identify(data) => {
+                let payload = GatewayEventPayload {
+                    op: OutgoingGatewayOpCode::Identify,
+                    d: Some(serde_json::to_value(data).unwrap()),
+                    s: None,
+                    t: None,
+                };
+
+                Self::send_raw(
+                    sink,
+                    Message::Text(Utf8Bytes::from(serde_json::to_string(&payload).unwrap())),
+                )
+                .await
+            }
+        }
     }
 }
