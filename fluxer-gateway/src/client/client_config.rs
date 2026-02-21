@@ -1,11 +1,14 @@
+use crate::__fluxer_gateway_bitflags_as_number;
+
 const DEFAULT_GATEWAY_URL: &str = "wss://gateway.fluxer.app";
 const DEFAULT_GATEWAY_VERSION: GatewayVersion = 1;
 
 pub type GatewayVersion = i32;
 
-bitflags::bitflags! {
+__fluxer_gateway_bitflags_as_number! {
+    GatewayIntentsDef =>
     /// See https://docs.discord.com/developers/events/gateway#gateway-intents
-    #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, Debug)]
+    #[derive(Copy, Clone, Debug)]
     pub struct GatewayIntents: u32 {
         const GUILDS = 1 << 0;
         const GUILD_MEMBERS = 1 << 1;

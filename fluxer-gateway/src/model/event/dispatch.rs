@@ -1,7 +1,11 @@
 use crate::{
     client::{GatewayClientError, GatewayClientErrorType},
     model::event::{
-        GatewayEventPayload, IncomingGatewayOpCode, dispatch::session::ReadyDispatchData,
+        GatewayEventPayload, IncomingGatewayOpCode,
+        dispatch::{
+            guild::{GuildCreateDispatchData, GuildDeleteDispatchData},
+            session::ReadyDispatchData,
+        },
     },
 };
 
@@ -16,7 +20,9 @@ pub mod session;
 
 #[derive(Debug, Clone)]
 pub enum DispatchEvent {
-    Ready(ReadyDispatchData),
+    Ready(Box<ReadyDispatchData>),
+    GuildDelete(GuildDeleteDispatchData),
+    GuildCreate(Box<GuildCreateDispatchData>),
 }
 
 impl TryFrom<GatewayEventPayload<IncomingGatewayOpCode>> for DispatchEvent {
@@ -35,9 +41,29 @@ impl TryFrom<GatewayEventPayload<IncomingGatewayOpCode>> for DispatchEvent {
                         crate::client::GatewayClientErrorType::NoDataFieldInPayload,
                     ));
                 };
-                Self::Ready(serde_json::from_value(d).map_err(|e| {
+                Self::Ready(Box::new(serde_json::from_value(d).map_err(|e| {
+                    GatewayClientError::new(GatewayClientErrorType::DeserializeError(e))
+                })?))
+            }
+            "GUILD_DELETE" => {
+                let Some(d) = value.d else {
+                    return Err(GatewayClientError::new(
+                        crate::client::GatewayClientErrorType::NoDataFieldInPayload,
+                    ));
+                };
+                Self::GuildDelete(serde_json::from_value(d).map_err(|e| {
                     GatewayClientError::new(GatewayClientErrorType::DeserializeError(e))
                 })?)
+            }
+            "GUILD_CREATE" => {
+                let Some(d) = value.d else {
+                    return Err(GatewayClientError::new(
+                        crate::client::GatewayClientErrorType::NoDataFieldInPayload,
+                    ));
+                };
+                Self::GuildCreate(Box::new(serde_json::from_value(d).map_err(|e| {
+                    GatewayClientError::new(GatewayClientErrorType::DeserializeError(e))
+                })?))
             }
             _ => {
                 return Err(GatewayClientError::new(

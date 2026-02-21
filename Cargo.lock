@@ -291,7 +291,7 @@ checksum = "5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582"
 
 [[package]]
 name = "fluxer-api"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "reqwest",
  "serde",
@@ -303,9 +303,9 @@ dependencies = [
 
 [[package]]
 name = "fluxer-api"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51e94d3d73cf80faa007ab59fe67f4d4ec81a7f677df83cc8693fe337c146682"
+checksum = "53d6330c06b3822c0b335c72e8c5f063c855022f5b76cc2389e165e2e4396633"
 dependencies = [
  "reqwest",
  "serde",
@@ -320,7 +320,7 @@ name = "fluxer-gateway"
 version = "0.1.0"
 dependencies = [
  "bitflags",
- "fluxer-api 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "fluxer-api 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures-util",
  "serde",
  "serde_json",

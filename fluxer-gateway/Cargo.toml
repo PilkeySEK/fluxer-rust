@@ -10,9 +10,10 @@ serde_json = "1.0.149"
 tokio = { version = "1.49.0", features = ["full"] }
 tokio-tungstenite = { version = "0.28.0", features = ["native-tls"] }
 futures-util = { version = "0.3.32", default-features = false, features = ["sink", "std"] }
-fluxer-api = "1.0.0"
+fluxer-api = { version = "1.0.1", default-features = false, features = ["native-tls"] }
 serde_repr = "0.1.20"
 time = { version = "0.3.47", features = ["formatting", "parsing", "serde"] }
+# serde_path_to_error = "0.1.20"
 
 [lints.clippy]
 pedantic = { level = "warn" }

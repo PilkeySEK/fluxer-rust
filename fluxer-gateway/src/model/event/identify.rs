@@ -1,9 +1,11 @@
-use bitflags::bitflags;
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 use time::OffsetDateTime;
 
-use crate::{client::client_config::GatewayIntents, model::snowflake::Snowflake};
+use crate::{
+    __fluxer_gateway_bitflags_as_number, client::client_config::GatewayIntentsDef,
+    model::snowflake::Snowflake,
+};
 
 #[derive(Serialize_repr, Deserialize_repr, Copy, Clone, Debug)]
 #[repr(u8)]
@@ -84,8 +86,9 @@ pub struct ActivitySecrets {
     pub r#match: Option<String>,
 }
 
-bitflags! {
-    #[derive(Serialize, Deserialize, Copy, Clone, Debug)]
+__fluxer_gateway_bitflags_as_number! {
+    ActivityFlagsDef =>
+    #[derive(Copy, Clone, Debug)]
     pub struct ActivityFlags: u32 {
         const INSTANCE = 1 << 0;
         const JOIN = 1 << 1;
@@ -141,7 +144,7 @@ pub struct Activity {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub instance: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub flags: Option<ActivityFlags>,
+    pub flags: Option<ActivityFlagsDef>,
     /// Max. 2 buttons
     #[serde(skip_serializing_if = "Option::is_none")]
     pub buttons: Option<Vec<ActivityButton>>,
@@ -183,5 +186,5 @@ pub struct IdentifyEventData {
     pub shard: Option<(i32, i32)>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub presence: Option<UpdatePresence>,
-    pub intents: GatewayIntents,
+    pub intents: GatewayIntentsDef,
 }
