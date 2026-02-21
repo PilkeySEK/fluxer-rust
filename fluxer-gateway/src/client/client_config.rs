@@ -35,10 +35,10 @@ __fluxer_gateway_bitflags_as_number! {
 }
 
 pub struct GatewayClientConfiguration<'a> {
-    pub(super) intents: GatewayIntents,
-    pub(super) token: &'a str,
-    pub(super) gateway_url: &'a str,
-    pub(super) version: GatewayVersion,
+    pub intents: GatewayIntents,
+    pub token: &'a str,
+    pub gateway_url: &'a str,
+    pub version: GatewayVersion,
 }
 
 impl<'a> GatewayClientConfiguration<'a> {
