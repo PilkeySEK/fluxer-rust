@@ -27,7 +27,8 @@ serde_with = { version = "3.16.1", default-features = false, features = ["base64
 url = "2.5.8"
 
 [features]
-default = ["native-tls"]
+apis = []
+default = ["native-tls", "apis"]
 native-tls = ["reqwest/native-tls"]
 rustls = ["reqwest/rustls"]
 
