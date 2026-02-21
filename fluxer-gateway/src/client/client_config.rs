@@ -34,7 +34,6 @@ __fluxer_gateway_bitflags_as_number! {
     }
 }
 
-#[expect(unused)]
 pub struct GatewayClientConfiguration<'a> {
     pub(super) intents: GatewayIntents,
     pub(super) token: &'a str,

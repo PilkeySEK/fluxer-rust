@@ -12,7 +12,9 @@ use crate::{
     client::client_config::GatewayClientConfiguration,
     model::event::{
         GatewayEvent, GatewayEventPayload, IncomingGatewayEventData, IncomingGatewayOpCode,
-        OutgoingGatewayEventData, OutgoingGatewayOpCode, dispatch::DispatchEvent,
+        OutgoingGatewayEventData, OutgoingGatewayOpCode,
+        dispatch::DispatchEvent,
+        identify::{ConnectionProperties, IdentifyEventData},
     },
 };
 
@@ -166,5 +168,30 @@ impl<'a> GatewayClient<'a> {
                 .await
             }
         }
+    }
+
+    /// # Errors
+    /// If sending failed, will return a tungstenite error.
+    pub async fn identify(
+        &self,
+        sink: &mut GatewayConnectionWriteHalf,
+    ) -> Result<(), GatewayClientError> {
+        Self::send(
+            sink,
+            OutgoingGatewayEventData::Identify(IdentifyEventData {
+                token: self.config.token.to_string(),
+                properties: ConnectionProperties {
+                    os: String::from("linux"), // TODO: properly detect OS
+                    browser: String::from("fluxer-gateway"),
+                    device: String::from("fluxer-gateway"),
+                },
+                compress: None,
+                large_threshold: None,
+                shard: None,
+                presence: None,
+                intents: self.config.intents.into(),
+            }),
+        )
+        .await
     }
 }
