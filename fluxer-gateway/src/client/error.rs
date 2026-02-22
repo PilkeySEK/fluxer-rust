@@ -11,6 +11,7 @@ pub enum GatewayClientErrorType {
     NoDataFieldInPayload,
     NoEventNameFieldInPayload,
     UnknownEvent(String),
+    UnexpectedData,
 }
 
 #[derive(Debug)]
@@ -57,6 +58,7 @@ impl fmt::Display for GatewayClientError {
             GatewayClientErrorType::NoEventNameFieldInPayload => {
                 f.write_str("Expected event name \"t\" in payload, but it is not present")
             }
+            GatewayClientErrorType::UnexpectedData => f.write_str("Received unexpected data"),
         }
     }
 }

@@ -12,11 +12,11 @@ use crate::{
 pub struct GuildDeleteDispatchData {
     /// **NOTE:** This was specified as `string` in the documentation,
     /// but a guild ID should be a `Snowflake`
-    id: Snowflake,
+    pub id: Snowflake,
     /// True if the guild is unavailable due to an outage (not a
     /// leave/kick)
     #[serde(skip_serializing_if = "Option::is_none")]
-    unavailable: Option<bool>,
+    pub unavailable: Option<bool>,
 }
 
 #[expect(clippy::struct_excessive_bools)]

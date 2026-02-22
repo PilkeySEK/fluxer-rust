@@ -3,12 +3,15 @@ use serde_json::Value;
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 use crate::model::event::{
-    dispatch::DispatchEvent, hello::HelloEventData, identify::IdentifyEventData,
+    dispatch::DispatchEvent, heartbeat::OutgoingHeartbeatEventData, hello::HelloEventData,
+    identify::IdentifyEventData, invalid_session::InvalidSessionEventData,
 };
 
 pub mod dispatch;
+pub mod heartbeat;
 pub mod hello;
 pub mod identify;
+pub mod invalid_session;
 
 /// Opcodes for incoming gateway events
 #[derive(Serialize_repr, Deserialize_repr, Debug, Copy, Clone, Eq, PartialEq)]
@@ -68,7 +71,7 @@ pub enum IncomingGatewayEventData {
     Hello(HelloEventData),
     HeartbeatAck,
     Heartbeat,
-    InvalidSession,
+    InvalidSession(InvalidSessionEventData),
     Reconnect,
     /// This variant is boxed to keep the enum size relatively small.
     Dispatch(Box<DispatchEvent>),
@@ -77,4 +80,5 @@ pub enum IncomingGatewayEventData {
 #[derive(Debug, Clone)]
 pub enum OutgoingGatewayEventData {
     Identify(IdentifyEventData),
+    Heartbeat(OutgoingHeartbeatEventData),
 }

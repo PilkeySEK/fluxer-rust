@@ -2,11 +2,13 @@ use futures_util::{
     SinkExt, StreamExt,
     stream::{SplitSink, SplitStream},
 };
+use serde_json::Value;
 use tokio::net::TcpStream;
 use tokio_tungstenite::{
     MaybeTlsStream, WebSocketStream,
     tungstenite::{Message, Utf8Bytes},
 };
+use tracing::Level;
 
 use crate::{
     client::client_config::GatewayClientConfiguration,
@@ -15,6 +17,7 @@ use crate::{
         OutgoingGatewayEventData, OutgoingGatewayOpCode,
         dispatch::DispatchEvent,
         identify::{ConnectionProperties, IdentifyEventData},
+        invalid_session::InvalidSessionEventData,
     },
 };
 
@@ -44,16 +47,18 @@ impl<'a> GatewayClient<'a> {
     pub async fn establish_connection(
         &mut self,
     ) -> Result<GatewayConnectionType, GatewayClientError> {
-        Ok(tokio_tungstenite::connect_async(format!(
+        let url = format!(
             "{}/?v={}&encoding=json",
             self.config.gateway_url, self.config.version
-        ))
-        .await
-        .map_err(|e| GatewayClientError {
-            kind: GatewayClientErrorType::TungsteniteError(e),
-        })?
-        .0
-        .split())
+        );
+        tracing::event!(Level::TRACE, %url, "Establishing connection");
+        Ok(tokio_tungstenite::connect_async(url)
+            .await
+            .map_err(|e| GatewayClientError {
+                kind: GatewayClientErrorType::TungsteniteError(e),
+            })?
+            .0
+            .split())
     }
 
     async fn next_message_raw(
@@ -92,6 +97,7 @@ impl<'a> GatewayClient<'a> {
     ) -> Result<GatewayEvent<IncomingGatewayEventData, IncomingGatewayOpCode>, GatewayClientError>
     {
         let payload = Self::next_payload(stream).await?;
+        tracing::event!(Level::TRACE, "Received message from gateway: {:?}", payload);
         Ok(match payload.op {
             IncomingGatewayOpCode::Hello => {
                 let Some(d) = payload.d.clone() else {
@@ -114,10 +120,24 @@ impl<'a> GatewayClient<'a> {
                 data: IncomingGatewayEventData::Heartbeat,
                 payload,
             },
-            IncomingGatewayOpCode::InvalidSession => GatewayEvent {
-                data: IncomingGatewayEventData::InvalidSession,
-                payload,
-            },
+            IncomingGatewayOpCode::InvalidSession => {
+                let Some(d) = payload.d.clone() else {
+                    return Err(GatewayClientError::new(
+                        GatewayClientErrorType::NoDataFieldInPayload,
+                    ));
+                };
+                let Value::Bool(resumable) = d else {
+                    return Err(GatewayClientError::new(
+                        GatewayClientErrorType::UnexpectedData,
+                    ));
+                };
+                GatewayEvent {
+                    data: IncomingGatewayEventData::InvalidSession(InvalidSessionEventData {
+                        resumable,
+                    }),
+                    payload,
+                }
+            }
             IncomingGatewayOpCode::Reconnect => GatewayEvent {
                 data: IncomingGatewayEventData::Reconnect,
                 payload,
@@ -152,11 +172,26 @@ impl<'a> GatewayClient<'a> {
         sink: &mut GatewayConnectionWriteHalf,
         event: OutgoingGatewayEventData,
     ) -> Result<(), GatewayClientError> {
+        tracing::event!(Level::TRACE, "Sending: {:?}", event);
         match event {
             OutgoingGatewayEventData::Identify(data) => {
                 let payload = GatewayEventPayload {
                     op: OutgoingGatewayOpCode::Identify,
                     d: Some(serde_json::to_value(data).unwrap()),
+                    s: None,
+                    t: None,
+                };
+
+                Self::send_raw(
+                    sink,
+                    Message::Text(Utf8Bytes::from(serde_json::to_string(&payload).unwrap())),
+                )
+                .await
+            }
+            OutgoingGatewayEventData::Heartbeat(data) => {
+                let payload = GatewayEventPayload {
+                    op: OutgoingGatewayOpCode::Heartbeat,
+                    d: Some(serde_json::to_value(data.last_sequence_number).unwrap()),
                     s: None,
                     t: None,
                 };

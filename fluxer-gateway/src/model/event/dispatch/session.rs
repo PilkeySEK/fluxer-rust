@@ -10,85 +10,85 @@ use crate::model::snowflake::Snowflake;
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct GuildReadyResponse {
-    id: Snowflake,
+    pub id: Snowflake,
     #[serde(skip_serializing_if = "Option::is_none")]
-    unavailable: Option<bool>,
+    pub unavailable: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    icon: Option<String>,
+    pub icon: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    owner_id: Option<Snowflake>,
+    pub owner_id: Option<Snowflake>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    member_count: Option<i32>,
+    pub member_count: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    lazy: Option<bool>,
+    pub lazy: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    large: Option<bool>,
+    pub large: Option<bool>,
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
         with = "time::serde::iso8601::option"
     )]
-    joined_at: Option<OffsetDateTime>,
+    pub joined_at: Option<OffsetDateTime>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct PresenceResponse {
-    user: UserPartialResponse,
-    status: String,
-    mobile: bool,
-    afk: bool,
-    custom_status: Option<CustomStatusResponse>,
+    pub user: UserPartialResponse,
+    pub status: String,
+    pub mobile: bool,
+    pub afk: bool,
+    pub custom_status: Option<CustomStatusResponse>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct ReadStateResponse {
-    id: Snowflake,
-    mention_count: i32,
-    last_message_id: Option<Snowflake>,
+    pub id: Snowflake,
+    pub mention_count: i32,
+    pub last_message_id: Option<Snowflake>,
     #[serde(default, with = "time::serde::iso8601::option")]
-    last_pin_timestamp: Option<OffsetDateTime>,
+    pub last_pin_timestamp: Option<OffsetDateTime>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReadyDispatchData {
-    version: i32,
-    session_id: String,
-    user: UserPrivateResponse,
-    guilds: Vec<GuildReadyResponse>,
+    pub version: i32,
+    pub session_id: String,
+    pub user: UserPrivateResponse,
+    pub guilds: Vec<GuildReadyResponse>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    private_channels: Option<Vec<ChannelResponse>>,
+    pub private_channels: Option<Vec<ChannelResponse>>,
     /// This is `Vec<Value>` because the docs say it's type is `object[]`
     #[serde(skip_serializing_if = "Option::is_none")]
-    relationships: Option<Vec<Value>>,
+    pub relationships: Option<Vec<Value>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    users: Option<Vec<UserPartialResponse>>,
+    pub users: Option<Vec<UserPartialResponse>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    presences: Option<Vec<PresenceResponse>>,
+    pub presences: Option<Vec<PresenceResponse>>,
     /// This is `Vec<Value>` because the docs say it's type is `object[]`
     #[serde(skip_serializing_if = "Option::is_none")]
-    sessions: Option<Vec<Value>>,
+    pub sessions: Option<Vec<Value>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    user_settings: Option<UserSettingsResponse>,
+    pub user_settings: Option<UserSettingsResponse>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    user_guild_settings: Option<Vec<UserGuildSettingsResponse>>,
+    pub user_guild_settings: Option<Vec<UserGuildSettingsResponse>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    read_states: Option<Vec<ReadStateResponse>>,
+    pub read_states: Option<Vec<ReadStateResponse>>,
     /// This is `Value` because the docs say it's type is `object`
     #[serde(skip_serializing_if = "Option::is_none")]
-    notes: Option<Value>,
+    pub notes: Option<Value>,
     /// Two-letter country code based on IP geolocation
     #[serde(skip_serializing_if = "Option::is_none")]
-    country_code: Option<String>,
+    pub country_code: Option<String>,
     /// Array of pinned DM channel IDs
     ///
     /// **NOTE:** This was specified as "string[]" in the documentation, but
     /// appears to be a `Snowflake` since channel IDs are `Snowflake`s.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pinned_dms: Option<Vec<Snowflake>>,
+    pub pinned_dms: Option<Vec<Snowflake>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    favorite_memes: Option<Vec<FavoriteMemeResponse>>,
+    pub favorite_memes: Option<Vec<FavoriteMemeResponse>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    auth_session_id_hash: Option<String>,
+    pub auth_session_id_hash: Option<String>,
 }

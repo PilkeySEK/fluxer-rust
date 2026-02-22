@@ -13,6 +13,7 @@ futures-util = { version = "0.3.32", default-features = false, features = ["sink
 fluxer-api = { version = "1.0.1", default-features = false, features = ["native-tls"] }
 serde_repr = "0.1.20"
 time = { version = "0.3.47", features = ["formatting", "parsing", "serde"] }
+tracing = "0.1.44"
 # serde_path_to_error = "0.1.20"
 
 [lints.clippy]

@@ -4,3 +4,4 @@
 pub mod client;
 mod macros;
 pub mod model;
+pub use fluxer_api;
