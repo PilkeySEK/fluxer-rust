@@ -1,0 +1,81 @@
+use serde::{Deserialize, Serialize};
+use time::OffsetDateTime;
+
+/// A representation of a timestamp sent to or received by the HTTP or Gateway API.
+/// There are two representations implemented by this crate:
+/// - `UnixMillis`: The UNIX time in milliseconds as an integer.
+/// - `Iso8601`: The time as a String which should be a valid ISO 8601 timestamp.
+///
+/// Both of these represenations are sent to or received by the HTTP and Gateway API making them necessary
+/// to support in this crate.
+pub trait TimestampRepr:
+    for<'de> Deserialize<'de> + Serialize + Into<OffsetDateTime> + Clone
+{
+}
+
+#[derive(Clone, Debug)]
+pub struct Iso8601 {
+    inner: OffsetDateTime,
+}
+impl TimestampRepr for Iso8601 {}
+
+impl From<Iso8601> for OffsetDateTime {
+    fn from(value: Iso8601) -> Self {
+        value.inner
+    }
+}
+
+impl<'de> Deserialize<'de> for Iso8601 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let offset_date_time = time::serde::iso8601::deserialize(deserializer)?;
+        Ok(Self {
+            inner: offset_date_time,
+        })
+    }
+}
+
+impl Serialize for Iso8601 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        time::serde::iso8601::serialize(&self.inner, serializer)
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct UnixMillis {
+    inner: OffsetDateTime,
+}
+
+impl TimestampRepr for UnixMillis {}
+
+impl From<UnixMillis> for OffsetDateTime {
+    fn from(value: UnixMillis) -> Self {
+        value.inner
+    }
+}
+
+impl Serialize for UnixMillis {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        time::serde::timestamp::serialize(&self.inner, serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for UnixMillis {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let offset_date_time = time::serde::timestamp::milliseconds::deserialize(deserializer)?;
+        Ok(Self {
+            inner: offset_date_time,
+        })
+    }
+}

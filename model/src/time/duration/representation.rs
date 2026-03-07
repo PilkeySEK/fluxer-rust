@@ -1,0 +1,76 @@
+use serde::{Deserialize, Serialize};
+
+/// A representation of a duration sent to or received by the HTTP or Gateway API.
+/// There is one representation implemented by this crate:
+/// - `Seconds`: The duration in seconds as an integer.
+pub trait DurationRepr:
+    for<'de> Deserialize<'de> + Serialize + Into<std::time::Duration> + Clone
+{
+}
+
+#[derive(Clone, Debug)]
+pub struct UnixSeconds {
+    inner: std::time::Duration,
+}
+
+#[derive(Clone, Debug)]
+pub struct UnixMillis {
+    inner: std::time::Duration,
+}
+
+impl DurationRepr for UnixSeconds {}
+
+impl From<UnixSeconds> for std::time::Duration {
+    fn from(value: UnixSeconds) -> Self {
+        value.inner
+    }
+}
+
+impl<'de> Deserialize<'de> for UnixSeconds {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        Ok(Self {
+            inner: std::time::Duration::from_secs(u64::deserialize(deserializer)?),
+        })
+    }
+}
+
+impl Serialize for UnixSeconds {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_u64(self.inner.as_secs())
+    }
+}
+
+impl DurationRepr for UnixMillis {}
+
+impl<'de> Deserialize<'de> for UnixMillis {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        Ok(Self {
+            inner: std::time::Duration::from_millis(u64::deserialize(deserializer)?),
+        })
+    }
+}
+
+impl Serialize for UnixMillis {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[expect(clippy::cast_possible_truncation)]
+        serializer.serialize_u64(self.inner.as_millis() as u64)
+    }
+}
+
+impl From<UnixMillis> for std::time::Duration {
+    fn from(value: UnixMillis) -> Self {
+        value.inner
+    }
+}

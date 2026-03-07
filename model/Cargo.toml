@@ -1,0 +1,15 @@
+[package]
+name = "fluxer-model"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde_json = "1.0.149"
+serde_repr = "0.1.20"
+serde = { version = "1.0.228", features = ["derive"] }
+bitflags = "2.11.0"
+time = { version = "0.3.47", features = ["serde", "parsing", "formatting"] }
+zeroize = { version = "1.8.2", features = ["serde"] }
+
+[lints.clippy]
+pedantic = "warn"

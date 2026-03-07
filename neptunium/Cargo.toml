@@ -1,0 +1,13 @@
+[package]
+name = "fluxer-neptunium"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1.50.0", features = ["full"] }
+fluxer-gateway = { path = "../gateway" }
+fluxer-model = { path = "../model" }
+tokio-tungstenite = "0.28.0"
+serde_json = "1.0.149"
+rand = "0.10.0"
+tracing = "0.1.44"

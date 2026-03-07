@@ -1,0 +1,152 @@
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use serde_repr::{Deserialize_repr, Serialize_repr};
+
+use crate::{
+    channel::Channel,
+    gateway::presence::Presence,
+    id::{
+        Id,
+        marker::{ChannelMarker, GuildMarker, UserMarker},
+    },
+    time::timestamp::{Timestamp, representations::Iso8601},
+    user::{
+        User,
+        flags::PublicUserFlags,
+        read_state::ReadState,
+        settings::{FavoriteMeme, UserGuildSettings, UserSettings},
+    },
+};
+
+#[derive(serde::Deserialize, serde::Serialize, Clone, Debug)]
+pub struct GuildReadyResponse {
+    pub id: Id<GuildMarker>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unavailable: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub icon: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub owner_id: Option<Id<UserMarker>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub member_count: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lazy: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub large: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub joined_at: Option<Timestamp<Iso8601>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserPrivateResponsePendingBulkMessageDeletion {
+    pub channel_count: i32,
+    pub message_count: i32,
+    pub scheduled_at: Timestamp<Iso8601>,
+}
+
+#[derive(Debug, Copy, Clone, Serialize_repr, Deserialize_repr)]
+#[repr(u8)]
+pub enum UserAuthenticatorTypes {
+    TimeBasedOneTimePassword = 0,
+    SMSBased = 1,
+    WebAuthn = 2,
+}
+
+#[expect(clippy::struct_excessive_bools)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserPrivateResponse {
+    pub accent_color: Option<i32>,
+    /// Access control list entries for the user
+    pub acls: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub authenticator_types: Option<Vec<UserAuthenticatorTypes>>,
+    pub avater: Option<String>,
+    pub avatar_color: Option<i32>,
+    pub banner: Option<String>,
+    pub banner_color: Option<i32>,
+    pub bio: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bot: Option<bool>,
+    pub discriminator: String,
+    pub email: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_bounced: Option<bool>,
+    pub flags: PublicUserFlags,
+    pub global_name: Option<String>,
+    pub has_dismissed_premium_onboarding: bool,
+    pub has_ever_purchased: bool,
+    pub has_unread_gift_inventory: bool,
+    pub id: Id<UserMarker>,
+    pub is_staff: bool,
+    pub mfa_enabled: bool,
+    pub nsfw_allowed: bool,
+    pub password_last_changed_at: Option<Timestamp<Iso8601>>,
+    pub pending_bulk_message_deletion: Option<UserPrivateResponsePendingBulkMessageDeletion>,
+    pub phone: Option<String>,
+    pub premium_badge_hidden: bool,
+    pub premium_badge_masked: bool,
+    pub premium_badge_sequence_hidden: bool,
+    pub premium_badge_timestamp_hidden: bool,
+    pub premium_billing_cylcle: Option<String>,
+    pub premium_enabled_override: bool,
+    pub premium_lifetime_sequence: Option<i32>,
+    pub premium_purchase_disabled: bool,
+    pub premium_since: Option<Timestamp<Iso8601>>,
+    pub premium_type: Option<UserPremiumTypes>,
+    pub premium_will_cancel: bool,
+    pub pronouns: Option<String>,
+    pub required_actions: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub system: Option<bool>,
+    pub traits: Vec<String>,
+    pub unread_gift_inventory_count: i32,
+    pub used_mobile_client: bool,
+    pub username: String,
+    /// Whether the email address has been verified
+    pub verified: bool,
+}
+
+#[derive(Debug, Copy, Clone, Serialize_repr, Deserialize_repr)]
+#[repr(u8)]
+pub enum UserPremiumTypes {
+    /// No premium subscription.
+    None = 0,
+    Active,
+    Lifetime,
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+pub struct Ready {
+    pub version: u64,
+    pub session_id: String,
+    pub user: UserPrivateResponse,
+    pub guilds: Vec<GuildReadyResponse>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub private_channels: Option<Vec<Channel>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub relationships: Option<Vec<Value>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub users: Option<Vec<User>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub presences: Option<Vec<Presence>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sessions: Option<Vec<Value>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_settings: Option<UserSettings>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_guild_settings: Option<Vec<UserGuildSettings>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub read_states: Option<Vec<ReadState>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub notes: Option<Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub country_code: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pinned_dms: Option<Vec<Id<ChannelMarker>>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub favorite_memes: Option<Vec<FavoriteMeme>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub auth_session_id_hash: Option<String>,
+}
