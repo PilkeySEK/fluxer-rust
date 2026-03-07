@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de};
 use time::OffsetDateTime;
 
 /// A representation of a timestamp sent to or received by the HTTP or Gateway API.
@@ -73,7 +73,12 @@ impl<'de> Deserialize<'de> for UnixMillis {
     where
         D: serde::Deserializer<'de>,
     {
-        let offset_date_time = time::serde::timestamp::milliseconds::deserialize(deserializer)?;
+        let millis = i64::deserialize(deserializer)?;
+        // We need to create an OffsetDateTime from the time in seconds and then add the millisecond part seperately
+        let offset_date_time =
+            OffsetDateTime::from_unix_timestamp(millis / 1000).map_err(|_| {
+                de::Error::invalid_value(de::Unexpected::Signed(millis), &"a valid UNIX timestamp")
+            })? + time::Duration::milliseconds(millis % 1000);
         Ok(Self {
             inner: offset_date_time,
         })

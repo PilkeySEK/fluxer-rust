@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::gateway::payload::incoming::{
-    guild_create::GuildCreate, guild_delete::GuildDelete, ready::Ready,
+    guild_create::GuildCreate, guild_delete::GuildDelete, ready::Ready, typing_start::TypingStart,
 };
 
 #[expect(clippy::large_enum_variant)]
@@ -11,6 +11,7 @@ pub enum DispatchEvent {
     Ready(Ready),
     GuildDelete(GuildDelete),
     GuildCreate(GuildCreate),
+    TypingStart(TypingStart),
     // TODO: Other variants
 }
 
