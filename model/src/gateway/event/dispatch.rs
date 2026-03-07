@@ -1,11 +1,16 @@
 use serde::{Deserialize, Serialize};
 
-use crate::gateway::payload::incoming::Ready;
+use crate::gateway::payload::incoming::{
+    guild_create::GuildCreate, guild_delete::GuildDelete, ready::Ready,
+};
 
+#[expect(clippy::large_enum_variant)]
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(tag = "t", content = "d", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum DispatchEvent {
     Ready(Ready),
+    GuildDelete(GuildDelete),
+    GuildCreate(GuildCreate),
     // TODO: Other variants
 }
 

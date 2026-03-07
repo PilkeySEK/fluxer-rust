@@ -6,7 +6,7 @@ use serde_json::Value;
 
 use crate::gateway::{
     event::{dispatch::DispatchEventPayload, op_code::OpCode},
-    payload::incoming::Hello,
+    payload::incoming::hello::Hello,
 };
 
 #[expect(clippy::large_enum_variant)]

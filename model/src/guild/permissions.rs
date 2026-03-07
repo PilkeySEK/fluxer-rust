@@ -1,7 +1,16 @@
 use bitflags::bitflags;
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize, Serialize,
+    de::{self, Unexpected},
+};
+
+use crate::{
+    id::{Id, marker::RoleMarker},
+    misc::{HexColor32, ImageHash},
+};
 
 bitflags! {
+    /// Permissions are serialized and deserialized as a String.
     #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
     pub struct Permissions: u64 {
         /// Allows creation of instant invites.
@@ -84,7 +93,11 @@ impl<'de> Deserialize<'de> for Permissions {
     where
         D: serde::Deserializer<'de>,
     {
-        Ok(Self::from_bits_truncate(u64::deserialize(deserializer)?))
+        let string = String::deserialize(deserializer)?;
+        let number = string.parse::<u64>().map_err(|_| {
+            de::Error::invalid_value(Unexpected::Str(&string), &"a permissions bitfield")
+        })?;
+        Ok(Self::from_bits_truncate(number))
     }
 }
 
@@ -93,6 +106,21 @@ impl Serialize for Permissions {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_u64(self.bits())
+        serializer.serialize_str(&self.bits().to_string())
     }
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct GuildRole {
+    pub id: Id<RoleMarker>,
+    pub name: String,
+    pub permissions: Permissions,
+    pub position: i32, // Maybe consider making this type smaller
+    pub color: HexColor32,
+    /// Hash of the icon
+    pub icon: Option<ImageHash>,
+    pub unicode_emoji: Option<String>,
+    pub hoist: bool,
+    pub hoist_position: Option<i32>,
+    pub mentionable: bool,
 }

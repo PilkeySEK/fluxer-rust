@@ -11,7 +11,7 @@ use crate::{
         },
     },
     time::timestamp::{Timestamp, representations::Iso8601},
-    user::User,
+    user::UserPartial,
 };
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -59,7 +59,7 @@ pub struct Channel {
     #[serde(skip_serializing_if = "Option::is_none")]
     rate_limit_per_user: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    recipients: Option<Vec<User>>,
+    recipients: Option<Vec<UserPartial>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     rtc_region: Option<Id<VoiceRegionMarker>>,
     #[serde(skip_serializing_if = "Option::is_none")]

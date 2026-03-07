@@ -11,7 +11,7 @@ pub mod read_state;
 pub mod settings;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct User {
+pub struct UserPartial {
     avatar: Option<ImageHash>,
     avatar_color: Option<HexColor32>,
     #[serde(default)]

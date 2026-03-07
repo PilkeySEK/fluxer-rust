@@ -20,6 +20,8 @@ marker! {
     GenericMarker,
     EmojiMarker,
     ApplicationMarker,
+    StickerMarker,
+    RoleMarker,
 }
 
 pub trait IdMarker: Copy + Clone + std::hash::Hash + PartialEq + Eq + std::fmt::Debug {}
