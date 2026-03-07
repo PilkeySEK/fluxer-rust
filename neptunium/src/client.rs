@@ -70,7 +70,7 @@ impl Client {
 
         self.shard
             .identify(ConnectionProperties {
-                os: String::from("linux"), // TODO
+                os: String::from(std::env::consts::OS),
                 browser: String::from("fluxer-neptunium"),
                 device: String::from("fluxer-neptunium"),
             })
