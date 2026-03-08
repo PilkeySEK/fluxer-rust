@@ -32,6 +32,7 @@ impl std::fmt::Display for Error {
                 )),
                 None => f.write_fmt(format_args!("Connection closed, no close frame present")),
             },
+            ClientErrorKind::SessionInvalidated => f.write_str("Session invalidated"),
         }
     }
 }
@@ -43,6 +44,7 @@ pub enum ClientErrorKind {
     UnsupportedMessageEncoding,
     UnexpectedEventReceived(Box<GatewayEvent>),
     ConnectionClosed(Option<CloseFrame>),
+    SessionInvalidated,
 }
 
 impl From<tungstenite::Error> for Error {

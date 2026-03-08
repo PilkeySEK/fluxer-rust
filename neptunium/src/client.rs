@@ -2,14 +2,17 @@ use std::time::Duration;
 
 use fluxer_gateway::shard::{EventReceiveError, Shard, config::ShardConfig};
 use fluxer_model::gateway::{
-    event::gateway::GatewayEvent,
+    event::{dispatch::DispatchEvent, gateway::GatewayEvent},
     payload::outgoing::{
         OutgoingGatewayMessage, heartbeat::Heartbeat, identify::ConnectionProperties,
     },
 };
-use tokio::sync::mpsc::unbounded_channel;
+use tokio::sync::mpsc::{UnboundedSender, unbounded_channel};
 
-use crate::client::error::Error;
+use crate::{
+    client::error::{ClientErrorKind, Error},
+    events::{EventHandler, context::Context},
+};
 
 pub mod error;
 
@@ -19,6 +22,8 @@ enum ClientMessage {
 
 pub struct Client {
     shard: Shard,
+    event_handlers: Vec<Box<dyn EventHandler>>,
+    last_sequence_number: Option<u64>,
 }
 
 impl Client {
@@ -26,7 +31,14 @@ impl Client {
     pub fn new(shard_config: ShardConfig) -> Self {
         Self {
             shard: Shard::new(shard_config),
+            event_handlers: Vec::new(),
+            last_sequence_number: None,
         }
+    }
+
+    pub fn register_event_handler(&mut self, handler: impl EventHandler + 'static) {
+        self.event_handlers
+            .push(Box::new(handler) as Box<dyn EventHandler>);
     }
 
     pub async fn start(&mut self) -> Result<(), self::error::Error> {
@@ -76,8 +88,6 @@ impl Client {
             })
             .await?;
 
-        let last_sequence_number = None;
-
         loop {
             tokio::select! {
                 message = rx.recv() => {
@@ -90,7 +100,7 @@ impl Client {
                             tracing::debug!("Sending heartbeat.");
                             self.shard
                                 .send_gateway_message(OutgoingGatewayMessage::Heartbeat(Heartbeat {
-                                    last_sequence_number,
+                                    last_sequence_number: self.last_sequence_number,
                                 }))
                                 .await?;
                         }
@@ -118,8 +128,58 @@ impl Client {
                         }
                     };
                     tracing::trace!("Received message: {message:?}");
+                    self.handle_event(message, &tx).await?
                 }
             }
         }
+    }
+
+    async fn handle_event(
+        &mut self,
+        event: GatewayEvent,
+        tx: &UnboundedSender<ClientMessage>,
+    ) -> Result<(), self::error::Error> {
+        match event {
+            GatewayEvent::Heartbeat => {
+                let _ = tx.send(ClientMessage::Heartbeat);
+            }
+            GatewayEvent::HeartbeatAck => {}
+            GatewayEvent::Hello(hello) => {
+                tracing::warn!("Received `Hello` event more than one time. Received: {hello:?}");
+            }
+            GatewayEvent::InvalidateSession { resumable } => {
+                if resumable {
+                    todo!(
+                        "Session was invalidated and resumable is set to true, but this has not been implemented yet."
+                    )
+                } else {
+                    return Err(Error::new(ClientErrorKind::SessionInvalidated));
+                }
+            }
+            GatewayEvent::Reconnect => todo!("Reconnecting is not yet implemented"),
+            GatewayEvent::Dispatch(payload) => {
+                // Maybe check if the current sequence number is bigger than the received one because that shouldn't happen? Or something...
+                self.last_sequence_number = Some(payload.sequence_number);
+                return self.handle_dispatch_event(payload.event).await;
+            }
+        }
+        Ok(())
+    }
+
+    async fn handle_dispatch_event(
+        &mut self,
+        event: DispatchEvent,
+    ) -> Result<(), self::error::Error> {
+        match event {
+            DispatchEvent::Ready(data) => {
+                for handler in &mut self.event_handlers {
+                    handler.on_ready(Context {}, data.clone()).await;
+                }
+            }
+            event => {
+                tracing::warn!("Not yet handling this event: {event:?}");
+            }
+        }
+        Ok(())
     }
 }
