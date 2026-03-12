@@ -9,8 +9,7 @@ use crate::{
     id::{
         Id,
         marker::{
-            ChannelMarker, EmojiMarker, MessageMarker, RoleMarker, StickerMarker, UserMarker,
-            WebhookMarker,
+            ChannelMarker, EmojiMarker, MessageMarker, RoleMarker, StickerMarker, WebhookMarker,
         },
     },
     time::timestamp::{Timestamp, representations::Iso8601},
@@ -138,7 +137,7 @@ pub struct MessageBase {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mention_roles: Option<Vec<Id<RoleMarker>>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub mentions: Option<Vec<Id<UserMarker>>>,
+    pub mentions: Option<Vec<UserPartial>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message_reference: Option<MessageReference>,
     /// Snapshots of forwarded messages.
