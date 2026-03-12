@@ -1,8 +1,7 @@
-use rand::distr::{Alphabetic, SampleString};
 use serde::Serialize;
 
 use fluxer_model::{
-    channel::message::{MessageFlags, embed::MessageEmbed},
+    channel::message::{MessageFlags, embed::MessageEmbed, nonce::Nonce},
     id::{Id, marker::StickerMarker},
 };
 
@@ -23,7 +22,7 @@ pub struct CreateMessageBody {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allowed_mentions: Option<AllowedMentions>,
     pub flags: MessageFlags,
-    pub nonce: String,
+    pub nonce: Nonce,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub favorite_meme_id: Option<String>, // TODO make this be Id<...>
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -41,7 +40,7 @@ impl Default for CreateMessageBody {
             message_reference: None,
             allowed_mentions: None,
             flags: MessageFlags::empty(),
-            nonce: Alphabetic.sample_string(&mut rand::rng(), 16), // TODO: make this better (don't use rand)
+            nonce: Nonce::generate(),
             favorite_meme_id: None,
             sticker_ids: None,
             tts: None,
@@ -58,7 +57,7 @@ impl From<&str> for CreateMessageBody {
             message_reference: None,
             allowed_mentions: None,
             flags: MessageFlags::empty(),
-            nonce: Alphabetic.sample_string(&mut rand::rng(), 16), // TODO: make this better (don't use rand)
+            nonce: Nonce::generate(),
             favorite_meme_id: None,
             sticker_ids: None,
             tts: None,
@@ -81,7 +80,7 @@ impl MessageBuilder {
                 message_reference: None,
                 allowed_mentions: None,
                 flags: MessageFlags::empty(),
-                nonce: Alphabetic.sample_string(&mut rand::rng(), 16), // TODO: make this better (don't use rand)
+                nonce: Nonce::generate(),
                 favorite_meme_id: None,
                 sticker_ids: None,
                 tts: None,

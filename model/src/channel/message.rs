@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 use crate::{
-    channel::message::{attachment::MessageAttachment, embed::MessageEmbed},
+    channel::message::{attachment::MessageAttachment, embed::MessageEmbed, nonce::Nonce},
     id::{
         Id,
         marker::{
@@ -20,6 +20,7 @@ use crate::{
 pub mod attachment;
 mod call;
 pub mod embed;
+pub mod nonce;
 mod reference;
 mod snapshot;
 pub use call::*;
@@ -145,7 +146,7 @@ pub struct MessageBase {
     pub message_snapshots: Option<Vec<MessageSnapshot>>,
     /// A client-provided value for message deduplication.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub nonce: Option<String>,
+    pub nonce: Option<Nonce>,
     pub pinned: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reactions: Option<Vec<MessageReaction>>,
