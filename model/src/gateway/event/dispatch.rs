@@ -2,7 +2,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::gateway::payload::incoming::{
     guild_create::GuildCreate, guild_delete::GuildDelete, message_create::MessageCreate,
-    ready::Ready, typing_start::TypingStart,
+    message_reaction_add::MessageReactionAdd, message_reaction_remove::MessageReactionRemove,
+    message_reaction_remove_all::MessageReactionRemoveAll,
+    message_reaction_remove_emoji::MessageReactionRemoveEmoji, ready::Ready,
+    typing_start::TypingStart,
 };
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -13,6 +16,10 @@ pub enum DispatchEvent {
     GuildCreate(GuildCreate),
     TypingStart(TypingStart),
     MessageCreate(MessageCreate),
+    MessageReactionAdd(MessageReactionAdd),
+    MessageReactionRemove(MessageReactionRemove),
+    MessageReactionRemoveEmoji(MessageReactionRemoveEmoji),
+    MessageReactionRemoveAll(MessageReactionRemoveAll),
     // TODO: Other variants
 }
 

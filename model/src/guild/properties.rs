@@ -11,10 +11,12 @@ use crate::id::{
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct GuildEmoji {
-    pub guild_id: Id<GuildMarker>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub guild_id: Option<Id<GuildMarker>>,
     pub id: Id<EmojiMarker>,
     pub name: String,
-    pub creator_id: Id<UserMarker>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub creator_id: Option<Id<UserMarker>>,
     pub animated: bool,
 }
 

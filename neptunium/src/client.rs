@@ -218,6 +218,18 @@ impl Client {
             DispatchEvent::TypingStart(data) => {
                 call_event_handlers!(self.event_handlers, self.context, data => on_typing_start)
             }
+            DispatchEvent::MessageReactionAdd(data) => {
+                call_event_handlers!(self.event_handlers, self.context, data => on_reaction_add)
+            }
+            DispatchEvent::MessageReactionRemove(data) => {
+                call_event_handlers!(self.event_handlers, self.context, data => on_reaction_remove)
+            }
+            DispatchEvent::MessageReactionRemoveEmoji(data) => {
+                call_event_handlers!(self.event_handlers, self.context, data => on_reaction_remove_emoji)
+            }
+            DispatchEvent::MessageReactionRemoveAll(data) => {
+                call_event_handlers!(self.event_handlers, self.context, data => on_reaction_remove_all)
+            }
         }
         Ok(())
     }
