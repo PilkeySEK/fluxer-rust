@@ -83,14 +83,15 @@ impl Endpoint for AddReaction<'_> {
     }
 }
 
+/// Delete the bot's own specified reaction from a message.
 #[derive(Builder, Copy, Clone, Debug)]
-pub struct RemoveOwnReaction<'a> {
+pub struct DeleteOwnReaction<'a> {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
     pub reaction: &'a RequestReactionType<'a>,
 }
 
-impl Endpoint for RemoveOwnReaction<'_> {
+impl Endpoint for DeleteOwnReaction<'_> {
     type Response = ();
 
     fn into_request(self) -> Request {
@@ -104,16 +105,16 @@ impl Endpoint for RemoveOwnReaction<'_> {
     }
 }
 
-/// Remove one specified reaction from a user on a message.
+/// Delete one specified reaction from a user on a message.
 #[derive(Builder, Copy, Clone, Debug)]
-pub struct RemoveReaction<'a> {
+pub struct DeleteReaction<'a> {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
     pub reaction: &'a RequestReactionType<'a>,
     pub target: Id<UserMarker>,
 }
 
-impl Endpoint for RemoveReaction<'_> {
+impl Endpoint for DeleteReaction<'_> {
     type Response = ();
 
     fn into_request(self) -> Request {
@@ -127,15 +128,15 @@ impl Endpoint for RemoveReaction<'_> {
     }
 }
 
-/// Remove all reactions of a specified emoji from a message.
+/// Delete all reactions of a specified emoji from a message.
 #[derive(Builder, Copy, Clone, Debug)]
-pub struct RemoveAllReaction<'a> {
+pub struct DeleteAllReactionsOfEmoji<'a> {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
     pub reaction: &'a RequestReactionType<'a>,
 }
 
-impl Endpoint for RemoveAllReaction<'_> {
+impl Endpoint for DeleteAllReactionsOfEmoji<'_> {
     type Response = ();
 
     fn into_request(self) -> Request {
@@ -149,14 +150,14 @@ impl Endpoint for RemoveAllReaction<'_> {
     }
 }
 
-/// Remove all reactions from a message.
+/// Delete all reactions from a message.
 #[derive(Builder, Copy, Clone, Debug)]
-pub struct RemoveAllReactions {
+pub struct DeleteAllReactions {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
 }
 
-impl Endpoint for RemoveAllReactions {
+impl Endpoint for DeleteAllReactions {
     type Response = ();
 
     fn into_request(self) -> Request {
