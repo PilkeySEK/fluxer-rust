@@ -1,0 +1,47 @@
+use bon::Builder;
+use fluxer_model::{
+    guild::properties::GuildEmoji,
+    id::{Id, marker::GuildMarker},
+};
+use reqwest::Method;
+use serde::Deserialize;
+use serde_json::json;
+
+use crate::{
+    endpoints::Endpoint,
+    requests::{
+        Request,
+        guild::emoji::{EmojiCreateFailure, GuildEmojiCreateData},
+    },
+};
+
+#[derive(Deserialize)]
+pub struct BulkCreateGuildEmojisResponse {
+    /// Successfully created emojis.
+    pub success: Vec<GuildEmoji>,
+    /// Emojis that failed to create.
+    pub failed: Vec<EmojiCreateFailure>,
+}
+
+#[derive(Builder, Clone, Debug)]
+pub struct BulkCreateGuildEmojis {
+    pub guild_id: Id<GuildMarker>,
+    pub emojis: Vec<GuildEmojiCreateData>,
+}
+
+impl Endpoint for BulkCreateGuildEmojis {
+    type Response = BulkCreateGuildEmojisResponse;
+
+    fn into_request(self) -> crate::requests::Request {
+        Request::builder()
+            .body(
+                json!({
+                    "emojis": self.emojis,
+                })
+                .to_string(),
+            )
+            .method(Method::POST)
+            .path(format!("/guilds/{}/emojis/bulk", self.guild_id))
+            .build()
+    }
+}

@@ -1,4 +1,5 @@
 pub mod channel;
+pub mod guild;
 pub mod meta;
 
 use bon::Builder;
