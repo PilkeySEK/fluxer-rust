@@ -4,7 +4,9 @@ use reqwest::StatusCode;
 
 use crate::{client::error::Error, events::context::Context};
 
-use neptunium_http::channel::messages::message_create::CreateMessageBody;
+use neptunium_http::channel::messages::{
+    message_create::CreateMessageBody, message_reference::MessageReference,
+};
 
 #[async_trait]
 pub trait MessageExt {
@@ -22,11 +24,25 @@ impl MessageExt for Message {
         ctx: &Context,
         data: impl Into<CreateMessageBody> + Send,
     ) -> Result<(), crate::client::error::Error> {
+        // let response = ctx
+        //     .messages(self.channel_id)
+        //     .create()
+        //     .body(data)
+        //     .reply_to(self.id)
+        //     .await?;
+        let mut data = data.into();
+        data.message_reference = Some(
+            MessageReference::builder()
+                .channel_id(self.channel_id)
+                .message_id(self.id)
+                .build(),
+        );
         let response = ctx
-            .messages(self.channel_id)
-            .create()
-            .body(data)
-            .reply_to(self.id)
+            .http_client
+            .create_message()
+            .channel_id(self.channel_id)
+            .body(&data)
+            .call()
             .await?;
 
         if response.status() != StatusCode::OK {

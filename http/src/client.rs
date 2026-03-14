@@ -1,9 +1,12 @@
+use bon::bon;
 use fluxer_model::id::{Id, marker::ChannelMarker};
+use reqwest::{Error, Method, Response};
 use zeroize::Zeroizing;
 
-use crate::{DEFAULT_API_BASE_URL, DEFAULT_USER_AGENT, VERSION, client::messages::MessagesClient};
-
-pub mod messages;
+use crate::{
+    DEFAULT_API_BASE_URL, DEFAULT_USER_AGENT, VERSION,
+    channel::messages::message_create::CreateMessageBody,
+};
 
 #[derive(Debug)]
 pub struct HttpClient {
@@ -13,6 +16,7 @@ pub struct HttpClient {
     user_agent: String,
 }
 
+#[bon]
 impl HttpClient {
     #[must_use]
     pub fn new(token: String) -> Self {
@@ -32,11 +36,30 @@ impl HttpClient {
         self.api_base_url = url;
     }
 
-    #[must_use]
-    pub fn messages(&self, channel_id: Id<ChannelMarker>) -> MessagesClient<'_> {
-        MessagesClient {
-            channel_id,
-            client: self,
-        }
+    #[builder]
+    pub async fn create_message(
+        &self,
+        channel_id: Id<ChannelMarker>,
+        body: &CreateMessageBody,
+    ) -> Result<Response, Error> {
+        let body = serde_json::to_string(body).unwrap();
+
+        tracing::trace!("Sending create message request: {body:?}");
+
+        let response = self
+            .reqwest_client
+            .request(
+                Method::POST,
+                format!("{}/channels/{}/messages", self.api_base_url, channel_id),
+            )
+            .header("Authorization", format!("Bot {}", *self.token))
+            .header("User-Agent", &self.user_agent)
+            .body(body)
+            .send()
+            .await;
+
+        tracing::trace!("Response from create message request: {response:?}");
+
+        response
     }
 }

@@ -11,6 +11,10 @@ impl Error {
     pub(crate) fn new(kind: ClientErrorKind) -> Self {
         Self { kind }
     }
+
+    pub fn kind(&self) -> &ClientErrorKind {
+        &self.kind
+    }
 }
 
 impl std::error::Error for Error {}

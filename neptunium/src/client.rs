@@ -18,7 +18,7 @@ use crate::{
 pub mod api_info;
 mod config;
 pub mod error;
-pub mod http;
+// pub mod http;
 pub use config::*;
 
 enum ClientMessage {

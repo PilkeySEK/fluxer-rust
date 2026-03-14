@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bon = "3.9.0"
 fluxer-model = { path = "../model" }
 futures = { version = "0.3.32", features = ["alloc"] }
 rand = "0.10.0"

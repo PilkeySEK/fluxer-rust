@@ -52,6 +52,12 @@ bitflags! {
     }
 }
 
+impl Default for MessageFlags {
+    fn default() -> Self {
+        Self::empty()
+    }
+}
+
 impl Serialize for MessageFlags {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

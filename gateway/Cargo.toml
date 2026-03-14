@@ -13,6 +13,7 @@ tokio = { version = "1.50.0", features = ["net"] }
 zeroize = "1.8.2"
 tracing = "0.1.44"
 serde_path_to_error = "0.1.20"
+bon = "3.9.1"
 
 [lints.clippy]
 pedantic = "warn"

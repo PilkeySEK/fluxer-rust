@@ -1,7 +1,7 @@
 //! Types and builders for interacting with the Fluxer HTTP API.
 
 pub const DEFAULT_API_BASE_URL: &str = "https://api.fluxer.app/v1";
-pub const DEFAULT_USER_AGENT: &str = "Neptunium-Http";
+pub const DEFAULT_USER_AGENT: &str = "Neptunium-HTTP";
 
 const VERSION: &str = unwrap_or(option_env!("CARGO_PKG_VERSION"), "unknown");
 
@@ -13,6 +13,5 @@ const fn unwrap_or(option: Option<&'static str>, default: &'static str) -> &'sta
     }
 }
 
-pub mod builders;
 pub mod channel;
 pub mod client;

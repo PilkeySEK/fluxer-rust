@@ -1,5 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
+use bon::Builder;
 use fluxer_model::{
     channel::message::attachment::MessageAttachmentFlags,
     id::{Id, marker::GenericMarker},
@@ -7,7 +8,7 @@ use fluxer_model::{
 };
 use serde::Serialize;
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Serialize, Clone, Debug, Builder)]
 pub struct AttachmentBase {
     /// 1-1024 characters.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -15,6 +16,7 @@ pub struct AttachmentBase {
     /// 1-4096 characters.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    #[builder(default)]
     pub flags: MessageAttachmentFlags,
     /// Duration of the audio file in seconds.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -24,7 +26,7 @@ pub struct AttachmentBase {
     pub waveform: Option<String>,
 }
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Serialize, Clone, Debug, Builder)]
 pub struct AttachmentRequest {
     #[serde(flatten)]
     pub base: AttachmentBase,

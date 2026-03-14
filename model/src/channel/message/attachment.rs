@@ -18,6 +18,12 @@ bitflags! {
     }
 }
 
+impl Default for MessageAttachmentFlags {
+    fn default() -> Self {
+        Self::empty()
+    }
+}
+
 impl Serialize for MessageAttachmentFlags {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
