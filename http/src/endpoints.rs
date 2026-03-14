@@ -2,7 +2,7 @@ use std::string::FromUtf8Error;
 
 use serde::de::DeserializeOwned;
 
-use crate::request::Request;
+use crate::requests::Request;
 
 pub mod messages;
 

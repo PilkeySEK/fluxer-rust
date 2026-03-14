@@ -7,7 +7,8 @@ use fluxer_model::{
 use reqwest::Method;
 
 use crate::{
-    channel::messages::message_create::CreateMessageBody, endpoints::Endpoint, request::Request,
+    endpoints::Endpoint, requests::Request,
+    requests::channel::messages::message_create::CreateMessageBody,
 };
 
 pub mod reactions;
@@ -22,7 +23,7 @@ pub struct CreateMessage {
 impl Endpoint for CreateMessage {
     type Response = Message;
 
-    fn into_request(self) -> crate::request::Request {
+    fn into_request(self) -> crate::requests::Request {
         Request::builder()
             .body(serde_json::to_string(&self.message).unwrap())
             .method(Method::POST)

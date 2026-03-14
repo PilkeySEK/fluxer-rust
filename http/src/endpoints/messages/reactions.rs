@@ -11,7 +11,7 @@ use fluxer_model::{
 use percent_encoding::{NON_ALPHANUMERIC, utf8_percent_encode};
 use reqwest::Method;
 
-use crate::{endpoints::Endpoint, request::Request};
+use crate::{endpoints::Endpoint, requests::Request};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum RequestReactionType<'a> {
@@ -52,7 +52,7 @@ pub struct ListReactions<'a> {
 
 impl Endpoint for ListReactions<'_> {
     type Response = Vec<UserPartial>;
-    fn into_request(self) -> crate::request::Request {
+    fn into_request(self) -> crate::requests::Request {
         Request::builder()
             .method(Method::GET)
             .path(format!(

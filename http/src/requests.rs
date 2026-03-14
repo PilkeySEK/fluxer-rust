@@ -1,3 +1,6 @@
+pub mod channel;
+pub mod meta;
+
 use bon::Builder;
 use reqwest::{
     Error, Method, Response,

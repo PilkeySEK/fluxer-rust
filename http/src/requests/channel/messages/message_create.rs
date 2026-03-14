@@ -6,7 +6,7 @@ use fluxer_model::{
     id::{Id, marker::StickerMarker},
 };
 
-use crate::channel::messages::{
+use crate::requests::channel::messages::{
     allowed_mentions::AllowedMentions, attachment::AttachmentRequest,
     message_reference::MessageReference,
 };

@@ -7,13 +7,15 @@ use fluxer_model::{
 use crate::{client::error::Error, events::context::Context};
 
 use neptunium_http::{
-    channel::messages::{message_create::CreateMessageBody, message_reference::MessageReference},
     endpoints::messages::{
         CreateMessage,
         reactions::{
             AddReaction, DeleteAllReactions, DeleteAllReactionsOfEmoji, DeleteOwnReaction,
             DeleteReaction,
         },
+    },
+    requests::channel::messages::{
+        message_create::CreateMessageBody, message_reference::MessageReference,
     },
 };
 

@@ -13,7 +13,7 @@ const fn unwrap_or(option: Option<&'static str>, default: &'static str) -> &'sta
     }
 }
 
-pub mod channel;
 pub mod client;
 pub mod endpoints;
-pub mod request;
+pub mod requests;
+pub mod responses;
