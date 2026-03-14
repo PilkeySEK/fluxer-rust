@@ -984,6 +984,7 @@ dependencies = [
  "bon",
  "fluxer-model",
  "futures",
+ "percent-encoding",
  "rand 0.10.0",
  "reqwest",
  "serde",

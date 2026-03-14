@@ -1,19 +1,24 @@
 use bon::bon;
-use fluxer_model::id::{Id, marker::ChannelMarker};
-use reqwest::{Error, Method, Response};
+use fluxer_model::id::{
+    Id,
+    marker::{ChannelMarker, MessageMarker},
+};
+use reqwest::{Error, Response};
 use zeroize::Zeroizing;
 
 use crate::{
     DEFAULT_API_BASE_URL, DEFAULT_USER_AGENT, VERSION,
-    channel::messages::message_create::CreateMessageBody,
+    channel::{messages::message_create::CreateMessageBody, reactions::RequestReactionType},
+    request::Request,
+    routing::Route,
 };
 
 #[derive(Debug)]
 pub struct HttpClient {
-    api_base_url: String,
-    token: Zeroizing<String>,
-    reqwest_client: reqwest::Client,
-    user_agent: String,
+    pub(crate) api_base_url: String,
+    pub(crate) token: Zeroizing<String>,
+    pub(crate) reqwest_client: reqwest::Client,
+    pub(crate) user_agent: String,
 }
 
 #[bon]
@@ -44,22 +49,26 @@ impl HttpClient {
     ) -> Result<Response, Error> {
         let body = serde_json::to_string(body).unwrap();
 
-        tracing::trace!("Sending create message request: {body:?}");
+        let mut req = Request::from_route(&Route::CreateMessage { channel_id });
+        req.body = Some(body.as_bytes().to_vec());
 
-        let response = self
-            .reqwest_client
-            .request(
-                Method::POST,
-                format!("{}/channels/{}/messages", self.api_base_url, channel_id),
-            )
-            .header("Authorization", format!("Bot {}", *self.token))
-            .header("User-Agent", &self.user_agent)
-            .body(body)
-            .send()
-            .await;
+        req.execute(self).await
+    }
 
-        tracing::trace!("Response from create message request: {response:?}");
-
-        response
+    #[builder]
+    pub async fn add_reaction(
+        &self,
+        channel_id: Id<ChannelMarker>,
+        message_id: Id<MessageMarker>,
+        /// For default emojis, this should be the unicode emoji.
+        #[builder(into)]
+        emoji: RequestReactionType<'_>,
+    ) -> Result<Response, Error> {
+        let req = Request::from_route(&Route::CreateReaction {
+            channel_id,
+            emoji: &emoji,
+            message_id,
+        });
+        req.execute(self).await
     }
 }

@@ -8,12 +8,20 @@ use neptunium_http::channel::messages::{
     message_create::CreateMessageBody, message_reference::MessageReference,
 };
 
+pub use neptunium_http::channel::reactions::RequestReactionType as Reaction;
+
 #[async_trait]
 pub trait MessageExt {
     async fn reply(
         &self,
         ctx: &Context,
         data: impl Into<CreateMessageBody> + Send,
+    ) -> Result<(), crate::client::error::Error>;
+
+    async fn add_reaction(
+        &self,
+        ctx: &Context,
+        data: impl Into<Reaction<'_>> + Send,
     ) -> Result<(), crate::client::error::Error>;
 }
 
@@ -24,12 +32,6 @@ impl MessageExt for Message {
         ctx: &Context,
         data: impl Into<CreateMessageBody> + Send,
     ) -> Result<(), crate::client::error::Error> {
-        // let response = ctx
-        //     .messages(self.channel_id)
-        //     .create()
-        //     .body(data)
-        //     .reply_to(self.id)
-        //     .await?;
         let mut data = data.into();
         data.message_reference = Some(
             MessageReference::builder()
@@ -47,30 +49,31 @@ impl MessageExt for Message {
 
         if response.status() != StatusCode::OK {
             return Err(Error::new(
-                crate::client::error::ClientErrorKind::HttpStatusNot200(response),
+                crate::client::error::ClientErrorKind::HttpStatusNotOk(response),
             ));
         }
-        // TODO change to trace or remove
-        tracing::debug!("Response body: {:?}", response.text().await);
         Ok(())
+    }
 
-        // let mut data = data.into();
-        // data.message_reference = Some(MessageReference {
-        //     message_id: self.id,
-        //     channel_id: Some(self.channel_id),
-        //     guild_id: None,
-        //     r#type: MessageReferenceType::Reply,
-        // });
-        // let response = ctx
-        //     .http_client
-        //     .messages(self.channel_id)
-        //     .create(&data)
-        //     .await?;
-        // if response.status() != StatusCode::OK {
-        //     return Err(Error::new(
-        //         crate::client::error::ClientErrorKind::HttpStatusNot200(response),
-        //     ));
-        // }
-        // Ok(())
+    async fn add_reaction(
+        &self,
+        ctx: &Context,
+        data: impl Into<Reaction<'_>> + Send,
+    ) -> Result<(), crate::client::error::Error> {
+        let response = ctx
+            .http_client
+            .add_reaction()
+            .channel_id(self.channel_id)
+            .message_id(self.id)
+            .emoji(data)
+            .call()
+            .await?;
+
+        if response.status() != StatusCode::NO_CONTENT {
+            return Err(Error::new(
+                crate::client::error::ClientErrorKind::HttpStatusNotOk(response),
+            ));
+        }
+        Ok(())
     }
 }

@@ -38,8 +38,8 @@ impl std::fmt::Display for Error {
             },
             ClientErrorKind::SessionInvalidated => f.write_str("Session invalidated"),
             ClientErrorKind::HttpRequestError(e) => f.write_fmt(format_args!("HTTP error: {e}")),
-            ClientErrorKind::HttpStatusNot200(response) => f.write_fmt(format_args!(
-                "HTTP error: The server did not respond 200 OK: {response:?}"
+            ClientErrorKind::HttpStatusNotOk(response) => f.write_fmt(format_args!(
+                "HTTP error: The server did not respond OK: {response:?}"
             )),
         }
     }
@@ -54,7 +54,7 @@ pub enum ClientErrorKind {
     ConnectionClosed(Option<CloseFrame>),
     SessionInvalidated,
     HttpRequestError(reqwest::Error),
-    HttpStatusNot200(reqwest::Response),
+    HttpStatusNotOk(reqwest::Response),
 }
 
 impl From<tungstenite::Error> for Error {
