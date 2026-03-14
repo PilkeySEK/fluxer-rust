@@ -981,6 +981,7 @@ dependencies = [
 name = "neptunium-http"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "bon",
  "fluxer-model",
  "futures",
@@ -989,6 +990,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "serde_path_to_error",
  "tracing",
  "zeroize",
 ]

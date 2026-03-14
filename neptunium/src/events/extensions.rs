@@ -1,14 +1,14 @@
 use async_trait::async_trait;
 use fluxer_model::channel::message::Message;
-use reqwest::StatusCode;
 
-use crate::{client::error::Error, events::context::Context};
+use crate::events::context::Context;
 
-use neptunium_http::channel::messages::{
-    message_create::CreateMessageBody, message_reference::MessageReference,
+use neptunium_http::{
+    channel::messages::{message_create::CreateMessageBody, message_reference::MessageReference},
+    endpoints::messages::{CreateMessage, reactions::AddReaction},
 };
 
-pub use neptunium_http::channel::reactions::RequestReactionType as Reaction;
+pub use neptunium_http::endpoints::messages::reactions::RequestReactionType as Reaction;
 
 #[async_trait]
 pub trait MessageExt {
@@ -16,7 +16,7 @@ pub trait MessageExt {
         &self,
         ctx: &Context,
         data: impl Into<CreateMessageBody> + Send,
-    ) -> Result<(), crate::client::error::Error>;
+    ) -> Result<Message, crate::client::error::Error>;
 
     async fn add_reaction(
         &self,
@@ -31,7 +31,7 @@ impl MessageExt for Message {
         &self,
         ctx: &Context,
         data: impl Into<CreateMessageBody> + Send,
-    ) -> Result<(), crate::client::error::Error> {
+    ) -> Result<Message, crate::client::error::Error> {
         let mut data = data.into();
         data.message_reference = Some(
             MessageReference::builder()
@@ -41,18 +41,15 @@ impl MessageExt for Message {
         );
         let response = ctx
             .http_client
-            .create_message()
-            .channel_id(self.channel_id)
-            .body(&data)
-            .call()
+            .execute(
+                CreateMessage::builder()
+                    .channel_id(self.channel_id)
+                    .message(data)
+                    .build(),
+            )
             .await?;
 
-        if response.status() != StatusCode::OK {
-            return Err(Error::new(
-                crate::client::error::ClientErrorKind::HttpStatusNotOk(response),
-            ));
-        }
-        Ok(())
+        Ok(response)
     }
 
     async fn add_reaction(
@@ -62,18 +59,15 @@ impl MessageExt for Message {
     ) -> Result<(), crate::client::error::Error> {
         let response = ctx
             .http_client
-            .add_reaction()
-            .channel_id(self.channel_id)
-            .message_id(self.id)
-            .emoji(data)
-            .call()
+            .execute(
+                AddReaction::builder()
+                    .channel_id(self.channel_id)
+                    .message_id(self.id)
+                    .reaction(&data.into())
+                    .build(),
+            )
             .await?;
 
-        if response.status() != StatusCode::NO_CONTENT {
-            return Err(Error::new(
-                crate::client::error::ClientErrorKind::HttpStatusNotOk(response),
-            ));
-        }
-        Ok(())
+        Ok(response)
     }
 }

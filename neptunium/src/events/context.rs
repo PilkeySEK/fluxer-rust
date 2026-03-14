@@ -9,6 +9,12 @@ pub struct Context {
     pub(crate) http_client: Arc<HttpClient>,
 }
 
+impl Context {
+    pub fn get_http_client(&self) -> &Arc<HttpClient> {
+        &self.http_client
+    }
+}
+
 // impl Context {
 //     pub fn messages(&self, channel_id: Id<ChannelMarker>) -> MessagesClient {
 //         MessagesClient {

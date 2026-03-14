@@ -1,5 +1,6 @@
 use fluxer_gateway::shard::EventReceiveError;
 use fluxer_model::gateway::event::gateway::GatewayEvent;
+use neptunium_http::endpoints::ExecuteEndpointRequestError;
 use tokio_tungstenite::tungstenite::{self, protocol::CloseFrame};
 
 #[derive(Debug)]
@@ -42,6 +43,26 @@ impl std::fmt::Display for Error {
                 "HTTP error: The server did not respond OK: {response:?}"
             )),
         }
+    }
+}
+
+impl From<ExecuteEndpointRequestError> for Error {
+    fn from(value: ExecuteEndpointRequestError) -> Self {
+        Self::new(match value {
+            ExecuteEndpointRequestError::DeserializationError(e) => ClientErrorKind::ParseError(e),
+            ExecuteEndpointRequestError::NetworkError(e) => ClientErrorKind::HttpRequestError(e),
+            ExecuteEndpointRequestError::NonUtf8Bytes(_) => {
+                ClientErrorKind::UnsupportedMessageEncoding
+            }
+            ExecuteEndpointRequestError::ResponseNotOk(response) => {
+                ClientErrorKind::HttpStatusNotOk(response)
+            }
+        })
+    }
+}
+impl From<Box<ExecuteEndpointRequestError>> for Error {
+    fn from(value: Box<ExecuteEndpointRequestError>) -> Self {
+        Self::from(*value)
     }
 }
 

@@ -4,19 +4,20 @@ use reqwest::{
     header::{HeaderMap, HeaderValue},
 };
 
-use crate::{client::HttpClient, routing::Route};
+use crate::client::HttpClient;
 
 #[derive(Clone, Debug, Builder)]
 pub struct Request {
-    pub body: Option<Vec<u8>>,
+    pub body: Option<String>,
     pub headers: Option<HeaderMap<HeaderValue>>,
     pub method: Method,
     pub path: String,
+    #[builder(default = true)]
     pub use_authorization_token: bool,
 }
 
 impl Request {
-    #[must_use]
+    /*#[must_use]
     pub fn from_route(route: &Route<'_>) -> Self {
         Self {
             body: None,
@@ -25,7 +26,7 @@ impl Request {
             path: route.path().to_string(),
             use_authorization_token: true,
         }
-    }
+    }*/
 
     /// Execute the request. For a non-consuming version, see [`Self::borrowed_execute`].
     /// # Errors

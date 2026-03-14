@@ -1,0 +1,82 @@
+use std::string::FromUtf8Error;
+
+use serde::de::DeserializeOwned;
+
+use crate::request::Request;
+
+pub mod messages;
+
+impl<T: DeserializeOwned> ResponseBody for T {
+    fn deserialize(bytes: Vec<u8>) -> Result<Self, Box<ExecuteEndpointRequestError>> {
+        if bytes.is_empty() {
+            let mut deserializer = serde_json::Deserializer::from_str("null");
+            Ok(serde_path_to_error::deserialize(&mut deserializer)?)
+        } else {
+            let s = String::from_utf8(bytes).map_err(ExecuteEndpointRequestError::NonUtf8Bytes)?;
+            let mut deserializer = serde_json::Deserializer::from_str(&s);
+            Ok(serde_path_to_error::deserialize(&mut deserializer)?)
+        }
+    }
+}
+
+pub trait ResponseBody: Sized {
+    /// Deserialize, given the response body bytes.
+    /// # Errors
+    /// Returns an error if deserializing failed.
+    fn deserialize(bytes: Vec<u8>) -> Result<Self, Box<ExecuteEndpointRequestError>>;
+}
+
+// #[async_trait]
+pub trait Endpoint {
+    type Response: ResponseBody;
+    fn into_request(self) -> Request;
+    // async fn deserialize_response(
+    //     response: reqwest::Response,
+    // ) -> Result<Self::Response, ExecuteEndpointRequestError> {
+    //     if response.status() == StatusCode::OK || response.status() == StatusCode::NO_CONTENT {
+    //         if size_of::<Self::Response>() == 0 {
+    //             let mut deserializer = serde_json::Deserializer::from_slice(&[]);
+    //             Ok(serde_path_to_error::deserialize(&mut deserializer)?)
+    //         } else {
+    //             let body = String::from_utf8(response.bytes().await?.to_vec())
+    //                 .map_err(ExecuteEndpointRequestError::NonUtf8Bytes)?;
+    //             let mut deserializer = serde_json::Deserializer::from_str(&body);
+    //             Ok(serde_path_to_error::deserialize(&mut deserializer)?)
+    //         }
+    //     } else {
+    //         Err(ExecuteEndpointRequestError::ResponseNotOk(response))
+    //     }
+    // }
+}
+
+#[derive(Debug)]
+pub enum ExecuteEndpointRequestError {
+    NetworkError(reqwest::Error),
+    ResponseNotOk(reqwest::Response),
+    DeserializationError(serde_path_to_error::Error<serde_json::Error>),
+    NonUtf8Bytes(FromUtf8Error),
+}
+
+impl From<reqwest::Error> for ExecuteEndpointRequestError {
+    fn from(value: reqwest::Error) -> Self {
+        Self::NetworkError(value)
+    }
+}
+
+impl From<reqwest::Error> for Box<ExecuteEndpointRequestError> {
+    fn from(value: reqwest::Error) -> Self {
+        Box::new(ExecuteEndpointRequestError::NetworkError(value))
+    }
+}
+
+impl From<serde_path_to_error::Error<serde_json::Error>> for Box<ExecuteEndpointRequestError> {
+    fn from(value: serde_path_to_error::Error<serde_json::Error>) -> Self {
+        Box::new(ExecuteEndpointRequestError::DeserializationError(value))
+    }
+}
+
+impl From<serde_path_to_error::Error<serde_json::Error>> for ExecuteEndpointRequestError {
+    fn from(value: serde_path_to_error::Error<serde_json::Error>) -> Self {
+        Self::DeserializationError(value)
+    }
+}
