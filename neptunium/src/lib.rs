@@ -1,5 +1,6 @@
 pub mod client;
 pub mod events;
+pub mod exts;
 pub use async_trait::async_trait;
 pub use tokio::main;
 
@@ -18,7 +19,7 @@ const fn unwrap_or(option: Option<&'static str>, default: &'static str) -> &'sta
 
 pub mod prelude {
     pub use crate::client::Client;
-    pub use crate::events::extensions::*;
-    pub use crate::events::prelude::*;
+    pub use crate::exts::*;
     pub use fluxer_gateway::shard::config::{ShardConfig, ShardConfigBuilder};
+    pub use fluxer_model as model;
 }
