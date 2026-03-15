@@ -8,7 +8,7 @@ use reqwest::Method;
 
 use crate::{
     endpoints::Endpoint, requests::Request,
-    requests::channel::messages::message_create::CreateMessageBody,
+    requests::channel::messages::create_message::CreateMessageBody,
 };
 
 pub mod reactions;

@@ -15,7 +15,8 @@ use neptunium_http::{
         },
     },
     requests::channel::messages::{
-        message_create::CreateMessageBody, message_reference::MessageReference,
+        create_message::CreateMessageBody, delete_message::DeleteMessage,
+        message_reference::MessageReference,
     },
 };
 
@@ -55,6 +56,9 @@ pub trait MessageExt {
     ) -> Result<(), Error>;
 
     async fn delete_all_reactions(&self, ctx: &Context) -> Result<(), Error>;
+
+    /// Delete this message.
+    async fn delete(&self, ctx: &Context) -> Result<(), Error>;
 }
 
 #[async_trait]
@@ -157,6 +161,18 @@ impl MessageExt for Message {
             .http_client
             .execute(
                 DeleteAllReactions::builder()
+                    .channel_id(self.channel_id)
+                    .message_id(self.id)
+                    .build(),
+            )
+            .await?)
+    }
+
+    async fn delete(&self, ctx: &Context) -> Result<(), Error> {
+        Ok(ctx
+            .http_client
+            .execute(
+                DeleteMessage::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
                     .build(),
