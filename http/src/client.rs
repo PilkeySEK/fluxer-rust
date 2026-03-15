@@ -41,7 +41,10 @@ impl HttpClient {
     ) -> Result<T::Response, Box<ExecuteEndpointRequestError>> {
         let request = endpoint.into_request();
         let response = request.execute(self).await?;
+        tracing::trace!("API response: {:?}", response);
+        // TODO: Check for errors here
         let body = response.bytes().await?.to_vec();
+        tracing::trace!("API response body: {:?}", body);
         ResponseBody::deserialize(body)
     }
     /*

@@ -15,7 +15,9 @@ use neptunium_http::{
         },
     },
     requests::channel::messages::{
-        create_message::CreateMessageBody, delete_message::DeleteMessage,
+        create_message::CreateMessageBody,
+        delete_message::DeleteMessage,
+        edit_message::{EditMessage, EditMessageUpdates},
         message_reference::MessageReference,
     },
 };
@@ -59,6 +61,9 @@ pub trait MessageExt {
 
     /// Delete this message.
     async fn delete(&self, ctx: &Context) -> Result<(), Error>;
+
+    /// Edit this message.
+    async fn edit(&self, ctx: &Context, updates: EditMessageUpdates) -> Result<Message, Error>;
 }
 
 #[async_trait]
@@ -175,6 +180,19 @@ impl MessageExt for Message {
                 DeleteMessage::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
+                    .build(),
+            )
+            .await?)
+    }
+
+    async fn edit(&self, ctx: &Context, updates: EditMessageUpdates) -> Result<Message, Error> {
+        Ok(ctx
+            .http_client
+            .execute(
+                EditMessage::builder()
+                    .channel_id(self.channel_id)
+                    .message_id(self.id)
+                    .updates(updates)
                     .build(),
             )
             .await?)
