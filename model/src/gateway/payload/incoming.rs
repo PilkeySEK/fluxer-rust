@@ -9,3 +9,4 @@ pub mod message_reaction_remove_all;
 pub mod message_reaction_remove_emoji;
 pub mod ready;
 pub mod typing_start;
+pub mod audit_log_entry_create;

@@ -1,7 +1,8 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 use crate::gateway::payload::incoming::{
-    guild_create::GuildCreate, guild_delete::GuildDelete, guild_emojis_update::GuildEmojisUpdate,
+    audit_log_entry_create::GuildAuditLogEntryCreate, guild_create::GuildCreate,
+    guild_delete::GuildDelete, guild_emojis_update::GuildEmojisUpdate,
     message_create::MessageCreate, message_reaction_add::MessageReactionAdd,
     message_reaction_remove::MessageReactionRemove,
     message_reaction_remove_all::MessageReactionRemoveAll,
@@ -9,7 +10,7 @@ use crate::gateway::payload::incoming::{
     typing_start::TypingStart,
 };
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(tag = "t", content = "d", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum DispatchEvent {
     Ready(Ready),
@@ -22,10 +23,11 @@ pub enum DispatchEvent {
     MessageReactionRemoveEmoji(MessageReactionRemoveEmoji),
     MessageReactionRemoveAll(MessageReactionRemoveAll),
     GuildEmojisUpdate(GuildEmojisUpdate),
+    GuildAuditLogEntryCreate(GuildAuditLogEntryCreate),
     // TODO: Other variants
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Deserialize, Clone, Debug)]
 pub struct DispatchEventPayload {
     #[serde(flatten)]
     pub event: DispatchEvent,

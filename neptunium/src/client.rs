@@ -233,6 +233,9 @@ impl Client {
             DispatchEvent::GuildEmojisUpdate(data) => {
                 call_event_handlers!(self.event_handlers, self.context, data => on_guild_emojis_update)
             }
+            DispatchEvent::GuildAuditLogEntryCreate(data) => {
+                call_event_handlers!(self.event_handlers, self.context, data => on_audit_log_entry_create)
+            }
         }
         Ok(())
     }
