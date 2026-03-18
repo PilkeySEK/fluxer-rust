@@ -9,8 +9,8 @@ So, basically, while trying to cover parts of the API, I am sometimes discoverin
 
 # Third party code
 I have copied code in the following files from project `twilight` (https://github.com/twilight-rs/twilight):
-- [crates/model/src/guild/audit_log.rs](./crates/model/src/guild/audit_log.rs)
-- [crates/model/src/guild/audit_log/*](./crates/model/src/guild/audit_log) (Everything in that directory)
+- [model/src/guild/audit_log.rs](./model/src/guild/audit_log.rs)
+- [model/src/guild/audit_log/*](./model/src/guild/audit_log) (Everything in that directory)
 
 Copyright (c) 2019 (c) The Twilight Contributors. See [THIRD_PARTY_LICENSES](./THIRD_PARTY_LICENSES) for the full license text.
 
