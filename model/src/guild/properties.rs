@@ -96,7 +96,8 @@ impl Serialize for GuildOperations {
     where
         S: serde::Serializer,
     {
-        self.bits().to_string().serialize(serializer)
+        self.bits() /*.to_string()*/
+            .serialize(serializer)
     }
 }
 
@@ -106,9 +107,10 @@ impl<'de> Deserialize<'de> for GuildOperations {
         D: serde::Deserializer<'de>,
     {
         Ok(Self::from_bits_truncate(
-            String::deserialize(deserializer)?
-                .parse()
-                .map_err(serde::de::Error::custom)?,
+            /*String::deserialize(deserializer)?
+            .parse()
+            .map_err(serde::de::Error::custom)?*/
+            u32::deserialize(deserializer)?,
         ))
     }
 }
