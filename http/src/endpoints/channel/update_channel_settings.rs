@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use bon::Builder;
 use neptunium_model::{
-    channel::{Channel, ChannelType, PermissionOverwrite, RtcVoiceRegion},
+    channel::{Channel, ChannelType, PermissionOverwrite, VoiceRegion},
     id::{
         Id,
         marker::{ChannelMarker, UserMarker},
@@ -73,7 +73,7 @@ pub struct GuildVoiceChannelSettingsUpdates {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub user_limit: Option<u8>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub rtc_region: Option<RtcVoiceRegion>,
+    pub rtc_region: Option<VoiceRegion>,
 }
 
 #[derive(Serialize, Builder, Clone, Debug)]

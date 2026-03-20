@@ -17,12 +17,12 @@ use crate::{
 pub mod message;
 
 #[derive(Clone, Debug)]
-pub enum RtcVoiceRegion {
+pub enum VoiceRegion {
     Automatic,
     Fixed(String),
 }
 
-impl<'de> Deserialize<'de> for RtcVoiceRegion {
+impl<'de> Deserialize<'de> for VoiceRegion {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -39,7 +39,7 @@ impl<'de> Deserialize<'de> for RtcVoiceRegion {
     }
 }
 
-impl Serialize for RtcVoiceRegion {
+impl Serialize for VoiceRegion {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
@@ -119,7 +119,7 @@ pub struct Channel {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub recipients: Option<Vec<UserPartial>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub rtc_region: Option<RtcVoiceRegion>,
+    pub rtc_region: Option<VoiceRegion>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub topic: Option<String>,
     #[serde(rename = "type")]

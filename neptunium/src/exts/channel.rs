@@ -1,9 +1,9 @@
 use async_trait::async_trait;
 use neptunium_http::endpoints::channel::{
     CallEligibilityStatus, ChannelSettingsUpdates, DeleteChannel, FetchChannel,
-    GetCallEligibilityStatus, UpdateChannelSettings,
+    GetCallEligibilityStatus, UpdateCallRegion, UpdateChannelSettings,
 };
-use neptunium_model::channel::Channel;
+use neptunium_model::channel::{Channel, VoiceRegion};
 
 use crate::{
     client::error::Error, events::context::Context, internal::traits::channel::ChannelTrait,
@@ -25,6 +25,8 @@ pub trait ChannelExt {
         &self,
         ctx: &Context,
     ) -> Result<CallEligibilityStatus, Error>;
+    /// Update the voice region for an ongoing call.
+    async fn update_call_region(&self, ctx: &Context, region: VoiceRegion) -> Result<(), Error>;
 }
 
 #[async_trait]
@@ -84,6 +86,17 @@ impl<T: ChannelTrait> ChannelExt for T {
             .execute(
                 GetCallEligibilityStatus::builder()
                     .channel_id(self.get_channel_id())
+                    .build(),
+            )
+            .await?)
+    }
+    async fn update_call_region(&self, ctx: &Context, region: VoiceRegion) -> Result<(), Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(
+                UpdateCallRegion::builder()
+                    .channel_id(self.get_channel_id())
+                    .region(region)
                     .build(),
             )
             .await?)
