@@ -1,10 +1,17 @@
 use std::sync::Arc;
 
-use fluxer_model::gateway::payload::outgoing::presence_update::PresenceUpdateOutgoing;
+use fluxer_model::{
+    channel::Channel,
+    gateway::payload::outgoing::presence_update::PresenceUpdateOutgoing,
+    id::{Id, marker::ChannelMarker},
+};
 use neptunium_http::client::HttpClient;
 use tokio::sync::mpsc::UnboundedSender;
 
-use crate::client::ClientMessage;
+use crate::{
+    client::{ClientMessage, error::Error},
+    exts::ChannelExt,
+};
 
 #[derive(Clone, Debug)]
 pub struct Context {
@@ -18,9 +25,19 @@ impl Context {
         &self.http_client
     }
 
+    /// Update the presence by sending a gateway request. Due to
+    /// how the crate is structured currently, this does not block.
     pub fn update_presence(&self, data: PresenceUpdateOutgoing) {
         // ignoring potential error caused by the channel being closed
         // TODO: Maybe not ignore it
         let _ = self.tx.send(ClientMessage::UpdatePresence(data));
+    }
+
+    /// Fetch a channel from the API.
+    /// # Errors
+    /// Returns an error if there was a network error, the API did not return OK,
+    /// or the API returned unexpected data that could not be parsed.
+    pub async fn fetch_channel(&self, channel_id: Id<ChannelMarker>) -> Result<Channel, Error> {
+        channel_id.fetch(self).await
     }
 }
