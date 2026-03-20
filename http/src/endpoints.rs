@@ -4,7 +4,7 @@ use serde::de::DeserializeOwned;
 
 use crate::{requests::Request, responses::error::ApiErrorResponse};
 
-pub mod messages;
+// pub mod messages;
 
 impl<T: DeserializeOwned> ResponseBody for T {
     fn deserialize(bytes: Vec<u8>) -> Result<Self, Box<ExecuteEndpointRequestError>> {

@@ -1,14 +1,24 @@
 use bon::Builder;
+use reqwest::Method;
 use serde::Serialize;
 
 use fluxer_model::{
-    channel::message::{MessageFlags, embed::MessageEmbed, nonce::Nonce},
-    id::{Id, marker::StickerMarker},
+    channel::message::{Message, MessageFlags, embed::MessageEmbed, nonce::Nonce},
+    id::{
+        Id,
+        marker::{ChannelMarker, StickerMarker},
+    },
 };
 
-use crate::requests::channel::messages::{
-    allowed_mentions::AllowedMentions, attachment::AttachmentRequest,
-    message_reference::MessageReference,
+use crate::{
+    endpoints::Endpoint,
+    requests::{
+        Request,
+        channel::messages::{
+            allowed_mentions::AllowedMentions, attachment::AttachmentRequest,
+            message_reference::MessageReference,
+        },
+    },
 };
 
 /// [Source](https://github.com/fluxerapp/fluxer/blob/03813bbe17db008452f0f1be3090a7d2970a5447/packages/schema/src/domains/message/MessageRequestSchemas.tsx#L247)
@@ -52,5 +62,23 @@ impl<T: Into<String>> From<T> for CreateMessageBody {
             sticker_ids: None,
             tts: false,
         }
+    }
+}
+
+#[derive(Builder, Clone, Debug)]
+pub struct CreateMessage {
+    pub channel_id: Id<ChannelMarker>,
+    pub message: CreateMessageBody,
+}
+
+impl Endpoint for CreateMessage {
+    type Response = Message;
+
+    fn into_request(self) -> crate::requests::Request {
+        Request::builder()
+            .body(serde_json::to_string(&self.message).unwrap())
+            .method(Method::POST)
+            .path(format!("/channels/{}/messages", self.channel_id))
+            .build()
     }
 }

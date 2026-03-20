@@ -6,23 +6,18 @@ use fluxer_model::{
 
 use crate::{client::error::Error, events::context::Context};
 
-use neptunium_http::{
-    endpoints::messages::{
-        CreateMessage,
-        reactions::{
-            AddReaction, DeleteAllReactions, DeleteAllReactionsOfEmoji, DeleteOwnReaction,
-            DeleteReaction,
-        },
-    },
-    requests::channel::messages::{
-        create_message::CreateMessageBody,
-        delete_message::DeleteMessage,
-        edit_message::{EditMessage, EditMessageUpdates},
-        message_reference::MessageReference,
+use neptunium_http::requests::channel::messages::{
+    create_message::{CreateMessage, CreateMessageBody},
+    delete_message::DeleteMessage,
+    edit_message::{EditMessage, EditMessageUpdates},
+    message_reference::MessageReference,
+    reactions::{
+        AddReaction, DeleteAllReactions, DeleteAllReactionsOfEmoji, DeleteOwnReaction,
+        DeleteReaction,
     },
 };
 
-pub use neptunium_http::endpoints::messages::reactions::RequestReactionType as Reaction;
+pub use neptunium_http::requests::channel::messages::reactions::RequestReactionType as Reaction;
 
 #[async_trait]
 pub trait MessageExt {
