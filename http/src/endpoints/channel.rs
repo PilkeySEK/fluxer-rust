@@ -6,3 +6,5 @@ mod delete_channel;
 pub use delete_channel::*;
 mod update_channel_settings;
 pub use update_channel_settings::*;
+mod get_call_eligibility_status;
+pub use get_call_eligibility_status::*;

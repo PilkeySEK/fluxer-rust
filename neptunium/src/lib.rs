@@ -1,6 +1,7 @@
 pub mod client;
 pub mod events;
 pub mod exts;
+mod internal;
 pub use async_trait::async_trait;
 pub use tokio::main;
 

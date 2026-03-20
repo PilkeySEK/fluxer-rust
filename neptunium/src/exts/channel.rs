@@ -1,13 +1,13 @@
 use async_trait::async_trait;
 use neptunium_http::endpoints::channel::{
-    ChannelSettingsUpdates, DeleteChannel, FetchChannel, UpdateChannelSettings,
+    CallEligibilityStatus, ChannelSettingsUpdates, DeleteChannel, FetchChannel,
+    GetCallEligibilityStatus, UpdateChannelSettings,
 };
-use neptunium_model::{
-    channel::{Channel, ChannelPartial},
-    id::{Id, marker::ChannelMarker},
-};
+use neptunium_model::channel::Channel;
 
-use crate::{client::error::Error, events::context::Context};
+use crate::{
+    client::error::Error, events::context::Context, internal::traits::channel::ChannelTrait,
+};
 
 #[async_trait]
 pub trait ChannelExt {
@@ -21,36 +21,35 @@ pub trait ChannelExt {
         settings: ChannelSettingsUpdates,
     ) -> Result<Channel, Error>;
     async fn fetch(&self, ctx: &Context) -> Result<Channel, Error>;
+    async fn get_call_eligibility_status(
+        &self,
+        ctx: &Context,
+    ) -> Result<CallEligibilityStatus, Error>;
 }
 
 #[async_trait]
-impl ChannelExt for Id<ChannelMarker> {
-    async fn fetch(&self, ctx: &Context) -> Result<Channel, Error> {
-        Ok(ctx
-            .get_http_client()
-            .execute(FetchChannel::builder().channel_id(*self).build())
-            .await?)
-    }
-
+impl<T: ChannelTrait> ChannelExt for T {
     async fn delete(&self, ctx: &Context) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
-            .execute(DeleteChannel::builder().channel_id(*self).build())
+            .execute(
+                DeleteChannel::builder()
+                    .channel_id(self.get_channel_id())
+                    .build(),
+            )
             .await?)
     }
-
     async fn delete_silent(&self, ctx: &Context) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
             .execute(
                 DeleteChannel::builder()
-                    .channel_id(*self)
+                    .channel_id(self.get_channel_id())
                     .silent(true)
                     .build(),
             )
             .await?)
     }
-
     async fn update_settings(
         &self,
         ctx: &Context,
@@ -60,100 +59,33 @@ impl ChannelExt for Id<ChannelMarker> {
             .get_http_client()
             .execute(
                 UpdateChannelSettings::builder()
-                    .channel_id(*self)
+                    .channel_id(self.get_channel_id())
                     .updates(settings)
                     .build(),
             )
             .await?)
     }
-}
-
-#[async_trait]
-impl ChannelExt for Channel {
-    async fn delete(&self, ctx: &Context) -> Result<(), Error> {
-        Ok(ctx
-            .get_http_client()
-            .execute(DeleteChannel::builder().channel_id(self.id).build())
-            .await?)
-    }
-
-    async fn delete_silent(&self, ctx: &Context) -> Result<(), Error> {
-        Ok(ctx
-            .get_http_client()
-            .execute(
-                DeleteChannel::builder()
-                    .channel_id(self.id)
-                    .silent(true)
-                    .build(),
-            )
-            .await?)
-    }
-
-    async fn update_settings(
-        &self,
-        ctx: &Context,
-        settings: ChannelSettingsUpdates,
-    ) -> Result<Channel, Error> {
-        Ok(ctx
-            .get_http_client()
-            .execute(
-                UpdateChannelSettings::builder()
-                    .channel_id(self.id)
-                    .updates(settings)
-                    .build(),
-            )
-            .await?)
-    }
-
     async fn fetch(&self, ctx: &Context) -> Result<Channel, Error> {
         Ok(ctx
             .get_http_client()
-            .execute(FetchChannel::builder().channel_id(self.id).build())
-            .await?)
-    }
-}
-
-#[async_trait]
-impl ChannelExt for ChannelPartial {
-    async fn delete(&self, ctx: &Context) -> Result<(), Error> {
-        Ok(ctx
-            .get_http_client()
-            .execute(DeleteChannel::builder().channel_id(self.id).build())
-            .await?)
-    }
-
-    async fn delete_silent(&self, ctx: &Context) -> Result<(), Error> {
-        Ok(ctx
-            .get_http_client()
             .execute(
-                DeleteChannel::builder()
-                    .channel_id(self.id)
-                    .silent(true)
+                FetchChannel::builder()
+                    .channel_id(self.get_channel_id())
                     .build(),
             )
             .await?)
     }
-
-    async fn update_settings(
+    async fn get_call_eligibility_status(
         &self,
         ctx: &Context,
-        settings: ChannelSettingsUpdates,
-    ) -> Result<Channel, Error> {
+    ) -> Result<CallEligibilityStatus, Error> {
         Ok(ctx
             .get_http_client()
             .execute(
-                UpdateChannelSettings::builder()
-                    .channel_id(self.id)
-                    .updates(settings)
+                GetCallEligibilityStatus::builder()
+                    .channel_id(self.get_channel_id())
                     .build(),
             )
-            .await?)
-    }
-
-    async fn fetch(&self, ctx: &Context) -> Result<Channel, Error> {
-        Ok(ctx
-            .get_http_client()
-            .execute(FetchChannel::builder().channel_id(self.id).build())
             .await?)
     }
 }
