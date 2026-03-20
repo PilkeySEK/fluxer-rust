@@ -11,14 +11,14 @@ use fluxer_model::{
 };
 
 use crate::{
-    endpoints::Endpoint,
-    requests::{
-        Request,
+    endpoints::{
+        Endpoint,
         channel::messages::{
             allowed_mentions::AllowedMentions, attachment::AttachmentRequest,
             message_reference::MessageReference,
         },
     },
+    request::Request,
 };
 
 /// [Source](https://github.com/fluxerapp/fluxer/blob/03813bbe17db008452f0f1be3090a7d2970a5447/packages/schema/src/domains/message/MessageRequestSchemas.tsx#L247)
@@ -74,7 +74,7 @@ pub struct CreateMessage {
 impl Endpoint for CreateMessage {
     type Response = Message;
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         Request::builder()
             .body(serde_json::to_string(&self.message).unwrap())
             .method(Method::POST)

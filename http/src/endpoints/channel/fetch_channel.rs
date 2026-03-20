@@ -5,7 +5,7 @@ use fluxer_model::{
 };
 use reqwest::Method;
 
-use crate::{endpoints::Endpoint, requests::Request};
+use crate::{endpoints::Endpoint, request::Request};
 
 #[derive(Builder, Copy, Clone, Debug)]
 pub struct FetchChannel {
@@ -15,7 +15,7 @@ pub struct FetchChannel {
 impl Endpoint for FetchChannel {
     type Response = Channel;
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::GET)
             .path(format!("/channels/{}", self.channel_id))

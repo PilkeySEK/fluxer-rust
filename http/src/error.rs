@@ -1,9 +1,7 @@
 use fluxer_model::time::duration::{Duration, representation::Seconds};
 use serde::Deserialize;
 
-use crate::responses::error::{
-    error_code::ApiErrorCode, validation_error_code::ApiValidationErrorCode,
-};
+use crate::error::{error_code::ApiErrorCode, validation_error_code::ApiValidationErrorCode};
 
 pub mod error_code;
 pub mod validation_error_code;

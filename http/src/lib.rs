@@ -15,5 +15,7 @@ const fn unwrap_or(option: Option<&'static str>, default: &'static str) -> &'sta
 
 pub mod client;
 pub mod endpoints;
-pub mod requests;
-pub mod responses;
+pub mod error;
+pub mod request;
+// pub mod requests;
+// pub mod responses;

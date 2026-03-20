@@ -1,7 +1,3 @@
-pub mod channel;
-pub mod guild;
-pub mod meta;
-
 use bon::Builder;
 use reqwest::{
     Error, Method, Response,
@@ -21,17 +17,6 @@ pub struct Request {
 }
 
 impl Request {
-    /*#[must_use]
-    pub fn from_route(route: &Route<'_>) -> Self {
-        Self {
-            body: None,
-            headers: None,
-            method: route.method(),
-            path: route.path().to_string(),
-            use_authorization_token: true,
-        }
-    }*/
-
     /// Execute the request. For a non-consuming version, see [`Self::borrowed_execute`].
     /// # Errors
     /// Returns an error if there was an error while sending the request, a redirect loop was detected or the redirect limit was exhausted.

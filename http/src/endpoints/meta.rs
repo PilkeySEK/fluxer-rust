@@ -1,8 +1,26 @@
+use reqwest::Method;
 use serde::{Deserialize, Serialize};
 
-use crate::responses::meta::limits::InstanceDiscoveryDocumentLimits;
+use crate::{
+    endpoints::{Endpoint, meta::limits::InstanceDiscoveryDocumentLimits},
+    request::Request,
+};
 
 pub mod limits;
+
+pub struct InstanceDiscoveryDocument;
+
+impl Endpoint for InstanceDiscoveryDocument {
+    type Response = InstanceDiscoveryDocumentResponse;
+
+    fn into_request(self) -> crate::request::Request {
+        Request::builder()
+            .use_authorization_token(false)
+            .method(Method::GET)
+            .path(String::from("/.well-known/fluxer"))
+            .build()
+    }
+}
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct InstanceDiscoveryDocumentEndpoints {

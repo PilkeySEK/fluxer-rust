@@ -5,7 +5,7 @@ use fluxer_model::id::{
 };
 use reqwest::Method;
 
-use crate::{endpoints::Endpoint, requests::Request};
+use crate::{endpoints::Endpoint, request::Request};
 
 #[derive(Builder, Clone, Debug)]
 pub struct DeleteGuildEmoji {
@@ -18,7 +18,7 @@ pub struct DeleteGuildEmoji {
 impl Endpoint for DeleteGuildEmoji {
     type Response = ();
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         let mut path = format!("/guilds/{}/emojis/{}", self.guild_id, self.emoji_id);
         if let Some(purge) = self.purge {
             path = format!("{path}?purge={purge}");

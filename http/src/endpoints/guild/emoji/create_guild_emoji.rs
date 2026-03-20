@@ -7,8 +7,8 @@ use reqwest::Method;
 use serde_json::json;
 
 use crate::{
-    endpoints::Endpoint,
-    requests::{Request, guild::emoji::GuildEmojiCreateData},
+    endpoints::{Endpoint, guild::emoji::GuildEmojiCreateData},
+    request::Request,
 };
 
 #[derive(Builder, Clone, Debug)]
@@ -20,7 +20,7 @@ pub struct CreateGuildEmoji {
 impl Endpoint for CreateGuildEmoji {
     type Response = GuildEmoji;
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         Request::builder()
             .body(
                 json!({

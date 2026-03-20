@@ -5,7 +5,7 @@ use fluxer_model::id::{
 };
 use reqwest::Method;
 
-use crate::{endpoints::Endpoint, requests::Request};
+use crate::{endpoints::Endpoint, request::Request};
 
 #[derive(Builder)]
 pub struct DeleteMessage {
@@ -16,7 +16,7 @@ pub struct DeleteMessage {
 impl Endpoint for DeleteMessage {
     type Response = ();
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::DELETE)
             .path(format!(

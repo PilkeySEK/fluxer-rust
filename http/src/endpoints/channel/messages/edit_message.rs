@@ -10,11 +10,11 @@ use reqwest::Method;
 use serde::Serialize;
 
 use crate::{
-    endpoints::Endpoint,
-    requests::{
-        Request,
+    endpoints::{
+        Endpoint,
         channel::messages::{allowed_mentions::AllowedMentions, attachment::AttachmentRequest},
     },
+    request::Request,
 };
 
 #[derive(Serialize, Clone, Debug, Builder)]
@@ -42,7 +42,7 @@ pub struct EditMessage {
 impl Endpoint for EditMessage {
     type Response = Message;
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::PATCH)
             .path(format!(

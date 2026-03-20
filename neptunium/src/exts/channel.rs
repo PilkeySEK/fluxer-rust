@@ -3,7 +3,7 @@ use fluxer_model::{
     channel::{Channel, ChannelPartial},
     id::{Id, marker::ChannelMarker},
 };
-use neptunium_http::requests::channel::{
+use neptunium_http::endpoints::channel::{
     ChannelSettingsUpdates, DeleteChannel, FetchChannel, UpdateChannelSettings,
 };
 

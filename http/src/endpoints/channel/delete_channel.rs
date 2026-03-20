@@ -2,7 +2,7 @@ use bon::Builder;
 use fluxer_model::id::{Id, marker::ChannelMarker};
 use reqwest::Method;
 
-use crate::{endpoints::Endpoint, requests::Request};
+use crate::{endpoints::Endpoint, request::Request};
 
 #[derive(Builder, Copy, Clone, Debug)]
 pub struct DeleteChannel {
@@ -13,7 +13,7 @@ pub struct DeleteChannel {
 impl Endpoint for DeleteChannel {
     type Response = ();
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         let path = if let Some(silent) = self.silent
             && silent
         {

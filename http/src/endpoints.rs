@@ -3,11 +3,13 @@ use std::string::FromUtf8Error;
 use serde::de::DeserializeOwned;
 
 use crate::{
-    requests::Request,
-    responses::error::{ApiErrorResponse, ApiRateLimitedResponse},
+    error::{ApiErrorResponse, ApiRateLimitedResponse},
+    request::Request,
 };
 
-// pub mod messages;
+pub mod channel;
+pub mod guild;
+pub mod meta;
 
 impl<T: DeserializeOwned> ResponseBody for T {
     fn deserialize(bytes: Vec<u8>) -> Result<Self, Box<ExecuteEndpointRequestError>> {

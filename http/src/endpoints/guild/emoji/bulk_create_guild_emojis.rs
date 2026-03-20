@@ -8,11 +8,11 @@ use serde::Deserialize;
 use serde_json::json;
 
 use crate::{
-    endpoints::Endpoint,
-    requests::{
-        Request,
+    endpoints::{
+        Endpoint,
         guild::emoji::{EmojiCreateFailure, GuildEmojiCreateData},
     },
+    request::Request,
 };
 
 #[derive(Deserialize)]
@@ -32,7 +32,7 @@ pub struct BulkCreateGuildEmojis {
 impl Endpoint for BulkCreateGuildEmojis {
     type Response = BulkCreateGuildEmojisResponse;
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         Request::builder()
             .body(
                 json!({

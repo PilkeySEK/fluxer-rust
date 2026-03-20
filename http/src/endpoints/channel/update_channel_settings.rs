@@ -13,7 +13,7 @@ use reqwest::Method;
 use serde::Serialize;
 use serde_json::{Number, Value};
 
-use crate::{endpoints::Endpoint, requests::Request};
+use crate::{endpoints::Endpoint, request::Request};
 
 /*
  * TODO: So, might just want to have a single struct instead of all this enum stuff, even though it
@@ -174,7 +174,7 @@ pub struct UpdateChannelSettings {
 impl Endpoint for UpdateChannelSettings {
     type Response = Channel;
 
-    fn into_request(self) -> crate::requests::Request {
+    fn into_request(self) -> crate::request::Request {
         let req = Request::builder()
             .path(format!("/channels/{}", self.channel_id))
             .method(Method::PATCH);
