@@ -10,6 +10,7 @@ use neptunium_http::endpoints::channel::messages::{
     create_message::{CreateMessage, CreateMessageBody},
     delete_message::DeleteMessage,
     edit_message::{EditMessage, EditMessageUpdates},
+    fetch_message::FetchMessage,
     message_reference::MessageReference,
     reactions::{
         AddReaction, DeleteAllReactions, DeleteAllReactionsOfEmoji, DeleteOwnReaction,
@@ -59,6 +60,9 @@ pub trait MessageExt {
 
     /// Edit this message.
     async fn edit(&self, ctx: &Context, updates: EditMessageUpdates) -> Result<Message, Error>;
+
+    /// Re-fetches this message and returns the result.
+    async fn fetch(&self, ctx: &Context) -> Result<Message, Error>;
 }
 
 #[async_trait]
@@ -188,6 +192,18 @@ impl MessageExt for Message {
                     .channel_id(self.channel_id)
                     .message_id(self.id)
                     .updates(updates)
+                    .build(),
+            )
+            .await?)
+    }
+
+    async fn fetch(&self, ctx: &Context) -> Result<Message, Error> {
+        Ok(ctx
+            .http_client
+            .execute(
+                FetchMessage::builder()
+                    .message_id(self.id)
+                    .channel_id(self.channel_id)
                     .build(),
             )
             .await?)

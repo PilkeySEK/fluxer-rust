@@ -16,11 +16,7 @@ mod ring_call_recipients;
 pub use ring_call_recipients::*;
 mod stop_ringing_call_recipients;
 pub use stop_ringing_call_recipients::*;
-mod list_channel_messages;
-pub use list_channel_messages::*;
 #[cfg(feature = "user_api")]
 mod clear_channel_read_state;
 #[cfg(feature = "user_api")]
 pub use clear_channel_read_state::*;
-mod bulk_delete_messages;
-pub use bulk_delete_messages::*;

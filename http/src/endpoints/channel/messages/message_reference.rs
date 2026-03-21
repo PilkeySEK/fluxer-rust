@@ -1,5 +1,5 @@
 use bon::Builder;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use neptunium_model::{
     channel::message::MessageReferenceType,
@@ -9,7 +9,7 @@ use neptunium_model::{
     },
 };
 
-#[derive(Serialize, Clone, Debug, Builder)]
+#[derive(Serialize, Deserialize, Clone, Debug, Builder)]
 pub struct MessageReference {
     pub message_id: Id<MessageMarker>,
     #[serde(skip_serializing_if = "Option::is_none")]

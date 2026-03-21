@@ -1,8 +1,13 @@
 use async_trait::async_trait;
 use neptunium_http::endpoints::channel::{
-    BulkDeleteMessages, CallEligibilityStatus, ChannelSettingsUpdates, DeleteChannel, FetchChannel,
-    GetCallEligibilityStatus, ListChannelMessages, ListChannelMessagesParams, RingCallRecipients,
-    StopRingingCallRecipients, UpdateCallRegion, UpdateChannelSettings,
+    CallEligibilityStatus, ChannelSettingsUpdates, DeleteChannel, FetchChannel,
+    GetCallEligibilityStatus, RingCallRecipients, StopRingingCallRecipients, UpdateCallRegion,
+    UpdateChannelSettings,
+    messages::{
+        bulk_delete_messages::BulkDeleteMessages,
+        create_message::{CreateMessage, CreateMessageBody},
+        list_channel_messages::{ListChannelMessages, ListChannelMessagesParams},
+    },
 };
 use neptunium_model::{
     channel::{Channel, VoiceRegion, message::Message},
@@ -59,6 +64,17 @@ pub trait ChannelExt {
         ctx: &Context,
         messages: Vec<Id<MessageMarker>>,
     ) -> Result<(), Error>;
+    /// Same as `create_message`.
+    async fn send_message(
+        &self,
+        ctx: &Context,
+        message: CreateMessageBody,
+    ) -> Result<Message, Error>;
+    async fn create_message(
+        &self,
+        ctx: &Context,
+        message: CreateMessageBody,
+    ) -> Result<Message, Error>;
 }
 
 #[async_trait]
@@ -189,6 +205,28 @@ impl<T: ChannelTrait> ChannelExt for T {
                 BulkDeleteMessages::builder()
                     .channel_id(self.get_channel_id())
                     .messages(messages)
+                    .build(),
+            )
+            .await?)
+    }
+    async fn send_message(
+        &self,
+        ctx: &Context,
+        message: CreateMessageBody,
+    ) -> Result<Message, Error> {
+        self.create_message(ctx, message).await
+    }
+    async fn create_message(
+        &self,
+        ctx: &Context,
+        message: CreateMessageBody,
+    ) -> Result<Message, Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(
+                CreateMessage::builder()
+                    .channel_id(self.get_channel_id())
+                    .message(message)
                     .build(),
             )
             .await?)

@@ -1,7 +1,13 @@
 pub mod allowed_mentions;
 pub mod attachment;
+pub mod bulk_delete_messages;
 pub mod create_message;
 pub mod delete_message;
 pub mod edit_message;
+pub mod fetch_message;
+pub mod list_channel_messages;
+pub mod list_pinned_messages;
 pub mod message_reference;
 pub mod reactions;
+#[cfg(feature = "user_api")]
+pub mod schedule_message;
