@@ -10,6 +10,7 @@ There is a lot to do
   - **Bot Gateway:** 100% (make an issue if something is missing)
   - **User Gateway:** Most things are the same, but I haven't looked at it exactly, likely more than 90% (PASSIVE_UPDATES missing, which is non-bot users only)
 - **HTTP API:** Not a lot... I'm working on it
+  - Rate limiting is not yet implemented either, sorry :(
 
 This is the current support for different APIs (Categories named after [The official Fluxer API documentation sections](https://docs.fluxer.app/api-reference/instance/get-instance-discovery-document)):
 
