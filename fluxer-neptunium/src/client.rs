@@ -47,7 +47,12 @@ impl Client {
     pub const USER_AGENT: &str = "Fluxer-Neptunium";
 
     #[must_use]
-    pub fn new(shard_config: ShardConfig, client_config: ClientConfig) -> Self {
+    pub fn new(shard_config: ShardConfig) -> Self {
+        Self::new_with_config(shard_config, ClientConfig::default())
+    }
+
+    #[must_use]
+    pub fn new_with_config(shard_config: ShardConfig, client_config: ClientConfig) -> Self {
         let token_clone = (*shard_config.token).clone();
         let mut api_client = HttpClient::new(token_clone);
         if let Some(api_base_url) = client_config.api_base_url {

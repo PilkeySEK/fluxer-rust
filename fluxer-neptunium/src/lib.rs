@@ -21,6 +21,9 @@ const fn unwrap_or(option: Option<&'static str>, default: &'static str) -> &'sta
 
 pub mod prelude {
     pub use crate::client::Client;
+    pub use crate::events::EventHandler;
+    pub use crate::events::context::Context;
     pub use crate::exts::*;
+    pub use async_trait::async_trait;
     pub use neptunium_gateway::shard::config::{ShardConfig, ShardConfigBuilder};
 }

@@ -2,18 +2,27 @@
 
 A collection of crates for interacting with the Fluxer API and gateway. The crate which most bot creators will be interested in is `fluxer-neptunium` (which is a bot framework).
 
-**This is a work-in-progress! Check `#API Coverage`.**
+**This is a work-in-progress! Check [#Coverage](#coverage).**
 
 Support & Development community on Fluxer: https://fluxer.gg/R67sLSVp
 
 The `fluxer-api` crate has been moved to [PilkeySEK/fluxer-api](https://github.com/PilkeySEK/fluxer-api)!
 
-# API Coverage
-There is a lot to do
+# Usage
+Add the `fluxer-neptunium` crate (**NOTE:** Not yet published to crates.io, as it is not production ready yet) and `tokio`. Check out the examples for examples on how to use the crate. 
+If you require even more fine-grained control over things, you may be interested in the `neptunium-gateway` and/or `neptunium-http` crates.
+
+# Examples
+Examples can be found in the [examples/](./examples) directory, with a .png for each example to show what it does.
+
+Run an example using `FLUXER_TOKEN="<token>" cargo run --example <example>`, replacing `<token>` with the bot token and `<example>` with the example name. To run the replying-to-ping example, use `FLUXER_TOKEN="<token>" cargo run --example replying-to-ping`.
+
+# Coverage
+Note that many of the APIs are user-only, so not interesting for bots. While this crate aims to support everything in the API eventually, it is mainly intended to be used for bots, which is why the bot-usable APIs are prioritized.
 - **Gateway:**
   - **Bot Gateway:** 100% (make an issue if something is missing)
-  - **User Gateway:** Most things are the same, but I haven't looked at it exactly, likely more than 90% (PASSIVE_UPDATES missing, which is non-bot users only)
-- **HTTP API:** Not a lot... I'm working on it
+  - **User Gateway:** Most things are the same, but I haven't looked at it exactly, likely more than 90% (e.g. PASSIVE_UPDATES missing, which is non-bot users only)
+- **HTTP API:** Maybe like 60-75% of the bot API — I'm working on it
   - Rate limiting is not yet implemented either, sorry :(
 
 This is the current support for different APIs (Categories named after [The official Fluxer API documentation sections](https://docs.fluxer.app/api-reference/instance/get-instance-discovery-document)):
@@ -52,7 +61,7 @@ This is the current support for different APIs (Categories named after [The offi
 - ❌ Themes
 
 # Woah new stuff
-So, basically, while trying to cover parts of the API, I am sometimes discovering not yet documented features. Most of them are just not *documented*, but actually do exist in the fluxer code, which is fine. But, some others, like the GUILD_AUDIT_LOG_ENTRY_CREATE (related structs in `model/src/guild/audit_log`) dispatch event are not even in the fluxer codebase yet and instead only in the private `fluxer-v2` repository which is only available to Fluxer visionaries. I'm sadly not a visionary, so I don't fully know the structure of this event. I'm still including it for the future, but you shouldn't rely on it currently (if you happen to be insane enough to use this project seriously).
+So, basically, while trying to cover parts of the API, I am sometimes discovering not yet documented features. Most of them are just not *documented*, but actually do exist in the fluxer code, which is fine. But, some others, like the GUILD_AUDIT_LOG_ENTRY_CREATE (related structs in `model/src/guild/audit_log`) dispatch event are not even in the fluxer codebase yet and instead only in the private `fluxer-v2` repository which is only available to Fluxer visionaries. I'm sadly not a visionary, so I don't fully know the structure of this event. I'm still including it for the future, but you shouldn't rely on it currently.
 
 # Third party code
 I have copied code in the following files from project `twilight` (https://github.com/twilight-rs/twilight):

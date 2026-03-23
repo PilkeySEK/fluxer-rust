@@ -1,3 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["gateway", "http", "model", "neptunium"]
+members = ["neptunium-gateway", "neptunium-http", "neptunium-model", "fluxer-neptunium", "examples"]
+
+[workspace.package]
+authors = ["Fluxer-Neptunium Contributors"]
+edition = "2024"

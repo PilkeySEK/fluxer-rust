@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 async-trait = "0.1.89"
 bon = "3.9.0"
-neptunium-model = { path = "../model" }
+neptunium-model = { path = "../neptunium-model" }
 futures = { version = "0.3.32", features = ["alloc"] }
 percent-encoding = "2.3.2"
 rand = "0.10.0"
