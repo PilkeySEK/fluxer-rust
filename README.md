@@ -71,3 +71,12 @@ I have copied code in the following files from project `twilight` (https://githu
 Copyright (c) 2019 (c) The Twilight Contributors. See [THIRD_PARTY_LICENSES](./THIRD_PARTY_LICENSES) for the full license text.
 
 Note that I have taken some of the structure and ideas (like IDs with markers) from twilight too. You may find some very similar code or structs, which might either be because both twilight and these crates work with an almost identical API or it might be because I have — knowingly or unknowingly — used parts of the twilight code. The list of files are just a list of when I explicitly used their code instead of writing my own.
+
+# License
+
+Licensed under either of:
+
+- MIT License ([LICENSE-MIT](./LICENSE-MIT) or https://opensource.org/license/MIT)
+- Apache License, Version 2.0 ([LICENSE-APACHE](./LICENSE-APACHE) or https://www.apache.org/licenses/LICENSE-2.0)
+
+at your option.

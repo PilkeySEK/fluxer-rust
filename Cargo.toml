@@ -5,3 +5,4 @@ members = ["neptunium-gateway", "neptunium-http", "neptunium-model", "fluxer-nep
 [workspace.package]
 authors = ["Fluxer-Neptunium Contributors"]
 edition = "2024"
+license = "MIT OR Apache-2.0"
