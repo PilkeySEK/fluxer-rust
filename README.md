@@ -2,13 +2,13 @@
 
 A collection of crates for interacting with the Fluxer API and gateway. The crate which most bot creators will be interested in is `fluxer-neptunium` (which is a bot framework).
 
-**This is a work-in-progress! Check [API Coverage](#api-coverage).**
+**This is a work-in-progress! Check `#API Coverage`.**
 
 Support & Development community on Fluxer: https://fluxer.gg/R67sLSVp
 
 The `fluxer-api` crate has been moved to [PilkeySEK/fluxer-api](https://github.com/PilkeySEK/fluxer-api)!
 
-# API Coverage {api-coverage}
+# API Coverage
 There is a lot to do
 - **Gateway:**
   - **Bot Gateway:** 100% (make an issue if something is missing)
