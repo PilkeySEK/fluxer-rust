@@ -3,12 +3,17 @@ name = "fluxer-neptunium"
 version = "0.1.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
+description = "A Fluxer bot framework."
+repository = "https://github.com/PilkeySEK/fluxer-neptunium"
+readme = "README.md"
+keywords = ["api", "fluxer"]
+publish = true
 
 [dependencies]
 tokio = { version = "1.50.0", features = ["full"] }
-neptunium-gateway = { path = "../neptunium-gateway" }
-neptunium-model = { path = "../neptunium-model" }
-neptunium-http = { path = "../neptunium-http" }
+neptunium-gateway = { path = "../neptunium-gateway", version = "0.1.0" }
+neptunium-model = { path = "../neptunium-model", version = "0.1.0" }
+neptunium-http = { path = "../neptunium-http", version = "0.1.0" }
 tokio-tungstenite = "0.28.0"
 serde_json = "1.0.149"
 rand = "0.10.0"
@@ -18,9 +23,6 @@ zeroize = "1.8.2"
 reqwest = "0.13.2"
 serde_path_to_error = "0.1.20"
 bon = "3.9.1"
-
-[lints.clippy]
-pedantic = "warn"
 
 [features]
 default = []

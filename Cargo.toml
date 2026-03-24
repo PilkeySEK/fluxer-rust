@@ -2,7 +2,7 @@
 resolver = "3"
 members = ["neptunium-gateway", "neptunium-http", "neptunium-model", "fluxer-neptunium", "examples"]
 
-[workspace.package]
-authors = ["Fluxer-Neptunium Contributors"]
-edition = "2024"
-license = "MIT OR Apache-2.0"
+[workspace.lints.clippy]
+cargo = {level = "warn", priority = 0 }
+pedantic = {level = "warn", priority = 0 }
+new_without_default = { level = "allow", priority = 1 }
