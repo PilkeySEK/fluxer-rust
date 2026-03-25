@@ -8,6 +8,7 @@ use time::OffsetDateTime;
 
 use crate::id::marker::IdMarker;
 
+pub mod composite;
 pub mod marker;
 
 /// "Snowflake" is a format for uniquely identifiable descriptors (IDs). These IDs are guaranteed to be unique across all of Fluxer, except

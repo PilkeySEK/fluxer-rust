@@ -1,5 +1,6 @@
 use bitflags::bitflags;
 use serde::{Deserialize, Serialize};
+use serde_repr::{Deserialize_repr, Serialize_repr};
 
 use crate::{
     id::{Id, marker::RoleMarker},
@@ -7,6 +8,22 @@ use crate::{
     time::timestamp::{Timestamp, representations::Iso8601},
     user::PartialUser,
 };
+
+/// How a member joined a guild.
+#[derive(Deserialize_repr, Serialize_repr, Copy, Clone, Debug)]
+#[repr(u8)]
+pub enum JoinSourceType {
+    /// Member created the guild.
+    Creator = 0,
+    /// Member joined via an instant invite.
+    InstantInvite = 1,
+    /// Member joined via the vanity url.
+    VanityUrl = 2,
+    /// Member was added via a bot invite.
+    BotInvite = 3,
+    /// Member was force-added by a platform administrator.
+    AdminForceAdd = 4,
+}
 
 bitflags! {
     #[derive(Copy, Clone, Debug)]

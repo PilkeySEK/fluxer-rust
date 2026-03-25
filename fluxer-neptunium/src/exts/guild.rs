@@ -1,7 +1,6 @@
 use async_trait::async_trait;
 use neptunium_http::endpoints::{
     guild::{
-        ban_guild_member::{BanGuildMember, BanGuildMemberBody},
         channels::{
             create_guild_channel::{CreateGuildChannel, GuildChannelCreateRequest},
             list_guild_channels::ListGuildChannels,
@@ -12,15 +11,22 @@ use neptunium_http::endpoints::{
         get_guild_information::GetGuildInformation,
         list_guild_audit_logs::{ListGuildAuditLogs, ListGuildAuditLogsParams},
         list_guild_bans::ListGuildBans,
+        members::{
+            ban_guild_member::{BanGuildMember, BanGuildMemberBody},
+            list_guild_members::ListGuildMembers,
+            unban_guild_member::UnbanGuildMember,
+        },
         toggle_detached_banner::ToggleDetachedBanner,
-        unban_guild_member::UnbanGuildMember,
     },
     invites::list_guild_invites::ListGuildInvites,
     webhooks::list_guild_webhooks::ListGuildWebhooks,
 };
 use neptunium_model::{
     channel::Channel,
-    guild::{Guild, audit_log::GuildAuditLogs, bans::GuildBanListEntry, webhook::Webhook},
+    guild::{
+        Guild, audit_log::GuildAuditLogs, bans::GuildBanListEntry, member::GuildMember,
+        webhook::Webhook,
+    },
     id::{Id, marker::UserMarker},
     invites::InviteWithMetadata,
 };
@@ -64,6 +70,22 @@ pub trait GuildExt {
         auth: neptunium_model::user::auth::SudoVerification,
     ) -> Result<(), Error>;
     async fn toggle_detached_banner(&self, ctx: &Context, detached: bool) -> Result<Guild, Error>;
+    /// List the guild members. `limit` defaults to 1 and should not be greater than 1000.
+    async fn list_members(
+        &self,
+        ctx: &Context,
+        limit: Option<u16>,
+        after: Option<Id<UserMarker>>,
+    ) -> Result<Vec<GuildMember>, Error>;
+    #[cfg(feature = "user_api")]
+    async fn search_members(
+        &self,
+        ctx: &Context,
+        body: neptunium_http::endpoints::guild::members::search_guild_members::SearchGuildMembersBody,
+    ) -> Result<
+        neptunium_http::endpoints::guild::members::search_guild_members::SearchGuildMembersResponse,
+        Error,
+    >;
 }
 
 #[async_trait]
@@ -204,6 +226,40 @@ impl<T: GuildTrait> GuildExt for T {
             .execute(ToggleDetachedBanner {
                 guild_id: self.get_guild_id(),
                 enabled: detached,
+            })
+            .await?)
+    }
+
+    async fn list_members(
+        &self,
+        ctx: &Context,
+        limit: Option<u16>,
+        after: Option<Id<UserMarker>>,
+    ) -> Result<Vec<GuildMember>, Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(ListGuildMembers {
+                guild_id: self.get_guild_id(),
+                limit,
+                after,
+            })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    async fn search_members(
+        &self,
+        ctx: &Context,
+        body: neptunium_http::endpoints::guild::members::search_guild_members::SearchGuildMembersBody,
+    ) -> Result<
+        neptunium_http::endpoints::guild::members::search_guild_members::SearchGuildMembersResponse,
+        Error,
+    > {
+        Ok(ctx
+            .get_http_client()
+            .execute(neptunium_http::endpoints::guild::members::search_guild_members::SearchGuildMembers {
+                guild_id: self.get_guild_id(),
+                body,
             })
             .await?)
     }
