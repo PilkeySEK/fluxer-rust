@@ -44,6 +44,8 @@ pub struct Client {
     rx: UnboundedReceiver<ClientMessage>,
     always_propagate_event_errors: bool,
     resume_info: Option<ResumeInfo>,
+    auto_reconnect: bool,
+    auto_reconnect_wait_time: Duration,
 }
 
 impl Deref for Client {
@@ -88,6 +90,8 @@ impl Client {
             rx,
             always_propagate_event_errors: client_config.always_propagate_event_errors,
             resume_info: None,
+            auto_reconnect: client_config.auto_reconnect,
+            auto_reconnect_wait_time: client_config.auto_reconnect_wait_time,
         }
     }
 
@@ -103,9 +107,34 @@ impl Client {
 
     /// Start the client. This will run indefinetly unless the connection is closed or some other
     /// error occurs.
+    ///
+    /// If auto-reconnect is enabled (the default), the client will never return and instead always try reconnecting after the
+    /// configured auto reconnect wait time (the default is 30 seconds) if an error occurs.
     /// # Errors
     /// Returns an error if unexpected data is received, or if a network error occurs.
     pub async fn start(&mut self) -> Result<(), self::error::Error> {
+        loop {
+            let result = self.inner_start().await;
+            let error = match result {
+                Ok(result) => return Ok(result),
+                Err(e) => e,
+            };
+            if self.auto_reconnect {
+                tracing::warn!("Client error: {error}");
+                tracing::info!(
+                    "Reconnecting in {} seconds because auto-reconnect is true.",
+                    self.auto_reconnect_wait_time.as_secs()
+                );
+                tokio::time::sleep(self.auto_reconnect_wait_time).await;
+                continue;
+            } else {
+                tracing::debug!("Client error occured and auto-reconnect is false. Returning.");
+                break Err(error);
+            }
+        }
+    }
+
+    async fn inner_start(&mut self) -> Result<(), self::error::Error> {
         tracing::info!("Starting client...");
         let hello_event = match self.shard.next_event().await? {
             GatewayEvent::Hello(event) => event,

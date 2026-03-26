@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use bon::Builder;
 use neptunium_http::DEFAULT_API_BASE_URL;
 
@@ -10,6 +12,10 @@ pub struct ClientConfig {
     #[builder(default)]
     #[cfg(feature = "user_api")]
     pub token_type: neptunium_http::client::TokenType,
+    #[builder(default = true)]
+    pub auto_reconnect: bool,
+    #[builder(default = Duration::from_secs(30))]
+    pub auto_reconnect_wait_time: Duration,
 }
 
 impl Default for ClientConfig {
@@ -19,6 +25,8 @@ impl Default for ClientConfig {
             always_propagate_event_errors: false,
             #[cfg(feature = "user_api")]
             token_type: neptunium_http::client::TokenType::default(),
+            auto_reconnect: true,
+            auto_reconnect_wait_time: Duration::from_secs(30),
         }
     }
 }
