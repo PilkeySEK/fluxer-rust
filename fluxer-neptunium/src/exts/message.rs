@@ -14,7 +14,7 @@ use crate::{client::error::Error, events::context::Context};
 use neptunium_http::endpoints::channel::{
     AddReaction, CreateMessage, CreateMessageBody, DeleteAllReactions, DeleteAllReactionsOfEmoji,
     DeleteMessage, DeleteMessageAttachment, DeleteOwnReaction, DeleteReaction, EditMessage,
-    EditMessageUpdates, FetchMessage, MessageReference, PinMessage, UnpinMessage,
+    EditMessageBody, FetchMessage, MessageReference, PinMessage, UnpinMessage,
 };
 
 pub use neptunium_http::endpoints::channel::RequestReactionType as Reaction;
@@ -58,7 +58,7 @@ pub trait MessageExt {
     async fn delete(&self, ctx: &Context) -> Result<(), Error>;
 
     /// Edit this message.
-    async fn edit(&self, ctx: &Context, updates: EditMessageUpdates) -> Result<Message, Error>;
+    async fn edit(&self, ctx: &Context, updates: EditMessageBody) -> Result<Message, Error>;
 
     /// Re-fetches this message and returns the result.
     async fn fetch(&self, ctx: &Context) -> Result<Message, Error>;
@@ -205,14 +205,14 @@ impl MessageExt for Message {
             .await?)
     }
 
-    async fn edit(&self, ctx: &Context, updates: EditMessageUpdates) -> Result<Message, Error> {
+    async fn edit(&self, ctx: &Context, updates: EditMessageBody) -> Result<Message, Error> {
         Ok(ctx
             .http_client
             .execute(
                 EditMessage::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .updates(updates)
+                    .body(updates)
                     .build(),
             )
             .await?)

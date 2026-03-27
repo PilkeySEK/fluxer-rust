@@ -1,10 +1,10 @@
 [package]
 name = "neptunium-http"
-version = "0.2.5"
+version.workspace = true
 edition = "2024"
-license = "MIT OR Apache-2.0"
+license.workspace = true
 description = "Interacting with the Fluxer HTTP API."
-repository = "https://github.com/PilkeySEK/fluxer-neptunium"
+repository.workspace = true
 readme = "README.md"
 keywords = ["api", "fluxer"]
 publish = true

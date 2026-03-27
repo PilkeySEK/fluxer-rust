@@ -18,7 +18,7 @@ use crate::{
 };
 
 #[derive(Serialize, Clone, Debug, Builder)]
-pub struct EditMessageUpdates {
+pub struct EditMessageBody {
     #[builder(into)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub content: Option<String>,
@@ -36,7 +36,7 @@ pub struct EditMessageUpdates {
 pub struct EditMessage {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
-    pub updates: EditMessageUpdates,
+    pub body: EditMessageBody,
 }
 
 impl Endpoint for EditMessage {
@@ -49,7 +49,7 @@ impl Endpoint for EditMessage {
                 "/channels/{}/messages/{}",
                 self.channel_id, self.message_id
             ))
-            .body(serde_json::to_string(&self.updates).unwrap())
+            .body(serde_json::to_string(&self.body).unwrap())
             .build()
     }
 }
