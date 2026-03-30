@@ -8,7 +8,11 @@ use crate::{
 
 #[cfg(feature = "user_api")]
 pub mod auth;
+#[cfg(feature = "user_api")]
+pub mod data_harvest;
 pub mod flags;
+#[cfg(feature = "user_api")]
+pub mod gifts;
 pub mod read_state;
 pub mod relationship;
 pub mod settings;

@@ -6,6 +6,16 @@ mod disable_current_user_account;
 mod forget_authorized_ips_for_current_user;
 mod get_current_user_profile;
 #[cfg(feature = "user_api")]
+mod get_data_harvest_download_url;
+#[cfg(feature = "user_api")]
+mod get_data_harvest_status;
+#[cfg(feature = "user_api")]
+mod get_latest_data_harvest;
+#[cfg(feature = "user_api")]
+mod list_user_gifts;
+#[cfg(feature = "user_api")]
+mod request_data_harvest;
+#[cfg(feature = "user_api")]
 mod request_new_email_address;
 #[cfg(feature = "user_api")]
 mod request_replacement_email_for_bounced_address;
@@ -19,6 +29,10 @@ mod resend_replacement_email_code;
 mod start_email_change;
 #[cfg(feature = "user_api")]
 mod update_current_user_profile;
+#[cfg(feature = "user_api")]
+mod update_dm_notification_settings;
+#[cfg(feature = "user_api")]
+mod update_guild_settings_for_user;
 #[cfg(feature = "user_api")]
 mod verify_new_email_address;
 #[cfg(feature = "user_api")]
@@ -34,6 +48,16 @@ pub use disable_current_user_account::*;
 pub use forget_authorized_ips_for_current_user::*;
 pub use get_current_user_profile::*;
 #[cfg(feature = "user_api")]
+pub use get_data_harvest_download_url::*;
+#[cfg(feature = "user_api")]
+pub use get_data_harvest_status::*;
+#[cfg(feature = "user_api")]
+pub use get_latest_data_harvest::*;
+#[cfg(feature = "user_api")]
+pub use list_user_gifts::*;
+#[cfg(feature = "user_api")]
+pub use request_data_harvest::*;
+#[cfg(feature = "user_api")]
 pub use request_new_email_address::*;
 #[cfg(feature = "user_api")]
 pub use request_replacement_email_for_bounced_address::*;
@@ -47,6 +71,10 @@ pub use resend_replacement_email_code::*;
 pub use start_email_change::*;
 #[cfg(feature = "user_api")]
 pub use update_current_user_profile::*;
+#[cfg(feature = "user_api")]
+pub use update_dm_notification_settings::*;
+#[cfg(feature = "user_api")]
+pub use update_guild_settings_for_user::*;
 #[cfg(feature = "user_api")]
 pub use verify_new_email_address::*;
 #[cfg(feature = "user_api")]

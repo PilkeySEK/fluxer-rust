@@ -1,4 +1,6 @@
 use async_trait::async_trait;
+#[cfg(feature = "user_api")]
+use neptunium_http::endpoints::users::{UpdateUserGuildSettings, UpdateUserGuildSettingsBody};
 use neptunium_http::endpoints::{
     guild::{
         AddRoleToGuildMember, BanGuildMember, BanGuildMemberBody, BulkCreateGuildStickers,
@@ -18,6 +20,8 @@ use neptunium_http::endpoints::{
     invites::ListGuildInvites,
     webhooks::ListGuildWebhooks,
 };
+#[cfg(feature = "user_api")]
+use neptunium_model::user::settings::UserGuildSettings;
 use neptunium_model::{
     channel::Channel,
     guild::{
@@ -181,6 +185,13 @@ pub trait GuildExt {
     ) -> Result<UpdateGuildVanityUrlResponse, Error>;
     /// Leave this guild.
     async fn leave(&self, ctx: &Context) -> Result<(), Error>;
+    /// Update the guild-specific settings of the current user for this guild.
+    #[cfg(feature = "user_api")]
+    async fn update_user_settings(
+        &self,
+        ctx: &Context,
+        body: UpdateUserGuildSettingsBody,
+    ) -> Result<UserGuildSettings, Error>;
 }
 
 #[async_trait]
@@ -669,6 +680,21 @@ impl<T: GuildTrait> GuildExt for T {
             .get_http_client()
             .execute(LeaveGuild {
                 guild_id: self.get_guild_id(),
+            })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    async fn update_user_settings(
+        &self,
+        ctx: &Context,
+        body: UpdateUserGuildSettingsBody,
+    ) -> Result<UserGuildSettings, Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(UpdateUserGuildSettings {
+                guild_id: self.get_guild_id(),
+                body,
             })
             .await?)
     }

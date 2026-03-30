@@ -410,7 +410,8 @@ pub struct UserGuildSettingsChannelOverride {
 #[expect(clippy::struct_excessive_bools)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserGuildSettings {
-    pub guild_id: Option<String>,
+    /// `None` if these are the settings for the user DMs.
+    pub guild_id: Option<Id<GuildMarker>>,
     /// The default notification level for the guild
     pub message_notifications: UserNotificationSettings,
     /// Whether the guild is muted

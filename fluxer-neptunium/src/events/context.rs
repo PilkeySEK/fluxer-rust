@@ -4,8 +4,9 @@ use std::sync::Arc;
 
 #[cfg(feature = "user_api")]
 use neptunium_http::endpoints::users::{
-    RequestNewEmailAddress, RequestNewEmailAddressResponse, StartEmailChangeResponse,
-    UpdateCurrentUserProfile, VerifyNewEmailAddress, VerifyNewEmailAddressResponse,
+    GetDataHarvestDownloadUrlResponse, RequestDataHarvestResponse, RequestNewEmailAddress,
+    RequestNewEmailAddressResponse, StartEmailChangeResponse, UpdateCurrentUserProfile,
+    UpdateDmNotificationSettings, VerifyNewEmailAddress, VerifyNewEmailAddressResponse,
     VerifyOriginalEmailAddress, VerifyOriginalEmailAddressResponse,
 };
 use neptunium_http::{
@@ -24,7 +25,13 @@ use neptunium_model::{
     id::{Id, marker::ChannelMarker},
 };
 #[cfg(feature = "user_api")]
-use neptunium_model::{channel::message::Message, user::auth::SudoVerification};
+use neptunium_model::{
+    channel::message::Message,
+    user::{
+        auth::SudoVerification, data_harvest::DataHarvestResponse, gifts::GiftPrivateResponse,
+        settings::UserGuildSettings,
+    },
+};
 use tokio::sync::mpsc::UnboundedSender;
 
 use crate::{
@@ -273,5 +280,72 @@ impl Context {
         body: VerifyOriginalEmailAddress,
     ) -> Result<VerifyOriginalEmailAddressResponse, Error> {
         Ok(self.http_client.execute(body).await?)
+    }
+
+    /// Lists all gift codes created by the authenticated user.
+    #[cfg(feature = "user_api")]
+    pub async fn list_gifts(&self) -> Result<Vec<GiftPrivateResponse>, Error> {
+        use neptunium_http::endpoints::users::ListUserGifts;
+
+        Ok(self.http_client.execute(ListUserGifts).await?)
+    }
+
+    /// Updates the user’s notification settings for direct messages and group DMs.
+    /// Controls how DM notifications are handled.
+    ///
+    /// This returns `UserGuildSettings` because the Fluxer backend treats the
+    /// DMs as a guild in this case. (So, a guild with many channels, a channel
+    /// for each (group-) DM the user has.)
+    #[cfg(feature = "user_api")]
+    pub async fn update_dm_notification_settings(
+        &self,
+        body: UpdateDmNotificationSettings,
+    ) -> Result<UserGuildSettings, Error> {
+        Ok(self.http_client.execute(body).await?)
+    }
+
+    /// Requests a data harvest of all user data and content. Initiates an asynchronous process
+    /// to compile and prepare all data for download in a portable format.
+    #[cfg(feature = "user_api")]
+    pub async fn request_data_harvest(&self) -> Result<RequestDataHarvestResponse, Error> {
+        use neptunium_http::endpoints::users::RequestDataHarvest;
+
+        Ok(self.http_client.execute(RequestDataHarvest).await?)
+    }
+
+    /// Retrieves the status of the most recent data harvest request.
+    /// Returns `None` if no harvest has been requested yet.
+    #[cfg(feature = "user_api")]
+    pub async fn get_latest_data_harvest(&self) -> Result<Option<DataHarvestResponse>, Error> {
+        use neptunium_http::endpoints::users::GetLatestDataHarvest;
+
+        Ok(self.http_client.execute(GetLatestDataHarvest).await?)
+    }
+
+    /// Retrieves detailed status information for a specific data harvest.
+    #[cfg(feature = "user_api")]
+    pub async fn get_data_harvest_status(
+        &self,
+        harvest_id: String,
+    ) -> Result<DataHarvestResponse, Error> {
+        use neptunium_http::endpoints::users::GetDataHarvestStatus;
+
+        Ok(self
+            .http_client
+            .execute(GetDataHarvestStatus { harvest_id })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn get_data_harvest_download_url(
+        &self,
+        harvest_id: String,
+    ) -> Result<GetDataHarvestDownloadUrlResponse, Error> {
+        use neptunium_http::endpoints::users::GetDataHarvestDownloadUrl;
+
+        Ok(self
+            .http_client
+            .execute(GetDataHarvestDownloadUrl { harvest_id })
+            .await?)
     }
 }
