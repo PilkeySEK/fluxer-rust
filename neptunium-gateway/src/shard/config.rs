@@ -17,6 +17,18 @@ impl ShardConfig {
     pub const DEFAULT_GATEWAY_URL: &str = "wss://gateway.fluxer.app/?v=1&encoding=json";
 }
 
+impl From<&str> for ShardConfig {
+    fn from(value: &str) -> Self {
+        Self::builder().token(value.to_owned()).build()
+    }
+}
+
+impl From<String> for ShardConfig {
+    fn from(value: String) -> Self {
+        Self::builder().token(value).build()
+    }
+}
+
 // pub struct ShardConfigBuilder {
 //     shard_info: Option<ShardInfo>,
 //     gateway_url: Option<String>,
