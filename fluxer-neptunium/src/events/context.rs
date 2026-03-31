@@ -3,17 +3,23 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 #[cfg(feature = "user_api")]
-use neptunium_http::endpoints::users::{
-    AddPhoneNumberToAccount, CancelBulkMessageDeletionResponse, CompletePasswordChange,
-    DeleteWebauthnCredential, DisableTotpMfa, EnableTotpMfa, GetDataHarvestDownloadUrlResponse,
-    GetMfaBackupCodes, GetWebauthnRegistrationOptionsResponse, ListCurrentUserMentions,
-    ListWebauthnCredentialsResponseEntry, MfaBackupCodesResponse, RegisterWebauthnCredential,
-    RequestDataHarvestResponse, RequestNewEmailAddress, RequestNewEmailAddressResponse,
-    StartEmailChangeResponse, StartPasswordChangeResponse, UpdateCurrentUserProfile,
-    UpdateDmNotificationSettings, UpdateWebauthnCredential, VerifyNewEmailAddress,
-    VerifyNewEmailAddressResponse, VerifyOriginalEmailAddress, VerifyOriginalEmailAddressResponse,
-    VerifyPasswordChangeCode, VerifyPasswordChangeCodeResponse, VerifyPhoneCode,
-    VerifyPhoneCodeResponse,
+use neptunium_http::endpoints::{
+    channel::ScheduledMessageResponse,
+    users::{
+        AddPhoneNumberToAccount, CompletePasswordChange, DeleteWebauthnCredential, DisableTotpMfa,
+        EnableTotpMfa, GetDataHarvestDownloadUrlResponse, GetMfaBackupCodes,
+        GetSudoWebauthnAuthenticationOptionsResponse, GetWebauthnRegistrationOptionsResponse,
+        ListCurrentUserMentions, ListPushSubscriptionsResponseEntry,
+        ListSudoMfaAuthenticationMethodsResponse, ListWebauthnCredentialsResponseEntry,
+        MfaBackupCodesResponse, RegisterWebauthnCredential, RequestDataHarvestResponse,
+        RequestNewEmailAddress, RequestNewEmailAddressResponse, StartEmailChangeResponse,
+        StartPasswordChangeResponse, SubscribeToPushNotifications,
+        SubscribeToPushNotificationsResponse, UpdateCurrentUserProfile,
+        UpdateDmNotificationSettings, UpdateRelationship, UpdateUserSettings,
+        UpdateWebauthnCredential, VerifyNewEmailAddress, VerifyNewEmailAddressResponse,
+        VerifyOriginalEmailAddress, VerifyOriginalEmailAddressResponse, VerifyPasswordChangeCode,
+        VerifyPasswordChangeCodeResponse, VerifyPhoneCode, VerifyPhoneCodeResponse,
+    },
 };
 use neptunium_http::{
     client::HttpClient,
@@ -35,8 +41,12 @@ use neptunium_model::{
     channel::message::Message,
     id::marker::UserMarker,
     user::{
-        auth::SudoVerification, data_harvest::DataHarvestResponse, gifts::GiftPrivateResponse,
-        settings::UserGuildSettings,
+        auth::SudoVerification,
+        data_harvest::DataHarvestResponse,
+        gifts::GiftPrivateResponse,
+        relationship::Relationship,
+        saved_messages::SavedMessage,
+        settings::{UserGuildSettings, UserSettings},
     },
 };
 use tokio::sync::mpsc::UnboundedSender;
@@ -144,15 +154,15 @@ impl Context {
 
     /// Alternative endpoint to preload and cache messages for multiple channels to improve performance when opening those channels.
     #[cfg(feature = "user_api")]
-    pub async fn preload_messages_for_channels(
+    pub async fn preload_messages_for_channels_alternative(
         &self,
         channel_ids: Vec<Id<ChannelMarker>>,
     ) -> Result<HashMap<Id<ChannelMarker>, Message>, Error> {
-        use neptunium_http::endpoints::channel::PreloadMessagesForChannels;
+        use neptunium_http::endpoints::channel::PreloadMessagesForChannelsAlternative;
 
         Ok(self
             .http_client
-            .execute(PreloadMessagesForChannels {
+            .execute(PreloadMessagesForChannelsAlternative {
                 channels: channel_ids,
             })
             .await?)
@@ -379,12 +389,11 @@ impl Context {
 
     /// Cancels an in-progress bulk message deletion request. Can only be used if the deletion has not yet completed.
     #[cfg(feature = "user_api")]
-    pub async fn cancel_bulk_message_deletion(
-        &self,
-    ) -> Result<CancelBulkMessageDeletionResponse, Error> {
+    pub async fn cancel_bulk_message_deletion(&self) -> Result<(), Error> {
         use neptunium_http::endpoints::users::CancelBulkMessageDeletion;
 
-        Ok(self.http_client.execute(CancelBulkMessageDeletion).await?)
+        self.http_client.execute(CancelBulkMessageDeletion).await?;
+        Ok(())
     }
 
     /// Staff-only endpoint for testing bulk message deletion functionality.
@@ -496,31 +505,6 @@ impl Context {
         Ok(self.http_client.execute(ListCurrentUserNotes).await?)
     }
 
-    /// Retrieves a specific note the current user has written about another user.
-    #[cfg(feature = "user_api")]
-    pub async fn get_user_note(&self, user_id: Id<UserMarker>) -> Result<String, Error> {
-        use neptunium_http::endpoints::users::GetUserNote;
-
-        let response = self.http_client.execute(GetUserNote { user_id }).await?;
-        Ok(response.note)
-    }
-
-    /// Creates or updates a private note on another user.
-    /// Pass `None` for the `note` to clear the note.
-    #[cfg(feature = "user_api")]
-    pub async fn set_user_note(
-        &self,
-        user_id: Id<UserMarker>,
-        note: Option<String>,
-    ) -> Result<(), Error> {
-        use neptunium_http::endpoints::users::SetUserNote;
-
-        Ok(self
-            .http_client
-            .execute(SetUserNote { user_id, note })
-            .await?)
-    }
-
     /// Completes the password change after email verification. Invalidates all existing sessions.
     #[cfg(feature = "user_api")]
     pub async fn complete_password_change(
@@ -602,5 +586,186 @@ impl Context {
         body: VerifyPhoneCode,
     ) -> Result<VerifyPhoneCodeResponse, Error> {
         Ok(self.http_client.execute(body).await?)
+    }
+
+    /// Preloads and caches messages for multiple channels to improve performance when opening those channels.
+    #[cfg(feature = "user_api")]
+    pub async fn preload_messages_for_channels(
+        &self,
+        channel_ids: Vec<Id<ChannelMarker>>,
+    ) -> Result<HashMap<Id<ChannelMarker>, Message>, Error> {
+        use neptunium_http::endpoints::channel::PreloadMessagesForChannels;
+
+        Ok(self
+            .http_client
+            .execute(PreloadMessagesForChannels {
+                channels: channel_ids,
+            })
+            .await?)
+    }
+
+    /// Staff-only endpoint that clears premium status and related premium metadata for the current user account.
+    #[cfg(feature = "staff_api")]
+    pub async fn reset_own_premium_state(&self) -> Result<(), Error> {
+        use neptunium_http::endpoints::users::ResetCurrentUserPremiumState;
+
+        Ok(self
+            .http_client
+            .execute(ResetCurrentUserPremiumState)
+            .await?)
+    }
+
+    /// Registers a new push notification subscription for the current user.
+    /// Takes push endpoint and encryption keys from a Web Push API subscription.
+    #[cfg(feature = "user_api")]
+    pub async fn subscribe_to_push_notifications(
+        &self,
+        body: SubscribeToPushNotifications,
+    ) -> Result<SubscribeToPushNotificationsResponse, Error> {
+        Ok(self.http_client.execute(body).await?)
+    }
+
+    /// Retrieves all push notification subscriptions for the current user.
+    #[cfg(feature = "user_api")]
+    pub async fn list_push_subscriptions(
+        &self,
+    ) -> Result<Vec<ListPushSubscriptionsResponseEntry>, Error> {
+        use neptunium_http::endpoints::users::ListPushSubscriptions;
+
+        let response = self.http_client.execute(ListPushSubscriptions).await?;
+
+        Ok(response.subscriptions)
+    }
+
+    /// Unregisters a push notification subscription for the current user.
+    /// Push notifications will no longer be sent to this subscription endpoint.
+    #[cfg(feature = "user_api")]
+    pub async fn unsubscribe_from_push_notifications(
+        &self,
+        subscription_id: String,
+    ) -> Result<(), Error> {
+        use neptunium_http::endpoints::users::UnsubscribeFromPushNotifications;
+
+        self.http_client
+            .execute(UnsubscribeFromPushNotifications { subscription_id })
+            .await?;
+        Ok(())
+    }
+
+    /// Retrieves all relationships for the current user, including friends, friend requests (incoming and outgoing), and blocked users.
+    #[cfg(feature = "user_api")]
+    pub async fn list_relationships(&self) -> Result<Vec<Relationship>, Error> {
+        use neptunium_http::endpoints::users::ListRelationships;
+
+        Ok(self.http_client.execute(ListRelationships).await?)
+    }
+
+    /// Sends a friend request to a user identified by username tag (username#discriminator).
+    #[cfg(feature = "user_api")]
+    pub async fn send_friend_request_by_tag(
+        &self,
+        username: String,
+        discriminator: String,
+    ) -> Result<Relationship, Error> {
+        use neptunium_http::endpoints::users::SendFriendRequestByTag;
+
+        Ok(self
+            .http_client
+            .execute(SendFriendRequestByTag {
+                username,
+                discriminator,
+            })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn update_relationship(
+        &self,
+        body: UpdateRelationship,
+    ) -> Result<Relationship, Error> {
+        Ok(self.http_client.execute(body).await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn list_saved_messages(&self, limit: Option<u8>) -> Result<Vec<SavedMessage>, Error> {
+        use neptunium_http::endpoints::channel::ListSavedMessages;
+
+        Ok(self
+            .http_client
+            .execute(ListSavedMessages { limit })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn list_scheduled_message(&self) -> Result<Vec<ScheduledMessageResponse>, Error> {
+        use neptunium_http::endpoints::channel::ListScheduledMessages;
+
+        Ok(self.http_client.execute(ListScheduledMessages).await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn get_settings(&self) -> Result<UserSettings, Error> {
+        use neptunium_http::endpoints::users::GetUserSettings;
+
+        Ok(self.http_client.execute(GetUserSettings).await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn update_settings(&self, body: UpdateUserSettings) -> Result<UserSettings, Error> {
+        Ok(self.http_client.execute(body).await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    pub async fn list_sudo_mfa_authentication_methods(
+        &self,
+    ) -> Result<ListSudoMfaAuthenticationMethodsResponse, Error> {
+        use neptunium_http::endpoints::users::ListSudoMfaAuthenticationMethods;
+
+        Ok(self
+            .http_client
+            .execute(ListSudoMfaAuthenticationMethods)
+            .await?)
+    }
+
+    /// Request an SMS code to be sent for sudo mode verification.
+    #[cfg(feature = "user_api")]
+    pub async fn send_sudo_sms_code(&self) -> Result<(), Error> {
+        use neptunium_http::endpoints::users::SendSudoSmsCode;
+
+        Ok(self.http_client.execute(SendSudoSmsCode).await?)
+    }
+
+    /// Generate WebAuthn challenge for sudo mode verification using a registered security key or biometric device.
+    #[cfg(feature = "user_api")]
+    pub async fn get_sudo_webauthn_authentication_options(
+        &self,
+    ) -> Result<GetSudoWebauthnAuthenticationOptionsResponse, Error> {
+        use neptunium_http::endpoints::users::GetSudoWebauthnAuthenticationOptions;
+
+        Ok(self
+            .http_client
+            .execute(GetSudoWebauthnAuthenticationOptions)
+            .await?)
+    }
+
+    /// Checks if a username and discriminator combination is available.
+    /// Returns `true` if the tag is available, and `false` if it is taken by another user.
+    #[cfg(feature = "user_api")]
+    pub async fn check_username_tag_availability(
+        &self,
+        username: String,
+        discriminator: String,
+    ) -> Result<bool, Error> {
+        use neptunium_http::endpoints::users::CheckUsernameTagAvailability;
+
+        let response = self
+            .http_client
+            .execute(CheckUsernameTagAvailability {
+                username,
+                discriminator,
+            })
+            .await?;
+
+        Ok(!response.taken)
     }
 }

@@ -60,7 +60,7 @@ This is the current support for different APIs (Categories named after [The offi
 - ❌ Search
 - ❌ Billing
 - ❌ Tenor
-- 🟡 Users
+- ✅ Users
 - ❌ Connections
 - ❌ Themes
 

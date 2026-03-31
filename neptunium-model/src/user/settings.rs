@@ -365,8 +365,7 @@ pub struct UserSettings {
     pub group_dm_add_permission_flags: GroupDmAddPermissionFlags,
     pub guild_folders: Vec<GuildFoldersItem>,
     pub incoming_call_flags: IncomingCallFlags,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub inline_attached_media: Option<bool>,
+    pub inline_attachment_media: bool,
     pub inline_embed_media: bool,
     pub locale: Locale,
     pub message_display_compact: bool,

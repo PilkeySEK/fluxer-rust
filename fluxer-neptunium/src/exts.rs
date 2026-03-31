@@ -6,3 +6,5 @@ mod guild;
 pub use guild::*;
 mod webhook;
 pub use webhook::*;
+mod user;
+pub use user::*;

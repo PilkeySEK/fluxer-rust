@@ -56,17 +56,25 @@ pub struct GuildMember {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub accent_color: Option<HexColor32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    avatar: Option<ImageHash>,
+    pub avatar: Option<ImageHash>,
     /// Timestamp until which the member is timed out.
     #[serde(skip_serializing_if = "Option::is_none")]
-    communication_disabled_until: Option<Timestamp<Iso8601>>,
-    deaf: bool,
-    joined_at: Timestamp<Iso8601>,
-    mute: bool,
+    pub communication_disabled_until: Option<Timestamp<Iso8601>>,
+    pub deaf: bool,
+    pub joined_at: Timestamp<Iso8601>,
+    pub mute: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
-    nick: Option<String>,
+    pub nick: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    profile_flags: Option<GuildMemberProfileFlags>,
-    roles: Vec<Id<RoleMarker>>,
-    user: PartialUser,
+    pub profile_flags: Option<GuildMemberProfileFlags>,
+    pub roles: Vec<Id<RoleMarker>>,
+    pub user: PartialUser,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct GuildMemberProfile {
+    pub bio: Option<String>,
+    pub pronouns: Option<String>,
+    pub banner: Option<ImageHash>,
+    pub accent_color: Option<HexColor32>,
 }

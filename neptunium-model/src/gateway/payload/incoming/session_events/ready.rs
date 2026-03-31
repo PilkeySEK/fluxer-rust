@@ -98,7 +98,7 @@ pub struct UserPrivateResponse {
     pub premium_lifetime_sequence: Option<i32>,
     pub premium_purchase_disabled: bool,
     pub premium_since: Option<Timestamp<Iso8601>>,
-    pub premium_type: Option<UserPremiumTypes>,
+    pub premium_type: Option<UserPremiumType>,
     pub premium_will_cancel: bool,
     pub pronouns: Option<String>,
     pub required_actions: Option<Vec<String>>,
@@ -114,7 +114,7 @@ pub struct UserPrivateResponse {
 
 #[derive(Debug, Copy, Clone, Serialize_repr, Deserialize_repr)]
 #[repr(u8)]
-pub enum UserPremiumTypes {
+pub enum UserPremiumType {
     /// No premium subscription.
     None = 0,
     Active,

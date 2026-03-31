@@ -26,6 +26,8 @@ marker! {
     PackMarker,
     RelationshipMarker,
     AttachmentMarker,
+    SavedMessageMarker,
+    ScheduledMessageMarker,
 }
 
 pub trait IdMarker: Copy + Clone + std::hash::Hash + PartialEq + Eq + std::fmt::Debug {}

@@ -6,7 +6,7 @@ use neptunium_model::{
     },
     id::{
         Id,
-        marker::{ChannelMarker, GenericMarker, MessageMarker, StickerMarker},
+        marker::{ChannelMarker, GenericMarker, ScheduledMessageMarker, StickerMarker},
     },
     time::timestamp::{Timestamp, representations::Iso8601},
 };
@@ -72,7 +72,7 @@ pub struct ScheduleMessageResponsePayload {
 
 #[derive(Deserialize, Clone, Debug)]
 pub struct ScheduleMessageResponse {
-    pub id: Id<MessageMarker>,
+    pub id: Id<ScheduledMessageMarker>,
     pub channel_id: Id<ChannelMarker>,
     // TODO: This is documented as being an ISO8601 __UTC__ timestamp, might wanna check if the format of
     // that is the same or not ...

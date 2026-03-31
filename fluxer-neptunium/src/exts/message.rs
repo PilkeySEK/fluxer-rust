@@ -1,6 +1,10 @@
 // TODO: Add some of the saved_media API here.
 
 use async_trait::async_trait;
+#[cfg(feature = "user_api")]
+use neptunium_http::endpoints::channel::ScheduledMessageResponse;
+#[cfg(feature = "user_api")]
+use neptunium_model::id::marker::ScheduledMessageMarker;
 use neptunium_model::{
     channel::message::Message,
     id::{
@@ -18,6 +22,9 @@ use neptunium_http::endpoints::channel::{
 };
 
 pub use neptunium_http::endpoints::channel::RequestReactionType as Reaction;
+
+// TODO: Many methods in MessageExt could be implemented for Id<MessageMarker> too:
+// Should make those functions be in MessageIdExt and impl MessageIdExt for Message.
 
 #[async_trait]
 pub trait MessageExt {
@@ -88,6 +95,14 @@ pub trait MessageExt {
     /// history. Note that this does not delete the message.
     #[cfg(feature = "user_api")]
     async fn delete_mention(&self, ctx: &Context) -> Result<(), Error>;
+    /// Saves a message for the current user. Saved messages can be accessed
+    /// later from the saved messages list. Messages are saved privately.
+    #[cfg(feature = "user_api")]
+    async fn save(&self, ctx: &Context) -> Result<(), Error>;
+    /// Removes a message from the current user’s saved messages.
+    /// Does not delete the original message, only removes it from the user’s saved collection.
+    #[cfg(feature = "user_api")]
+    async fn unsave(&self, ctx: &Context) -> Result<(), Error>;
 }
 
 #[async_trait]
@@ -315,11 +330,43 @@ impl MessageExt for Message {
             })
             .await?)
     }
+
+    #[cfg(feature = "user_api")]
+    async fn save(&self, ctx: &Context) -> Result<(), Error> {
+        use neptunium_http::endpoints::channel::SaveMessage;
+
+        Ok(ctx
+            .get_http_client()
+            .execute(SaveMessage {
+                message_id: self.id,
+                channel_id: self.channel_id,
+            })
+            .await?)
+    }
+    #[cfg(feature = "user_api")]
+    async fn unsave(&self, ctx: &Context) -> Result<(), Error> {
+        use neptunium_http::endpoints::channel::UnsaveMessage;
+
+        Ok(ctx
+            .get_http_client()
+            .execute(UnsaveMessage {
+                message_id: self.id,
+            })
+            .await?)
+    }
 }
 
 #[async_trait]
 pub trait MessageIdExt {
     async fn fetch(&self, ctx: &Context, channel_id: Id<ChannelMarker>) -> Result<Message, Error>;
+    /// Saves a message for the current user. Saved messages can be accessed
+    /// later from the saved messages list. Messages are saved privately.
+    #[cfg(feature = "user_api")]
+    async fn save(&self, ctx: &Context, channel_id: Id<ChannelMarker>) -> Result<(), Error>;
+    /// Removes a message from the current user’s saved messages.
+    /// Does not delete the original message, only removes it from the user’s saved collection.
+    #[cfg(feature = "user_api")]
+    async fn unsave(&self, ctx: &Context) -> Result<(), Error>;
 }
 
 #[async_trait]
@@ -330,6 +377,66 @@ impl MessageIdExt for Id<MessageMarker> {
             .execute(FetchMessage {
                 channel_id,
                 message_id: *self,
+            })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    async fn save(&self, ctx: &Context, channel_id: Id<ChannelMarker>) -> Result<(), Error> {
+        use neptunium_http::endpoints::channel::SaveMessage;
+
+        Ok(ctx
+            .get_http_client()
+            .execute(SaveMessage {
+                message_id: *self,
+                channel_id,
+            })
+            .await?)
+    }
+
+    #[cfg(feature = "user_api")]
+    async fn unsave(&self, ctx: &Context) -> Result<(), Error> {
+        use neptunium_http::endpoints::channel::UnsaveMessage;
+
+        Ok(ctx
+            .get_http_client()
+            .execute(UnsaveMessage { message_id: *self })
+            .await?)
+    }
+}
+
+#[cfg(feature = "user_api")]
+#[async_trait]
+pub trait ScheduledMessageIdExt {
+    async fn get_scheduled_message(&self, ctx: &Context)
+    -> Result<ScheduledMessageResponse, Error>;
+    async fn cancel_scheduled_message(&self, ctx: &Context) -> Result<(), Error>;
+}
+
+#[cfg(feature = "user_api")]
+#[async_trait]
+impl ScheduledMessageIdExt for Id<ScheduledMessageMarker> {
+    async fn get_scheduled_message(
+        &self,
+        ctx: &Context,
+    ) -> Result<ScheduledMessageResponse, Error> {
+        use neptunium_http::endpoints::channel::GetScheduledMessage;
+
+        Ok(ctx
+            .get_http_client()
+            .execute(GetScheduledMessage {
+                scheduled_message_id: *self,
+            })
+            .await?)
+    }
+
+    async fn cancel_scheduled_message(&self, ctx: &Context) -> Result<(), Error> {
+        use neptunium_http::endpoints::channel::CancelScheduledMessage;
+
+        Ok(ctx
+            .get_http_client()
+            .execute(CancelScheduledMessage {
+                scheduled_message_id: *self,
             })
             .await?)
     }
