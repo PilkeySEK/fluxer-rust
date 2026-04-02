@@ -60,6 +60,7 @@ use crate::{
 pub struct Context {
     pub(crate) http_client: Arc<HttpClient>,
     pub(crate) tx: UnboundedSender<ClientMessage>,
+    pub(crate) cache: crate::cache::Cache,
 }
 
 // TODO: Add errors docs

@@ -12,6 +12,7 @@ use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
 use zeroize::Zeroizing;
 
 use crate::{
+    cache::Cache,
     client::error::{ClientErrorKind, Error},
     events::{EventError, EventHandler, context::Context},
 };
@@ -106,6 +107,7 @@ impl Client {
             context: Context {
                 http_client: Arc::new(api_client),
                 tx: tx.clone(),
+                cache: Cache::new(client_config.cache_config),
             },
             tx,
             rx,

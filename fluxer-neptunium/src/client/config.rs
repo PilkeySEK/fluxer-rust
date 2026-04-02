@@ -3,6 +3,8 @@ use std::time::Duration;
 use bon::Builder;
 use neptunium_http::DEFAULT_API_BASE_URL;
 
+use crate::cache::CacheConfig;
+
 #[derive(Builder, Debug)]
 pub struct ClientConfig {
     #[builder(into)]
@@ -16,6 +18,8 @@ pub struct ClientConfig {
     pub auto_reconnect: bool,
     #[builder(default = Duration::from_secs(30))]
     pub auto_reconnect_wait_time: Duration,
+    #[builder(default = CacheConfig::default())]
+    pub cache_config: CacheConfig,
 }
 
 impl Default for ClientConfig {
@@ -27,6 +31,7 @@ impl Default for ClientConfig {
             token_type: neptunium_http::client::TokenType::default(),
             auto_reconnect: true,
             auto_reconnect_wait_time: Duration::from_secs(30),
+            cache_config: CacheConfig::default(),
         }
     }
 }
