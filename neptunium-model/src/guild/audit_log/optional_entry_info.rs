@@ -1,13 +1,16 @@
 use serde::{Deserialize, Serialize};
 
-use crate::id::{
-    Id,
-    marker::{ChannelMarker, GenericMarker, MessageMarker},
+use crate::{
+    id::{
+        Id,
+        marker::{ChannelMarker, GenericMarker, MessageMarker},
+    },
+    misc::StringOrBool,
 };
 
 // Source: https://github.com/fluxerapp/fluxer/blob/d91388b979e7709575f929218dd053e081aa684e/packages/api/src/guild/services/GuildService.tsx#L90
 /// Additional information for certain `AuditLogEventType`s.
-#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct AuditLogOptionalEntryInfo {
     /// Channel in which the entities were targeted.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -40,8 +43,9 @@ pub struct AuditLogOptionalEntryInfo {
     pub max_age: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_uses: Option<u64>,
+    // Need to check further what type this actually is
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub temporary: Option<bool>,
+    pub temporary: Option<StringOrBool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub uses: Option<u64>,
     // TODO: Find out whether this is actually used or not
