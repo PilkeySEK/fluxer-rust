@@ -33,3 +33,11 @@ impl HexColor32 {
         self.0
     }
 }
+
+/// A type that can be either a String or a bool.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
+#[serde(untagged)]
+pub enum StringOrBool {
+    String(String),
+    Bool(bool),
+}
