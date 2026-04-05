@@ -728,15 +728,22 @@ impl Context {
     }
 
     #[cfg(feature = "user_api")]
-    pub async fn get_settings(&self) -> Result<UserSettings, Error> {
+    pub async fn get_settings(&self) -> Result<Cached<UserSettings>, Error> {
         use neptunium_http::endpoints::users::GetUserSettings;
 
-        Ok(self.http_client.execute(GetUserSettings).await?)
+        Ok(GetUserSettings
+            .execute_cached(self.get_http_client(), &self.cache)
+            .await?)
     }
 
     #[cfg(feature = "user_api")]
-    pub async fn update_settings(&self, body: UpdateUserSettings) -> Result<UserSettings, Error> {
-        Ok(self.http_client.execute(body).await?)
+    pub async fn update_settings(
+        &self,
+        body: UpdateUserSettings,
+    ) -> Result<Cached<UserSettings>, Error> {
+        Ok(body
+            .execute_cached(self.get_http_client(), &self.cache)
+            .await?)
     }
 
     #[cfg(feature = "user_api")]

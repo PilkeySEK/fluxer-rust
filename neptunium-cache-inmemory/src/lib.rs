@@ -1,5 +1,8 @@
 use std::{fmt::Debug, sync::Arc};
 
+#[cfg(feature = "user_api")]
+use neptunium_model::user::settings::UserSettings;
+
 use bon::Builder;
 use mini_moka::sync::Cache as MokaCache;
 use neptunium_http::endpoints::users::UserProfileFullResponse;
@@ -29,6 +32,8 @@ pub struct Cache {
     pub channels: MokaCache<Id<ChannelMarker>, Cached<CachedChannel>>,
     pub messages: MokaCache<Id<MessageMarker>, Cached<Message>>,
     pub current_user: OnceCell<Cached<UserPrivateResponse>>,
+    #[cfg(feature = "user_api")]
+    pub current_user_settings: OnceCell<Cached<UserSettings>>,
 }
 
 #[derive(Builder, Copy, Clone, Debug)]
@@ -58,6 +63,8 @@ impl Cache {
             channels: MokaCache::new(config.channels),
             messages: MokaCache::new(config.messages),
             current_user: OnceCell::new(),
+            #[cfg(feature = "user_api")]
+            current_user_settings: OnceCell::new(),
         }
     }
 }

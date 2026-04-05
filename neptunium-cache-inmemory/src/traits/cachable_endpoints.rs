@@ -6,11 +6,16 @@ use std::collections::HashMap;
 #[cfg(feature = "user_api")]
 use neptunium_http::endpoints::{
     channel::PreloadMessagesForChannels,
-    users::{ListCurrentUserMentions, UpdateCurrentUserProfile},
+    users::{
+        GetUserSettings, ListCurrentUserMentions, UpdateCurrentUserProfile, UpdateUserSettings,
+    },
 };
 
 #[cfg(feature = "user_api")]
-use neptunium_model::id::{Id, marker::ChannelMarker};
+use neptunium_model::{
+    id::{Id, marker::ChannelMarker},
+    user::settings::UserSettings,
+};
 
 use async_trait::async_trait;
 use neptunium_http::{
@@ -426,5 +431,58 @@ impl CachableEndpoint for RemoveUserFromGroupDm {
             recipients.remove(index);
         }
         Ok(())
+    }
+}
+
+#[cfg(feature = "user_api")]
+#[async_trait]
+impl CachableEndpoint for GetUserSettings {
+    type Response = Cached<UserSettings>;
+    async fn execute_cached(
+        self,
+        client: &Arc<HttpClient>,
+        cache: &Arc<Cache>,
+    ) -> Result<<Self as CachableEndpoint>::Response, Box<ExecuteEndpointRequestError>> {
+        if let Some(cached_settings) = cache.current_user_settings.get() {
+            return Ok(Arc::clone(cached_settings));
+        }
+        Ok(Arc::clone(
+            cache
+                .current_user_settings
+                .get_or_try_init(async || {
+                    client
+                        .execute(self)
+                        .await
+                        .map(|settings| Arc::new(RwLock::new(settings)))
+                })
+                .await?,
+        ))
+    }
+}
+
+#[cfg(feature = "user_api")]
+#[async_trait]
+impl CachableEndpoint for UpdateUserSettings {
+    type Response = Cached<UserSettings>;
+    async fn execute_cached(
+        self,
+        client: &Arc<HttpClient>,
+        cache: &Arc<Cache>,
+    ) -> Result<<Self as CachableEndpoint>::Response, Box<ExecuteEndpointRequestError>> {
+        let settings = client.execute(self).await?;
+        if let Some(cached_settings) = cache.current_user_settings.get() {
+            let cached_settings = Arc::clone(cached_settings);
+            {
+                let mut guard = cached_settings.write().await;
+                *guard = settings;
+            }
+            return Ok(cached_settings);
+        }
+        Ok(Arc::clone(
+            cache
+                .current_user_settings
+                .get_or_init(async || Arc::new(RwLock::new(settings)))
+                .await,
+        ))
     }
 }
