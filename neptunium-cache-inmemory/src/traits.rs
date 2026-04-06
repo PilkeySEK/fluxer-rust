@@ -9,13 +9,15 @@ use neptunium_http::{
 use neptunium_model::{
     channel::message::Message,
     gateway::payload::incoming::UserPrivateResponse,
+    guild::Guild,
     invites::{GroupDmInvite, GuildInvite, InviteWithMetadata, PackInvite},
+    user::PartialUser,
 };
 use tokio::sync::RwLock;
 
 pub mod cachable_endpoints;
 
-trait CacheValue {
+pub(crate) trait CacheValue {
     async fn insert_and_return(self, cache: &Arc<Cache>) -> Cached<Self>;
 }
 
@@ -102,5 +104,57 @@ impl CacheValue for InviteWithMetadata {
         let cached_self = Arc::new(RwLock::new(self));
         cache.invites.insert(code, Arc::clone(&cached_self));
         cached_self
+    }
+}
+
+impl CacheValue for PartialUser {
+    async fn insert_and_return(self, cache: &Arc<Cache>) -> Cached<Self> {
+        let user_id = self.id;
+        if let Some(existing_user) = cache.users.get(&user_id) {
+            {
+                let mut guard = existing_user.write().await;
+                *guard = self;
+            }
+            return existing_user;
+        }
+        let value = Arc::new(RwLock::new(self));
+        cache.users.insert(user_id, Arc::clone(&value));
+        value
+    }
+}
+
+impl CacheValue for neptunium_model::user::settings::UserSettings {
+    async fn insert_and_return(self, cache: &Arc<Cache>) -> Cached<Self> {
+        if let Some(existing_settings) = cache.current_user_settings.get() {
+            let existing_settings = Arc::clone(existing_settings);
+            {
+                let mut guard = existing_settings.write().await;
+                *guard = self;
+            }
+            existing_settings
+        } else {
+            Arc::clone(
+                cache
+                    .current_user_settings
+                    .get_or_init(async || Arc::new(RwLock::new(self)))
+                    .await,
+            )
+        }
+    }
+}
+
+impl CacheValue for Guild {
+    async fn insert_and_return(self, cache: &Arc<Cache>) -> Cached<Self> {
+        let guild_id = self.id;
+        if let Some(existing_guild) = cache.guilds.get(&guild_id) {
+            {
+                let mut guard = existing_guild.write().await;
+                *guard = self;
+            }
+            return existing_guild;
+        }
+        let value = Arc::new(RwLock::new(self));
+        cache.guilds.insert(guild_id, Arc::clone(&value));
+        value
     }
 }

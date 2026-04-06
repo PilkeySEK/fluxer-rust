@@ -1037,8 +1037,10 @@ dependencies = [
  "mini-moka",
  "neptunium-http",
  "neptunium-model",
+ "serde_json",
  "tokio",
  "tracing",
+ "zeroize",
 ]
 
 [[package]]

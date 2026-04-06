@@ -1,23 +1,22 @@
 use std::{fmt::Debug, sync::Arc};
 
-#[cfg(feature = "user_api")]
-use neptunium_model::user::settings::UserSettings;
-
 use bon::Builder;
 use mini_moka::sync::Cache as MokaCache;
 use neptunium_http::endpoints::users::UserProfileFullResponse;
 use neptunium_model::{
     channel::message::Message,
     gateway::payload::incoming::UserPrivateResponse,
+    guild::Guild,
     id::{
         Id,
         marker::{ChannelMarker, GuildMarker, MessageMarker, UserMarker},
     },
     invites::InviteWithMetadata,
-    user::PartialUser,
+    user::{PartialUser, settings::UserSettings},
 };
 use tokio::sync::OnceCell;
 
+pub mod gateway;
 mod structs;
 mod traits;
 pub use structs::*;
@@ -33,9 +32,9 @@ pub struct Cache {
     pub channels: MokaCache<Id<ChannelMarker>, Cached<CachedChannel>>,
     pub messages: MokaCache<Id<MessageMarker>, Cached<Message>>,
     pub current_user: OnceCell<Cached<UserPrivateResponse>>,
-    #[cfg(feature = "user_api")]
     pub current_user_settings: OnceCell<Cached<UserSettings>>,
     pub invites: MokaCache<String, Cached<InviteWithMetadata>>,
+    pub guilds: MokaCache<Id<GuildMarker>, Cached<Guild>>,
 }
 
 #[derive(Builder, Copy, Clone, Debug)]
@@ -50,6 +49,8 @@ pub struct CacheConfig {
     pub messages: u64,
     #[builder(default = 256)]
     pub invites: u64,
+    #[builder(default = 1024)]
+    pub guilds: u64,
 }
 
 impl Default for CacheConfig {
@@ -67,9 +68,9 @@ impl Cache {
             channels: MokaCache::new(config.channels),
             messages: MokaCache::new(config.messages),
             current_user: OnceCell::new(),
-            #[cfg(feature = "user_api")]
             current_user_settings: OnceCell::new(),
             invites: MokaCache::new(config.invites),
+            guilds: MokaCache::new(config.guilds),
         }
     }
 }

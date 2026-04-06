@@ -17,6 +17,7 @@ use crate::Cached;
 pub struct CachedChannel {
     /// The bitrate of the voice channel in bits per second
     pub bitrate: Option<i32>,
+    /// `None` if this is a DM channel.
     pub guild_id: Option<Id<GuildMarker>>,
     /// The icon hash of the channel (for group DMs)
     pub icon: Option<String>,
