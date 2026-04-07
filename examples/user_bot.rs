@@ -15,7 +15,7 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn on_ready(&self, _ctx: Context, data: Arc<CachedReady>) -> Result<(), EventError> {
-        let user = data.user.read().await;
+        let user = data.user.load();
         println!("Logged in as {}#{}", user.username, user.discriminator);
         Ok(())
     }
@@ -25,13 +25,13 @@ impl EventHandler for Handler {
         ctx: Context,
         event: Arc<CachedMessageCreate>,
     ) -> Result<(), EventError> {
-        let message = event.message.read().await;
-        let author = message.author.read().await;
+        let message = event.message.load();
+        let author = message.author.load();
         println!(
             "{}#{}: {}",
             author.username, author.discriminator, message.content
         );
-        let current_user_id = ctx.get_own_profile().await?.read().await.id;
+        let current_user_id = ctx.get_own_profile().await?.load().id;
         if author.id == current_user_id && message.content == "u?ping" {
             message.reply(&ctx, "Pong!").await?;
         }

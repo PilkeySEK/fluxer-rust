@@ -11,8 +11,8 @@ impl EventHandler for Handler {
         ctx: Context,
         event: Arc<CachedMessageCreate>,
     ) -> Result<(), EventError> {
-        let message = event.message.read().await;
-        let author = message.author.read().await;
+        let message = event.message.load();
+        let author = message.author.load();
         if !author.bot && message.content == "n?ping" {
             message.reply(&ctx, "Pong!").await?;
         }

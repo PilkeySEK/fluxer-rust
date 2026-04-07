@@ -292,7 +292,8 @@ impl Client {
             GatewayEvent::Dispatch(payload) => {
                 // TODO: Maybe check if the current sequence number is bigger than the received one because that shouldn't happen? Or something...
                 self.last_sequence_number = Some(payload.sequence_number);
-                return self.handle_dispatch_event(payload.event).await;
+                self.handle_dispatch_event(payload.event);
+                return Ok(());
             }
         }
         Ok(())
@@ -315,10 +316,7 @@ impl Client {
     }
 
     #[expect(clippy::too_many_lines)]
-    async fn handle_dispatch_event(
-        &mut self,
-        event: DispatchEvent,
-    ) -> Result<(), Box<self::error::Error>> {
+    fn handle_dispatch_event(&mut self, event: DispatchEvent) {
         tracing::trace!("Dispatch Event: {event:?}");
         macro_rules! call_event_handlers {
             ($always_propagate_event_errors:expr, $tx:expr, $handlers:expr, $ctx:expr, $data:expr => $func_name:ident) => {{
@@ -345,7 +343,7 @@ impl Client {
             }};
         }
 
-        let event = CachedDispatchEvent::from_dispatch_event(event, &self.context.cache).await;
+        let event = CachedDispatchEvent::from_dispatch_event(event, &self.context.cache);
 
         match event {
             CachedDispatchEvent::Ready(data) => {
@@ -550,6 +548,5 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_passive_updates);
             }
         }
-        Ok(())
     }
 }
