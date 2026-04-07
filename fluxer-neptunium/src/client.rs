@@ -342,6 +342,28 @@ impl Client {
                 }
             }};
         }
+        macro_rules! call_event_handlers_noarc {
+            ($always_propagate_event_errors:expr, $tx:expr, $handlers:expr, $ctx:expr, $data:expr => $func_name:ident) => {{
+                let always_propagate_event_errors = $always_propagate_event_errors;
+                for handler in &$handlers {
+                    let handler = Arc::clone(handler);
+                    let cloned_data = $data.clone();
+                    let ctx_clone = $ctx.clone();
+                    let tx_clone = $tx.clone();
+                    tokio::spawn(async move {
+                        if let Err(e) = handler.$func_name(ctx_clone, cloned_data).await {
+                            if e.propagate || always_propagate_event_errors {
+                                // Discarding the error because this task returns anway.
+                                let _ = tx_clone
+                                    .send($crate::client::ClientMessage::PropagateEventError(e));
+                            } else {
+                                tracing::warn!("Event handler returned error: {e}");
+                            }
+                        }
+                    });
+                }
+            }};
+        }
 
         let event = CachedDispatchEvent::from_dispatch_event(event, &self.context.cache);
 
@@ -376,13 +398,13 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_audit_log_entry_create);
             }
             CachedDispatchEvent::UserUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_user_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_user_update);
             }
             CachedDispatchEvent::UserPinnedDmsUpdate(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_user_pinned_dms_update);
             }
             CachedDispatchEvent::UserSettingsUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_user_settings_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_user_settings_update);
             }
             CachedDispatchEvent::UserGuildSettingsUpdate(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_user_guild_settings_update);
@@ -394,7 +416,7 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_recent_mention_delete);
             }
             CachedDispatchEvent::SavedMessageCreate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_saved_message_create);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_saved_message_create);
             }
             CachedDispatchEvent::SavedMessageDelete(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_saved_message_delete);
@@ -418,7 +440,10 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_create);
             }
             CachedDispatchEvent::GuildUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_update);
+            }
+            CachedDispatchEvent::GuildSync(data) => {
+                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_sync);
             }
             CachedDispatchEvent::GuildDelete(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_delete);
@@ -433,10 +458,10 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_member_remove);
             }
             CachedDispatchEvent::GuildRoleCreate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_role_create);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_role_create);
             }
             CachedDispatchEvent::GuildRoleUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_role_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_role_update);
             }
             CachedDispatchEvent::GuildRoleUpdateBulk(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_role_update_bulk);
@@ -457,10 +482,10 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_ban_remove);
             }
             CachedDispatchEvent::ChannelCreate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_channel_create);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_channel_create);
             }
             CachedDispatchEvent::ChannelUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_channel_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_channel_update);
             }
             CachedDispatchEvent::ChannelUpdateBulk(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_channel_update_bulk);
@@ -484,7 +509,7 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_message_create);
             }
             CachedDispatchEvent::MessageUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_message_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_message_update);
             }
             CachedDispatchEvent::MessageDelete(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_message_delete);

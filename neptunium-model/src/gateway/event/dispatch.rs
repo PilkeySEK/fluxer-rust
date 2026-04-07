@@ -46,6 +46,7 @@ pub enum DispatchEvent {
     PresenceUpdate(PresenceUpdateIncoming),
     GuildCreate(GuildCreate),
     GuildUpdate(Guild),
+    GuildSync(GuildCreate),
     GuildDelete(GuildDelete),
     /// Sent when a user joins a guild.
     GuildMemberAdd(GuildMember),

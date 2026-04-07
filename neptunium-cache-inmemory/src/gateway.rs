@@ -89,6 +89,9 @@ impl CachedDispatchEvent {
             DispatchEvent::GuildUpdate(payload) => {
                 CachedDispatchEvent::GuildUpdate(payload.insert_and_return(cache))
             }
+            DispatchEvent::GuildSync(payload) => {
+                CachedDispatchEvent::GuildSync(CachedGuildCreate::cache_payload(payload, cache))
+            }
             DispatchEvent::GuildDelete(payload) => CachedDispatchEvent::GuildDelete(payload),
             DispatchEvent::GuildMemberAdd(payload) => CachedDispatchEvent::GuildMemberAdd(payload),
             DispatchEvent::GuildMemberUpdate(payload) => {
@@ -216,6 +219,7 @@ pub enum CachedDispatchEvent {
     PresenceUpdate(PresenceUpdateIncoming),
     GuildCreate(CachedGuildCreate),
     GuildUpdate(Cached<Guild>),
+    GuildSync(CachedGuildCreate),
     // I think not deleting a guild from the cache even when it is "deleted" could be a good thing
     // Might need to ask some people about that
     GuildDelete(GuildDelete),

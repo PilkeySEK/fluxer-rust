@@ -14,6 +14,8 @@ pub enum OpCode {
     InvalidSession = 9,
     Hello = 10,
     HeartbeatAck = 11,
+    GatewayError = 12,
+    LazyRequest = 14,
 }
 
 impl OpCode {
@@ -31,6 +33,8 @@ impl OpCode {
             9 => Self::InvalidSession,
             10 => Self::Hello,
             11 => Self::HeartbeatAck,
+            12 => Self::GatewayError,
+            14 => Self::LazyRequest,
             _ => return None,
         })
     }

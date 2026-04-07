@@ -58,7 +58,7 @@ pub trait EventHandler: Send {
     async fn on_user_update(
         &self,
         ctx: Context,
-        data: Arc<Cached<UserPrivateResponse>>,
+        data: Cached<UserPrivateResponse>,
     ) -> Result<(), EventError> {
         Ok(())
     }
@@ -72,7 +72,7 @@ pub trait EventHandler: Send {
     async fn on_user_settings_update(
         &self,
         ctx: Context,
-        data: Arc<Cached<UserSettings>>,
+        data: Cached<UserSettings>,
     ) -> Result<(), EventError> {
         Ok(())
     }
@@ -100,7 +100,7 @@ pub trait EventHandler: Send {
     async fn on_saved_message_create(
         &self,
         ctx: Context,
-        data: Arc<Cached<CachedMessage>>,
+        data: Cached<CachedMessage>,
     ) -> Result<(), EventError> {
         Ok(())
     }
@@ -153,10 +153,13 @@ pub trait EventHandler: Send {
     ) -> Result<(), EventError> {
         Ok(())
     }
-    async fn on_guild_update(
+    async fn on_guild_update(&self, ctx: Context, data: Cached<Guild>) -> Result<(), EventError> {
+        Ok(())
+    }
+    async fn on_guild_sync(
         &self,
         ctx: Context,
-        data: Arc<Cached<Guild>>,
+        data: Arc<CachedGuildCreate>,
     ) -> Result<(), EventError> {
         Ok(())
     }
@@ -191,14 +194,14 @@ pub trait EventHandler: Send {
     async fn on_guild_role_create(
         &self,
         ctx: Context,
-        data: Arc<Cached<GuildRole>>,
+        data: Cached<GuildRole>,
     ) -> Result<(), EventError> {
         Ok(())
     }
     async fn on_guild_role_update(
         &self,
         ctx: Context,
-        data: Arc<Cached<GuildRole>>,
+        data: Cached<GuildRole>,
     ) -> Result<(), EventError> {
         Ok(())
     }
@@ -247,14 +250,14 @@ pub trait EventHandler: Send {
     async fn on_channel_create(
         &self,
         ctx: Context,
-        data: Arc<Cached<CachedChannel>>,
+        data: Cached<CachedChannel>,
     ) -> Result<(), EventError> {
         Ok(())
     }
     async fn on_channel_update(
         &self,
         ctx: Context,
-        data: Arc<Cached<CachedChannel>>,
+        data: Cached<CachedChannel>,
     ) -> Result<(), EventError> {
         Ok(())
     }
@@ -310,7 +313,7 @@ pub trait EventHandler: Send {
     async fn on_message_update(
         &self,
         ctx: Context,
-        data: Arc<Cached<CachedMessage>>,
+        data: Cached<CachedMessage>,
     ) -> Result<(), EventError> {
         Ok(())
     }
