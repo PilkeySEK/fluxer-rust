@@ -1,4 +1,4 @@
-use std::{collections::HashMap, ops::Deref, sync::Arc, time::Duration};
+use std::{ops::Deref, sync::Arc, time::Duration};
 
 use neptunium_cache_inmemory::{Cache, gateway::CachedDispatchEvent};
 use neptunium_gateway::shard::{EventReceiveError, Shard, config::ShardConfig};
@@ -6,8 +6,8 @@ use neptunium_http::client::HttpClient;
 use neptunium_model::gateway::{
     event::{dispatch::DispatchEvent, gateway::GatewayEvent, invalid_session::InvalidSessionEvent},
     payload::outgoing::{
-        ConnectionProperties, GuildSubscriptionRequest, Heartbeat, LazyRequest,
-        OutgoingGatewayMessage, PresenceUpdateOutgoing,
+        ConnectionProperties, Heartbeat, LazyRequest, OutgoingGatewayMessage,
+        PresenceUpdateOutgoing,
     },
 };
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
@@ -303,7 +303,8 @@ impl Client {
             GatewayEvent::Dispatch(payload) => {
                 // TODO: Maybe check if the current sequence number is bigger than the received one because that shouldn't happen? Or something...
                 self.last_sequence_number = Some(payload.sequence_number);
-                return self.handle_dispatch_event(payload.event).await;
+                self.handle_dispatch_event(payload.event);
+                return Ok(());
             }
             GatewayEvent::GatewayError(payload) => {
                 tracing::warn!("Gateway error: {:?}", payload);
@@ -330,7 +331,7 @@ impl Client {
     }
 
     #[expect(clippy::too_many_lines)]
-    async fn handle_dispatch_event(&mut self, event: DispatchEvent) -> Result<(), Box<Error>> {
+    fn handle_dispatch_event(&mut self, event: DispatchEvent) {
         tracing::trace!("Dispatch Event: {event:?}");
         macro_rules! call_event_handlers {
             ($always_propagate_event_errors:expr, $tx:expr, $handlers:expr, $ctx:expr, $data:expr => $func_name:ident) => {{
@@ -451,23 +452,6 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_presence_update);
             }
             CachedDispatchEvent::GuildCreate(data) => {
-                let guild_id = data.id;
-                self.context
-                    .update_guild_event_subscriptions({
-                        let mut hashmap = HashMap::new();
-                        hashmap.insert(
-                            guild_id,
-                            GuildSubscriptionRequest {
-                                active: Some(true),
-                                member_list_channels: None,
-                                members: None,
-                                typing: Some(true),
-                                sync: None,
-                            },
-                        );
-                        hashmap
-                    })
-                    .await?;
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_create);
             }
             CachedDispatchEvent::GuildUpdate(data) => {
@@ -604,6 +588,5 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_passive_updates);
             }
         }
-        Ok(())
     }
 }

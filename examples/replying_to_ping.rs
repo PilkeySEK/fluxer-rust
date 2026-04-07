@@ -1,6 +1,7 @@
 use std::{env, sync::Arc};
 
 use fluxer_neptunium::{cached_payload::CachedMessageCreate, prelude::*};
+use tracing_subscriber::filter::LevelFilter;
 
 struct Handler;
 
@@ -23,6 +24,9 @@ impl EventHandler for Handler {
 
 #[tokio::main]
 async fn main() {
+    tracing_subscriber::fmt()
+        .with_max_level(LevelFilter::DEBUG)
+        .init();
     let token = env::var("FLUXER_TOKEN").unwrap();
     let mut client = Client::new(token);
 
