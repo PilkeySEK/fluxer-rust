@@ -2,7 +2,7 @@
 //!
 //! # Example
 //! ```no_run
-//! use fluxer_neptunium::{prelude::*, model::gateway::payload::incoming::MessageCreate};
+//! use fluxer_neptunium::{prelude::*, cached_payload::CachedMessageCreate};
 //! use std::sync::Arc;
 //!
 //! struct Handler;
@@ -10,8 +10,10 @@
 //! // async_trait is a re-export of fluxer_neptunium (from the `async_trait` crate).
 //! #[async_trait]
 //! impl EventHandler for Handler {
-//!   async fn on_message_create(&self, _ctx: Context, message: Arc<MessageCreate>) -> Result<(), EventError> {
-//!     println!("{}#{}: {}", message.author.username, message.author.discriminator, message.content);
+//!   async fn on_message_create(&self, _ctx: Context, message: Arc<CachedMessageCreate>) -> Result<(), EventError> {
+//!     let message = message.load();
+//!     let author = message.author.load();
+//!     println!("{}#{}: {}", author.username, author.discriminator, message.content);
 //!     Ok(())
 //!   }
 //! }

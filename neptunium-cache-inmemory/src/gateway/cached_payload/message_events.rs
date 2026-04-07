@@ -1,3 +1,5 @@
+use std::ops::{Deref, DerefMut};
+
 use neptunium_model::{
     channel::ChannelType,
     gateway::payload::incoming::{MessageCreate, MessageDelete},
@@ -27,5 +29,18 @@ impl CachedPayload for MessageDelete {
     fn cache_payload(non_cached: Self::NonCached, cache: &std::sync::Arc<crate::Cache>) -> Self {
         cache.messages.invalidate(&non_cached.id);
         non_cached
+    }
+}
+
+impl Deref for CachedMessageCreate {
+    type Target = Cached<CachedMessage>;
+    fn deref(&self) -> &Self::Target {
+        &self.message
+    }
+}
+
+impl DerefMut for CachedMessageCreate {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.message
     }
 }
