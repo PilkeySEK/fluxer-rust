@@ -18,7 +18,6 @@ mod list_pinned_messages;
 mod list_saved_messages;
 #[cfg(feature = "user_api")]
 mod list_scheduled_messages;
-mod message_reference;
 mod pin_message;
 mod reactions;
 #[cfg(feature = "user_api")]
@@ -51,7 +50,6 @@ pub use list_pinned_messages::*;
 pub use list_saved_messages::*;
 #[cfg(feature = "user_api")]
 pub use list_scheduled_messages::*;
-pub use message_reference::*;
 pub use pin_message::*;
 pub use reactions::*;
 #[cfg(feature = "user_api")]

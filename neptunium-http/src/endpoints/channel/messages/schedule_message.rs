@@ -1,8 +1,8 @@
 use bon::Builder;
 use neptunium_model::{
     channel::message::{
-        Message, MessageFlags, MessageSticker, attachment::MessageAttachment, embed::MessageEmbed,
-        nonce::Nonce,
+        Message, MessageFlags, MessageReference, MessageSticker, attachment::MessageAttachment,
+        embed::MessageEmbed, nonce::Nonce,
     },
     id::{
         Id,
@@ -16,10 +16,7 @@ use serde::Deserialize;
 use crate::{
     endpoints::{
         Endpoint,
-        channel::messages::{
-            allowed_mentions::AllowedMentions, create_message::CreateMessageBody,
-            message_reference::MessageReference,
-        },
+        channel::messages::{allowed_mentions::AllowedMentions, create_message::CreateMessageBody},
     },
     request::Request,
 };

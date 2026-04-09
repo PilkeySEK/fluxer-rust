@@ -7,7 +7,7 @@ use neptunium_http::endpoints::channel::ScheduledMessageResponse;
 #[cfg(feature = "user_api")]
 use neptunium_model::id::marker::ScheduledMessageMarker;
 use neptunium_model::{
-    channel::message::Message,
+    channel::message::{Message, MessageReference},
     id::{
         Id,
         marker::{AttachmentMarker, ChannelMarker, MessageMarker, UserMarker},
@@ -19,7 +19,7 @@ use crate::{client::error::Error, events::context::Context};
 use neptunium_http::endpoints::channel::{
     AddReaction, CreateMessage, CreateMessageBody, DeleteAllReactions, DeleteAllReactionsOfEmoji,
     DeleteMessage, DeleteMessageAttachment, DeleteOwnReaction, DeleteReaction, EditMessage,
-    EditMessageBody, FetchMessage, MessageReference, PinMessage, UnpinMessage,
+    EditMessageBody, FetchMessage, PinMessage, UnpinMessage,
 };
 
 pub use neptunium_http::endpoints::channel::RequestReactionType as Reaction;

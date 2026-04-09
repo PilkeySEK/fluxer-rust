@@ -3,7 +3,9 @@ use reqwest::Method;
 use serde::Serialize;
 
 use neptunium_model::{
-    channel::message::{Message, MessageFlags, embed::MessageEmbed, nonce::Nonce},
+    channel::message::{
+        Message, MessageFlags, MessageReference, embed::MessageEmbed, nonce::Nonce,
+    },
     id::{
         Id,
         marker::{ChannelMarker, StickerMarker},
@@ -13,10 +15,7 @@ use neptunium_model::{
 use crate::{
     endpoints::{
         Endpoint,
-        channel::messages::{
-            allowed_mentions::AllowedMentions, attachment::AttachmentRequest,
-            message_reference::MessageReference,
-        },
+        channel::messages::{allowed_mentions::AllowedMentions, attachment::AttachmentRequest},
     },
     request::Request,
 };

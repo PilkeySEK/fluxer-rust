@@ -1,3 +1,4 @@
+use bon::Builder;
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
@@ -14,15 +15,15 @@ pub enum MessageReferenceType {
     Forward = 1,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Builder)]
 pub struct MessageReference {
     /// The ID of the channel containing the referenced message.
-    pub channel_id: Id<ChannelMarker>,
+    pub channel_id: Option<Id<ChannelMarker>>,
     /// The ID of the guild containing the referenced message.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub guild_id: Option<Id<GuildMarker>>,
     /// The ID of the referenced message.
     pub message_id: Id<MessageMarker>,
     #[serde(rename = "type")]
-    pub r#type: MessageReferenceType,
+    pub r#type: Option<MessageReferenceType>,
 }
