@@ -8,8 +8,10 @@ use time::OffsetDateTime;
 
 use crate::id::marker::IdMarker;
 
+mod atomic;
 pub mod composite;
 pub mod marker;
+pub use atomic::*;
 
 /// "Snowflake" is a format for uniquely identifiable descriptors (IDs). These IDs are guaranteed to be unique across all of Fluxer, except
 /// in some unique scenarios in which child objects share their parent's ID. Snowflakes are always returned as a String in the HTTP and Gateway API,
@@ -32,6 +34,7 @@ impl<T: IdMarker> Id<T> {
     /// The Fluxer epoch. Subtract this from a UNIX timestamp (millis) to get the timestamp that should be used inside of a snowflake.
     /// [Source](https://github.com/fluxerapp/fluxer/blob/5da26d4ed5ef9f3fe8bef993c0f10ea4f4ee9c1d/packages/constants/src/Core.tsx#L20)
     pub const FLUXER_EPOCH: i64 = 1_420_070_400_000;
+
     /// Create a new ID with the given `value`.
     #[must_use]
     pub fn new(value: u64) -> Self {
@@ -46,20 +49,23 @@ impl<T: IdMarker> Id<T> {
     pub fn cast<NewMarker: IdMarker>(self) -> Id<NewMarker> {
         Id::new(self.value)
     }
+
+    /// Consumes the `Id` and returns the underlying value.
+    #[must_use]
+    pub fn into_inner(self) -> u64 {
+        self.value
+    }
 }
 
 impl<T: IdMarker> From<u64> for Id<T> {
     fn from(value: u64) -> Self {
-        Self {
-            value,
-            _marker: core::marker::PhantomData,
-        }
+        Self::new(value)
     }
 }
 
 impl<T: IdMarker> From<Id<T>> for u64 {
     fn from(value: Id<T>) -> Self {
-        value.value
+        value.into_inner()
     }
 }
 
@@ -74,7 +80,7 @@ impl<T: IdMarker> Serialize for Id<T> {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&self.value.to_string())
+        serializer.serialize_str(&self.to_string())
     }
 }
 

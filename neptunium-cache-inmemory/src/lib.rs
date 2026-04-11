@@ -7,7 +7,11 @@ use mini_moka::sync::Cache as MokaCache;
 use neptunium_http::endpoints::users::UserProfileFullResponse;
 use neptunium_model::{
     gateway::payload::incoming::UserPrivateResponse,
-    guild::{Guild, member::{GuildMember, GuildMemberProfile}, permissions::GuildRole},
+    guild::{
+        Guild,
+        member::{GuildMember, GuildMemberProfile},
+        permissions::GuildRole,
+    },
     id::{
         Id,
         marker::{ChannelMarker, GuildMarker, MessageMarker, RoleMarker, UserMarker},
@@ -119,7 +123,8 @@ pub struct Cache {
     pub users: MokaCache<Id<UserMarker>, Cached<PartialUser>>,
     pub guild_members: MokaCache<Id<GuildMarker>, Vec<Cached<CachedGuildMember>>>,
     pub user_profile_data: MokaCache<Id<UserMarker>, Cached<UserProfileData>>,
-    pub guild_member_profiles: MokaCache<(Id<UserMarker>, Id<GuildMarker>), Cached<GuildMemberProfile>>,
+    pub guild_member_profiles:
+        MokaCache<(Id<UserMarker>, Id<GuildMarker>), Cached<GuildMemberProfile>>,
     pub user_profiles:
         MokaCache<(Id<UserMarker>, Option<Id<GuildMarker>>), Cached<UserProfileFullResponse>>,
     pub channels: MokaCache<Id<ChannelMarker>, Cached<CachedChannel>>,
