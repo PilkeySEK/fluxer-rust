@@ -62,6 +62,7 @@ struct ResumeInfo {
     // resume_url: String,
 }
 
+#[expect(clippy::struct_excessive_bools)]
 pub struct Client {
     shard: Shard,
     event_handlers: Vec<Arc<dyn EventHandler + Sync + 'static>>,
@@ -74,6 +75,8 @@ pub struct Client {
     auto_reconnect: bool,
     auto_reconnect_wait_time: Duration,
     guild_members_chunk_listeners: HashMap<String, UnboundedSender<GuildMembersChunk>>,
+    expecting_heartbeat_ack: bool,
+    expecting_heartbeat_ack_second_chance: bool,
 }
 
 impl Deref for Client {
@@ -143,6 +146,8 @@ impl Client {
             auto_reconnect: client_config.auto_reconnect,
             auto_reconnect_wait_time: client_config.auto_reconnect_wait_time,
             guild_members_chunk_listeners: HashMap::new(),
+            expecting_heartbeat_ack: false,
+            expecting_heartbeat_ack_second_chance: false,
         }
     }
 
@@ -261,12 +266,22 @@ impl Client {
                     };
                     match message {
                         ClientMessage::Heartbeat => {
+                            if self.expecting_heartbeat_ack {
+                                if self.expecting_heartbeat_ack_second_chance {
+                                    tracing::error!("Expected heartbeat acknowledgement but none has been received after the heartbeat interval of {} ms. Restarting.", heartbeat_interval.as_millis());
+                                    self.expecting_heartbeat_ack = false;
+                                    self.expecting_heartbeat_ack_second_chance = false;
+                                    return Err(Error::new(ClientErrorKind::TimedOut("receiving heartbeat acknowledgement".to_owned())));
+                                }
+                                tracing::warn!("Did not receive heartbeat acknowledgement.");
+                                self.expecting_heartbeat_ack_second_chance = true;
+                            }
                             tracing::trace!("Sending heartbeat.");
-                            self.shard
+                            tokio::time::timeout(Duration::from_mins(5), self.shard
                                 .send_gateway_message(OutgoingGatewayMessage::Heartbeat(Heartbeat {
                                     last_sequence_number: self.last_sequence_number,
-                                }))
-                                .await?;
+                                }))).await.map_err(|_| Error::new(ClientErrorKind::TimedOut("sending heartbeat".to_owned())))??;
+                            self.expecting_heartbeat_ack = true;
                             // Heartbeats are a nice periodic event that happens where we can check for this stuff too
                             self.guild_members_chunk_listeners.retain(|_, tx| {
                                 // tx being closed indicates that the function listening to tx has returned and has dropped
@@ -349,7 +364,9 @@ impl Client {
             GatewayEvent::Heartbeat => {
                 let _ = self.tx.send(ClientMessage::Heartbeat);
             }
-            GatewayEvent::HeartbeatAck => {}
+            GatewayEvent::HeartbeatAck => {
+                self.expecting_heartbeat_ack = false;
+            }
             GatewayEvent::Hello(hello) => {
                 tracing::warn!("Received `Hello` event more than one time. Received: {hello:?}");
             }

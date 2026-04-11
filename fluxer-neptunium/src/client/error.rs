@@ -71,6 +71,7 @@ impl std::fmt::Display for Error {
             }
             ClientErrorKind::EventError(err) => f.write_fmt(format_args!("Event error: {err}")),
             ClientErrorKind::ClientNotPresent => f.write_str("Client no longer exists"),
+            ClientErrorKind::TimedOut(step) => f.write_fmt(format_args!("Timed out {step}")),
         }
     }
 }
@@ -126,6 +127,7 @@ pub enum ClientErrorKind {
     // of Error<->EventError
     EventError(Box<EventError>),
     ClientNotPresent,
+    TimedOut(String),
 }
 
 impl From<tungstenite::Error> for Error {
