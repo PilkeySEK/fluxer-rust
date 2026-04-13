@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use bitflags::bitflags;
+use language_tags::LanguageTag;
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
@@ -16,112 +17,6 @@ use crate::{
         timestamp::{Timestamp, representations::Iso8601},
     },
 };
-
-#[derive(Serialize, Deserialize, Copy, Clone, Debug)]
-pub enum Locale {
-    /// Arabic
-    #[serde(rename = "ar")]
-    Ar,
-    /// Bulgarian
-    #[serde(rename = "bg")]
-    Bg,
-    /// Czech
-    #[serde(rename = "cs")]
-    Cs,
-    /// Danish
-    #[serde(rename = "da")]
-    Da,
-    /// German
-    #[serde(rename = "de")]
-    De,
-    /// Greek
-    #[serde(rename = "el")]
-    El,
-    /// English (United Kingdom)
-    #[serde(rename = "en-GB")]
-    EnGb,
-    /// English (United States)
-    #[serde(rename = "en-US")]
-    EnUs,
-    /// Spanish (Spain)
-    #[serde(rename = "es-ES")]
-    EsEs,
-    /// Spanish (Latin America)
-    #[serde(rename = "es-419")]
-    Es419,
-    /// Finnish
-    #[serde(rename = "fi")]
-    Fi,
-    /// French
-    #[serde(rename = "fr")]
-    Fr,
-    /// Hebrew
-    #[serde(rename = "he")]
-    He,
-    /// Hindi
-    #[serde(rename = "hi")]
-    Hi,
-    /// Croatian
-    #[serde(rename = "hr")]
-    Hr,
-    /// Hungarian
-    #[serde(rename = "hu")]
-    Hu,
-    /// Indonesian
-    #[serde(rename = "id")]
-    Id,
-    /// Italian
-    #[serde(rename = "it")]
-    It,
-    /// Japanese
-    #[serde(rename = "ja")]
-    Ja,
-    /// Korean
-    #[serde(rename = "ko")]
-    Ko,
-    /// Lithuanian
-    #[serde(rename = "lt")]
-    Lt,
-    /// Dutch
-    #[serde(rename = "nl")]
-    Nl,
-    /// Norwegian
-    #[serde(rename = "no")]
-    No,
-    /// Polish
-    #[serde(rename = "pl")]
-    Pl,
-    /// Portuguese (Brazil)
-    #[serde(rename = "pt-BR")]
-    PtBr,
-    /// Romanian
-    #[serde(rename = "ro")]
-    Ro,
-    /// Russian
-    #[serde(rename = "ru")]
-    Ru,
-    /// Swedish
-    #[serde(rename = "sv-SE")]
-    SvSe,
-    /// Thai
-    #[serde(rename = "th")]
-    Th,
-    /// Turkish
-    #[serde(rename = "tr")]
-    Tr,
-    /// Ukrainian
-    #[serde(rename = "uk")]
-    Uk,
-    /// Vietnamese
-    #[serde(rename = "vi")]
-    Vi,
-    /// Chinese (Simplified)
-    #[serde(rename = "zh-CN")]
-    ZhCn,
-    /// Chinese (Traditional)
-    #[serde(rename = "zh-TW")]
-    ZhTw,
-}
 
 #[derive(Serialize_repr, Deserialize_repr, Copy, Clone, Debug)]
 #[repr(u8)]
@@ -367,7 +262,7 @@ pub struct UserSettings {
     pub incoming_call_flags: IncomingCallFlags,
     pub inline_attachment_media: bool,
     pub inline_embed_media: bool,
-    pub locale: Locale,
+    pub locale: LanguageTag,
     pub message_display_compact: bool,
     pub render_embeds: bool,
     pub render_reactions: bool,
