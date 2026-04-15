@@ -6,12 +6,13 @@ use crate::{
         AuthSessionChange, CallCreate, CallDelete, CallUpdate, ChannelPinsAck, ChannelPinsUpdate,
         ChannelRecipientAdd, ChannelRecipientRemove, ChannelUpdateBulk, FavoriteMemeDelete,
         GuildAuditLogEntryCreate, GuildBanAdd, GuildBanRemove, GuildCreate, GuildDelete,
-        GuildEmojisUpdate, GuildMemberRemove, GuildMembersChunk, GuildRoleCreate, GuildRoleDelete,
-        GuildRoleUpdate, GuildRoleUpdateBulk, GuildStickersUpdate, InviteDelete, MessageAck,
-        MessageCreate, MessageDelete, MessageDeleteBulk, MessageReactionAdd, MessageReactionRemove,
-        MessageReactionRemoveAll, MessageReactionRemoveEmoji, PresenceUpdateIncoming, Ready,
-        RecentMentionDelete, RelationshipRemove, SavedMessageDelete, TypingStart, UserNoteUpdate,
-        UserPrivateResponse, VoiceServerUpdate, VoiceStateUpdate, WebhooksUpdate,
+        GuildEmojisUpdate, GuildMemberListUpdate, GuildMemberRemove, GuildMembersChunk,
+        GuildRoleCreate, GuildRoleDelete, GuildRoleUpdate, GuildRoleUpdateBulk,
+        GuildStickersUpdate, InviteDelete, MessageAck, MessageCreate, MessageDelete,
+        MessageDeleteBulk, MessageReactionAdd, MessageReactionRemove, MessageReactionRemoveAll,
+        MessageReactionRemoveEmoji, PresenceUpdateIncoming, Ready, RecentMentionDelete,
+        RelationshipRemove, SavedMessageDelete, TypingStart, UserNoteUpdate, UserPrivateResponse,
+        VoiceServerUpdate, VoiceStateUpdate, WebhooksUpdate,
     },
     guild::{Guild, member::GuildMember},
     id::{Id, marker::ChannelMarker},
@@ -107,6 +108,7 @@ pub enum DispatchEvent {
     // Source: https://github.com/fluxerapp/fluxer/blob/ee1f27fe1a372b5291aead8042944afd706bf5db/fluxer_app/src/stores/gateway/handlers/guild/GuildMembersChunk.tsx#L45
     /// Sent in response to `RequestGuildMembers`.
     GuildMembersChunk(GuildMembersChunk),
+    GuildMemberListUpdate(GuildMemberListUpdate),
 }
 
 #[derive(Deserialize, Clone, Debug)]

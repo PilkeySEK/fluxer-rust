@@ -407,6 +407,7 @@ impl From<CachedMessageBase> for MessageBase {
 pub struct CachedGuildMember {
     pub accent_color: Option<HexColor32>,
     pub avatar: Option<ImageHash>,
+    pub banner: Option<ImageHash>,
     /// Timestamp until which the member is timed out.
     pub communication_disabled_until: Option<Timestamp<Iso8601>>,
     pub deaf: bool,
@@ -424,6 +425,7 @@ impl CachedGuildMember {
         Self {
             accent_color: guild_member.accent_color,
             avatar: guild_member.avatar,
+            banner: guild_member.banner,
             communication_disabled_until: guild_member.communication_disabled_until,
             deaf: guild_member.deaf,
             joined_at: guild_member.joined_at,
@@ -442,6 +444,7 @@ impl From<CachedGuildMember> for GuildMember {
         Self {
             accent_color: value.accent_color,
             avatar: value.avatar,
+            banner: value.banner,
             communication_disabled_until: value.communication_disabled_until,
             deaf: value.deaf,
             joined_at: value.joined_at,

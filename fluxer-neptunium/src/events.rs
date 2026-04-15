@@ -5,7 +5,8 @@ use bon::Builder;
 use neptunium_cache_inmemory::{
     Cached, CachedChannel, CachedMessage,
     gateway::cached_payload::{
-        CachedGuildCreate, CachedGuildRoleUpdateBulk, CachedMessageCreate, CachedReady,
+        CachedGuildCreate, CachedGuildMemberListUpdate, CachedGuildRoleUpdateBulk,
+        CachedMessageCreate, CachedReady,
     },
 };
 use neptunium_model::{
@@ -446,6 +447,13 @@ pub trait EventHandler: Send {
         &self,
         ctx: Context,
         data: Arc<GuildMembersChunk>,
+    ) -> Result<(), EventError> {
+        Ok(())
+    }
+    async fn on_guild_member_list_update(
+        &self,
+        ctx: Context,
+        data: Arc<CachedGuildMemberListUpdate>,
     ) -> Result<(), EventError> {
         Ok(())
     }

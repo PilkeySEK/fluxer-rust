@@ -27,8 +27,8 @@ use neptunium_model::{
 use crate::{
     Cache, CacheValue, Cached, CachedChannel, CachedMessage,
     gateway::cached_payload::{
-        CachedGuildCreate, CachedGuildRoleUpdateBulk, CachedMessageCreate, CachedPayload,
-        CachedReady,
+        CachedGuildCreate, CachedGuildMemberListUpdate, CachedGuildRoleUpdateBulk,
+        CachedMessageCreate, CachedPayload, CachedReady,
     },
 };
 
@@ -197,6 +197,11 @@ impl CachedDispatchEvent {
             DispatchEvent::GuildMembersChunk(payload) => {
                 CachedDispatchEvent::GuildMembersChunk(payload)
             }
+            DispatchEvent::GuildMemberListUpdate(payload) => {
+                CachedDispatchEvent::GuildMemberListUpdate(
+                    CachedGuildMemberListUpdate::cache_payload(payload, cache),
+                )
+            }
         }
     }
 }
@@ -282,4 +287,5 @@ pub enum CachedDispatchEvent {
     // TODO: Cache this when guild members are cached
     /// Sent in response to `RequestGuildMembers`.
     GuildMembersChunk(GuildMembersChunk),
+    GuildMemberListUpdate(CachedGuildMemberListUpdate),
 }

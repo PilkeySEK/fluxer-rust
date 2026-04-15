@@ -1,4 +1,4 @@
-use std::{fmt::Display, marker::PhantomData};
+use std::{fmt::Display, marker::PhantomData, num::ParseIntError};
 
 use serde::{
     Deserialize, Serialize,
@@ -159,5 +159,19 @@ impl<T: IdMarker> From<OffsetDateTime> for Id<T> {
             value: millis.cast_unsigned() << 22,
             _marker: PhantomData,
         }
+    }
+}
+
+impl<T: IdMarker> TryFrom<String> for Id<T> {
+    type Error = ParseIntError;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        Ok(Self::new(value.parse()?))
+    }
+}
+
+impl<T: IdMarker> TryFrom<&str> for Id<T> {
+    type Error = ParseIntError;
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        Ok(Self::new(value.parse()?))
     }
 }

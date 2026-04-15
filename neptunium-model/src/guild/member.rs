@@ -35,12 +35,16 @@ bitflags! {
 
 serde_bitflags! {GuildMemberProfileFlags, u32}
 
+// TODO: Probably seperate `GuildMemberData` from `GuildMemberResponse` at this point...
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GuildMember {
+    pub user: PartialUser,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub accent_color: Option<HexColor32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub avatar: Option<ImageHash>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub banner: Option<ImageHash>,
     /// Timestamp until which the member is timed out.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub communication_disabled_until: Option<Timestamp<Iso8601>>,
@@ -56,7 +60,6 @@ pub struct GuildMember {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub profile_flags: Option<GuildMemberProfileFlags>,
     pub roles: Vec<Id<RoleMarker>>,
-    pub user: PartialUser,
 }
 
 // I hate serde what even is this
