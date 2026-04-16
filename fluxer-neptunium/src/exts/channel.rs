@@ -3,8 +3,9 @@ use neptunium_cache_inmemory::{CachableEndpoint, Cached, CachedChannel, CachedMe
 use neptunium_http::endpoints::{
     channel::{
         AddUserToGroupDm, BulkDeleteMessages, CallEligibilityStatus, ChannelSettingsUpdates,
-        CreateMessage, CreateMessageBody, DeleteChannel, DeletePermissionOverwrite,
-        GetCallEligibilityStatus, GetChannel, IndicateTyping, ListChannelMessages,
+        ChannelSlowmodeInformation, CreateMessage, CreateMessageBody, DeleteChannel,
+        DeletePermissionOverwrite, GetCallEligibilityStatus, GetChannel,
+        GetChannelSlowmodeInformation, IndicateTyping, ListChannelMessages,
         ListChannelMessagesParams, ListRtcRegions, ListRtcRegionsResponseEntry,
         PermissionOverwriteUpdate, PinDirectMessageChannel, RemoveUserFromGroupDm,
         RingCallRecipients, SetPermissionOverwrite, StopRingingCallRecipients,
@@ -131,6 +132,12 @@ pub trait ChannelExt {
     async fn pin(&self, ctx: &Context) -> Result<(), Error>;
     /// Unpin this channel for the current user if it is a DM channel.
     async fn unpin(&self, ctx: &Context) -> Result<(), Error>;
+    /// Get slowmode information for this channel and the current user, including when the
+    /// current user may send the next message.
+    async fn get_slowmode_information(
+        &self,
+        ctx: &Context,
+    ) -> Result<ChannelSlowmodeInformation, Error>;
 }
 
 pub trait ChannelDataExt {
@@ -464,5 +471,17 @@ impl<T: ChannelTrait> ChannelExt for T {
             })
             .await?;
         Ok(())
+    }
+
+    async fn get_slowmode_information(
+        &self,
+        ctx: &Context,
+    ) -> Result<ChannelSlowmodeInformation, Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(GetChannelSlowmodeInformation {
+                channel_id: self.get_channel_id(),
+            })
+            .await?)
     }
 }
