@@ -8,7 +8,7 @@ use crate::{
 
 /// Bot tokens have `Bot ` prefix, user tokens do not.
 #[cfg(feature = "user_api")]
-#[derive(Copy, Clone, Debug, Default)]
+#[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
 pub enum TokenType {
     #[default]
     Bot,
@@ -20,7 +20,7 @@ pub struct HttpClient {
     pub(crate) api_base_url: String,
     pub(crate) token: zeroize::Zeroizing<String>,
     #[cfg(feature = "user_api")]
-    pub(crate) token_type: TokenType,
+    pub token_type: TokenType,
     pub(crate) reqwest_client: reqwest::Client,
     pub(crate) user_agent: String,
 }

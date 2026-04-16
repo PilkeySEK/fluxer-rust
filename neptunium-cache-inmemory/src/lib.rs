@@ -1,7 +1,6 @@
-use std::{
-    fmt::Debug,
-    sync::{Arc, atomic::AtomicBool},
-};
+#[cfg(feature = "user_api")]
+use std::sync::atomic::AtomicBool;
+use std::{fmt::Debug, sync::Arc};
 
 use arc_swap::ArcSwap;
 use atomic_once_cell::AtomicOnceCell;
@@ -53,6 +52,7 @@ pub struct Cache {
     pub invites: MokaCache<String, Cached<InviteWithMetadata>>,
     pub guilds: MokaCache<Id<GuildMarker>, Cached<Guild>>,
     /// `true` if the cached `guilds` are a complete list of all user guilds.
+    #[cfg(feature = "user_api")]
     pub guild_list_is_complete: AtomicBool,
     // TODO: Attach guild id
     pub roles: MokaCache<Id<RoleMarker>, Cached<GuildRole>>,
@@ -182,6 +182,7 @@ impl Cache {
             guild_member_profiles: MokaCache::new(config.guild_member_profiles),
             guild_members: MokaCache::new(config.guild_members),
             user_profile_data: MokaCache::new(config.user_profile_data),
+            #[cfg(feature = "user_api")]
             guild_list_is_complete: AtomicBool::new(false),
         }
     }

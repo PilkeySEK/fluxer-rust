@@ -13,18 +13,18 @@ use reqwest::Method;
 
 use crate::{endpoints::Endpoint, request::Request};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-pub enum RequestReactionType<'a> {
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub enum RequestReactionType {
     Custom {
         id: Id<EmojiMarker>,
         /// Name of the custom emoji.
-        name: Option<&'a str>,
+        name: Option<String>,
     },
     /// A unicode emoji, such as "🪑".
-    Unicode(&'a str),
+    Unicode(String),
 }
 
-impl Display for RequestReactionType<'_> {
+impl Display for RequestReactionType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Custom { id, name } => {
@@ -43,14 +43,14 @@ impl Display for RequestReactionType<'_> {
     }
 }
 
-#[derive(Builder, Copy, Clone, Debug)]
-pub struct ListReactions<'a> {
+#[derive(Builder, Clone, Debug)]
+pub struct ListReactions {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
-    pub emoji: &'a RequestReactionType<'a>,
+    pub emoji: RequestReactionType,
 }
 
-impl Endpoint for ListReactions<'_> {
+impl Endpoint for ListReactions {
     type Response = Vec<PartialUser>;
     fn into_request(self) -> crate::request::Request {
         Request::builder()
@@ -63,14 +63,14 @@ impl Endpoint for ListReactions<'_> {
     }
 }
 
-#[derive(Builder, Copy, Clone, Debug)]
-pub struct AddReaction<'a> {
+#[derive(Builder, Clone, Debug)]
+pub struct AddReaction {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
-    pub reaction: &'a RequestReactionType<'a>,
+    pub reaction: RequestReactionType,
 }
 
-impl Endpoint for AddReaction<'_> {
+impl Endpoint for AddReaction {
     type Response = ();
     fn into_request(self) -> Request {
         Request::builder()
@@ -84,14 +84,14 @@ impl Endpoint for AddReaction<'_> {
 }
 
 /// Delete the bot's own specified reaction from a message.
-#[derive(Builder, Copy, Clone, Debug)]
-pub struct DeleteOwnReaction<'a> {
+#[derive(Builder, Clone, Debug)]
+pub struct DeleteOwnReaction {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
-    pub reaction: &'a RequestReactionType<'a>,
+    pub reaction: RequestReactionType,
 }
 
-impl Endpoint for DeleteOwnReaction<'_> {
+impl Endpoint for DeleteOwnReaction {
     type Response = ();
 
     fn into_request(self) -> Request {
@@ -106,15 +106,15 @@ impl Endpoint for DeleteOwnReaction<'_> {
 }
 
 /// Delete one specified reaction from a user on a message.
-#[derive(Builder, Copy, Clone, Debug)]
-pub struct DeleteReaction<'a> {
+#[derive(Builder, Clone, Debug)]
+pub struct DeleteReaction {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
-    pub reaction: &'a RequestReactionType<'a>,
+    pub reaction: RequestReactionType,
     pub target: Id<UserMarker>,
 }
 
-impl Endpoint for DeleteReaction<'_> {
+impl Endpoint for DeleteReaction {
     type Response = ();
 
     fn into_request(self) -> Request {
@@ -129,14 +129,14 @@ impl Endpoint for DeleteReaction<'_> {
 }
 
 /// Delete all reactions of a specified emoji from a message.
-#[derive(Builder, Copy, Clone, Debug)]
-pub struct DeleteAllReactionsOfEmoji<'a> {
+#[derive(Builder, Clone, Debug)]
+pub struct DeleteAllReactionsOfEmoji {
     pub channel_id: Id<ChannelMarker>,
     pub message_id: Id<MessageMarker>,
-    pub reaction: &'a RequestReactionType<'a>,
+    pub reaction: RequestReactionType,
 }
 
-impl Endpoint for DeleteAllReactionsOfEmoji<'_> {
+impl Endpoint for DeleteAllReactionsOfEmoji {
     type Response = ();
 
     fn into_request(self) -> Request {

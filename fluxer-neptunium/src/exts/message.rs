@@ -38,26 +38,26 @@ pub trait MessageExt {
     async fn add_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error>;
 
     async fn delete_own_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error>;
 
     async fn delete_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
         target: Id<UserMarker>,
     ) -> Result<(), Error>;
 
     async fn delete_all_reactions_of_emoji(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error>;
 
     async fn delete_all_reactions(&self, ctx: &Context) -> Result<(), Error>;
@@ -135,7 +135,7 @@ impl MessageExt for Message {
     async fn add_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), crate::client::error::Error> {
         Ok(ctx
             .get_http_client()
@@ -143,7 +143,7 @@ impl MessageExt for Message {
                 AddReaction::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .build(),
             )
             .await?)
@@ -152,7 +152,7 @@ impl MessageExt for Message {
     async fn delete_own_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
@@ -160,7 +160,7 @@ impl MessageExt for Message {
                 DeleteOwnReaction::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .build(),
             )
             .await?)
@@ -169,7 +169,7 @@ impl MessageExt for Message {
     async fn delete_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
         target: Id<UserMarker>,
     ) -> Result<(), Error> {
         Ok(ctx
@@ -178,7 +178,7 @@ impl MessageExt for Message {
                 DeleteReaction::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .target(target)
                     .build(),
             )
@@ -188,7 +188,7 @@ impl MessageExt for Message {
     async fn delete_all_reactions_of_emoji(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
@@ -196,7 +196,7 @@ impl MessageExt for Message {
                 DeleteAllReactionsOfEmoji::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .build(),
             )
             .await?)
@@ -377,7 +377,7 @@ impl MessageExt for CachedMessage {
     async fn add_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), crate::client::error::Error> {
         Ok(ctx
             .get_http_client()
@@ -385,7 +385,7 @@ impl MessageExt for CachedMessage {
                 AddReaction::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .build(),
             )
             .await?)
@@ -394,7 +394,7 @@ impl MessageExt for CachedMessage {
     async fn delete_own_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
@@ -402,7 +402,7 @@ impl MessageExt for CachedMessage {
                 DeleteOwnReaction::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .build(),
             )
             .await?)
@@ -411,7 +411,7 @@ impl MessageExt for CachedMessage {
     async fn delete_reaction(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
         target: Id<UserMarker>,
     ) -> Result<(), Error> {
         Ok(ctx
@@ -420,7 +420,7 @@ impl MessageExt for CachedMessage {
                 DeleteReaction::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .target(target)
                     .build(),
             )
@@ -430,7 +430,7 @@ impl MessageExt for CachedMessage {
     async fn delete_all_reactions_of_emoji(
         &self,
         ctx: &Context,
-        reaction: impl Into<Reaction<'_>> + Send,
+        reaction: impl Into<Reaction> + Send,
     ) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
@@ -438,7 +438,7 @@ impl MessageExt for CachedMessage {
                 DeleteAllReactionsOfEmoji::builder()
                     .channel_id(self.channel_id)
                     .message_id(self.id)
-                    .reaction(&reaction.into())
+                    .reaction(reaction.into())
                     .build(),
             )
             .await?)

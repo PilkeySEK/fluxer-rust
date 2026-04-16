@@ -1,4 +1,4 @@
-use neptunium_model::time::duration::{Duration, Seconds};
+use neptunium_model::time::duration::{Duration, MillisF64};
 use serde::Deserialize;
 
 use crate::error::{error_code::ApiErrorCode, validation_error_code::ApiValidationErrorCode};
@@ -29,6 +29,6 @@ pub struct ApiRateLimitedResponse {
     /// Is always `RateLimited`.
     pub code: ApiErrorCode,
     pub message: String,
-    pub retry_after: Duration<Seconds>,
+    pub retry_after: Duration<MillisF64>,
     pub global: bool,
 }

@@ -1,8 +1,9 @@
-use std::sync::{Arc, atomic::Ordering};
+use std::sync::Arc;
 
 #[cfg(feature = "user_api")]
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::atomic::Ordering};
 
+#[cfg(feature = "user_api")]
 use mini_moka::sync::ConcurrentCacheExt;
 #[cfg(feature = "user_api")]
 use neptunium_http::endpoints::{
@@ -875,13 +876,19 @@ impl CachableEndpoint for ListCurrentUserGuilds {
         client: &Arc<HttpClient>,
         cache: &Arc<Cache>,
     ) -> Result<<Self as CachableEndpoint>::Response, Box<ExecuteEndpointRequestError>> {
-        if cache.guild_list_is_complete.load(Ordering::Acquire) {
+        #[cfg(feature = "user_api")]
+        use neptunium_http::client::TokenType;
+        #[cfg(feature = "user_api")]
+        if client.token_type == TokenType::User
+            && cache.guild_list_is_complete.load(Ordering::Acquire)
+        {
             return Ok(cache
                 .guilds
                 .iter()
                 .map(|entry_ref| entry_ref.value().clone())
                 .collect());
         }
+        #[cfg(feature = "user_api")]
         let is_max_amount = self
             .params
             .limit
@@ -891,7 +898,8 @@ impl CachableEndpoint for ListCurrentUserGuilds {
             .into_iter()
             .map(|guild| guild.insert_and_return(cache))
             .collect::<Vec<Cached<Guild>>>();
-        if is_max_amount || {
+        #[cfg(feature = "user_api")]
+        if client.token_type == TokenType::User && is_max_amount || {
             cache.guilds.sync();
             cache.guilds.entry_count() == USER_MAX_GUILDS as u64
         } {

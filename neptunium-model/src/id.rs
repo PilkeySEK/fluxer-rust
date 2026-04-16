@@ -106,21 +106,21 @@ impl<T: IdMarker> Id<T> {
     pub fn try_get_timestamp(self) -> Result<OffsetDateTime, time::error::ComponentRange> {
         OffsetDateTime::from_unix_timestamp_nanos(i128::from(self.get_timestamp_raw()) * 1_000_000)
     }
-    
+
     /// Get the worker ID of this snowflake. Due to it being 5 bits, it is
     /// represented as a `u8` here.
     #[must_use]
     pub fn get_worker_id(self) -> u8 {
         ((self.value & 0x3e_0000) >> 17) as u8
     }
-    
+
     /// Get the process ID of this snowflake. Due to it being 5 bits, it is
     /// represented as a `u8` here.
     #[must_use]
     pub fn get_process_id(self) -> u8 {
         ((self.value & 0x1f000) >> 12) as u8
     }
-    
+
     /// Get the "increment" of this snowflake. For every ID that is generated on a specific process,
     /// this number is incremented. Due to it being 12 bits, it is
     /// represented as a `u16` here.
