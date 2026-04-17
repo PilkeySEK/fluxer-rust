@@ -1,3 +1,4 @@
+use neptunium_model::time::duration::{Duration, Millis};
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
 
@@ -111,9 +112,12 @@ pub struct InstanceDiscoveryDocumentAppPublic {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct InstanceDiscoveryDocumentGateway {
-    pub session_retry_min_ms: u64,
-    pub session_retry_max_ms: u64,
-    pub session_retry_jitter_ms: u64,
+    #[serde(rename = "session_retry_min_ms")]
+    pub session_retry_min: Duration<Millis>,
+    #[serde(rename = "session_retry_max_ms")]
+    pub session_retry_max: Duration<Millis>,
+    #[serde(rename = "session_retry_jitter_ms")]
+    pub session_retry_jitter: Duration<Millis>,
 }
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct InstanceDiscoveryDocumentFederationConfig {
