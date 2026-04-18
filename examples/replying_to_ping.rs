@@ -1,4 +1,4 @@
-use std::{env, sync::Arc, time::Duration};
+use std::{env, sync::Arc};
 
 use fluxer_neptunium::{
     cached_payload::CachedMessageCreate,
@@ -35,9 +35,6 @@ async fn main() {
     let mut client = Client::new_with_config(
         token,
         ClientConfig::builder()
-            // Convenience when testing reconnecting (e.g. by turning off internet and back on),
-            // will make the reconnection process faster
-            .auto_reconnect_wait_time(Duration::from_secs(5))
             .initial_presence(
                 PresenceUpdateOutgoing::builder()
                     .custom_status(CustomStatus::builder().text("Fluxin' it").build())

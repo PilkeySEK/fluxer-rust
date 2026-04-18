@@ -77,7 +77,6 @@ pub struct Client {
     always_propagate_event_errors: bool,
     resume_info: Option<ResumeInfo>,
     auto_reconnect: bool,
-    auto_reconnect_wait_time: Duration,
     guild_members_chunk_listeners: HashMap<String, UnboundedSender<GuildMembersChunk>>,
     expecting_heartbeat_ack: bool,
     expecting_heartbeat_ack_second_chance: bool,
@@ -85,6 +84,7 @@ pub struct Client {
     connection_process_timeout: Duration,
     identify_presence: Option<PresenceUpdateOutgoing>,
     send_identify_presence_on_reconnect: bool,
+    gateway_retry_wait_time_fn: Box<dyn Fn(usize) -> Duration>,
 }
 
 impl Deref for Client {
@@ -153,7 +153,6 @@ impl Client {
             always_propagate_event_errors: client_config.always_propagate_event_errors,
             resume_info: None,
             auto_reconnect: client_config.auto_reconnect,
-            auto_reconnect_wait_time: client_config.auto_reconnect_wait_time,
             guild_members_chunk_listeners: HashMap::new(),
             expecting_heartbeat_ack: false,
             expecting_heartbeat_ack_second_chance: false,
@@ -162,6 +161,7 @@ impl Client {
             identify_presence: client_config.initial_presence,
             send_identify_presence_on_reconnect: client_config
                 .send_initial_presence_on_every_reconnect,
+            gateway_retry_wait_time_fn: client_config.gateway_retry_wait_time_fn,
         }
     }
 
@@ -184,10 +184,17 @@ impl Client {
     /// Returns an error if unexpected data is received, or if a network error occurs.
     pub async fn start(&mut self) -> Result<(), self::error::Error> {
         let mut is_reconnect = false;
+        let mut num_tries = 0;
         loop {
+            let (got_past_connecting_tx, got_past_connecting_rx) = oneshot::channel();
             // Using Box::pin to avoid potentially causing a stack overflow by having a large future
             // (clippy lint large_futures)
-            let result = Box::pin(self.inner_start(is_reconnect)).await;
+            let result = Box::pin(self.inner_start(is_reconnect, got_past_connecting_tx)).await;
+            if got_past_connecting_rx.await.is_ok() {
+                num_tries = 0;
+            } else {
+                num_tries += 1;
+            }
             is_reconnect = true;
             let (tx, rx) = unbounded_channel();
             self.tx = tx;
@@ -208,10 +215,11 @@ impl Client {
                 }
                 Err(e) => e,
             };
+            let reconnect_wait_time = (self.gateway_retry_wait_time_fn)(num_tries);
             if was_currently_resuming && let ClientErrorKind::SessionInvalidated = error.kind() {
                 tracing::debug!(
                     "Session was not resumable. Immediately restarting client instead of waiting {} seconds.",
-                    self.auto_reconnect_wait_time.as_secs()
+                    reconnect_wait_time.as_secs()
                 );
                 continue;
             }
@@ -227,9 +235,9 @@ impl Client {
                 tracing::warn!("Client error: {error}");
                 tracing::info!(
                     "Reconnecting in {} seconds because auto-reconnect is enabled.",
-                    self.auto_reconnect_wait_time.as_secs()
+                    reconnect_wait_time.as_secs()
                 );
-                tokio::time::sleep(self.auto_reconnect_wait_time).await;
+                tokio::time::sleep(reconnect_wait_time).await;
                 continue;
             }
             tracing::debug!("Client error occured and auto-reconnect is disabled. Exiting.");
@@ -238,7 +246,11 @@ impl Client {
     }
 
     #[expect(clippy::too_many_lines)]
-    async fn inner_start(&mut self, is_reconnect: bool) -> Result<(), self::error::Error> {
+    async fn inner_start(
+        &mut self,
+        is_reconnect: bool,
+        got_past_connecting_tx: oneshot::Sender<()>,
+    ) -> Result<(), self::error::Error> {
         tracing::debug!("Starting client...");
         let heartbeat_interval =
             // Box::pin to prevent large future on the stack
@@ -259,6 +271,7 @@ impl Client {
                     )));
                 }
             };
+        let _ = got_past_connecting_tx.send(());
 
         loop {
             tokio::select! {
