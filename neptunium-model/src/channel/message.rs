@@ -117,6 +117,9 @@ pub struct MessageBase {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub call: Option<MessageCall>,
     pub channel_id: Id<ChannelMarker>,
+    /// If no content is present on the message (which is rare, but it can happen),
+    /// then the content is set to `""`.
+    #[serde(default = "String::new")]
     pub content: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub edited_timestamp: Option<Timestamp<Iso8601>>,
