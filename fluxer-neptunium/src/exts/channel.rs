@@ -3,9 +3,10 @@ use neptunium_cache_inmemory::{CachableEndpoint, Cached, CachedChannel, CachedMe
 use neptunium_http::endpoints::{
     channel::{
         AddUserToGroupDm, BulkDeleteMessages, CallEligibilityStatus, ChannelSettingsUpdates,
-        ChannelSlowmodeInformation, CreateMessage, CreateMessageBody, DeleteChannel,
-        DeletePermissionOverwrite, GetCallEligibilityStatus, GetChannel,
-        GetChannelSlowmodeInformation, IndicateTyping, ListChannelMessages,
+        ChannelSlowmodeInformation, CreateAttachmentsInChannel,
+        CreateAttachmentsInChannelAttachment, CreateAttachmentsInChannelResponse, CreateMessage,
+        CreateMessageBody, DeleteChannel, DeletePermissionOverwrite, GetCallEligibilityStatus,
+        GetChannel, GetChannelSlowmodeInformation, IndicateTyping, ListChannelMessages,
         ListChannelMessagesParams, ListRtcRegions, ListRtcRegionsResponseEntry,
         PermissionOverwriteUpdate, PinDirectMessageChannel, RemoveUserFromGroupDm,
         RingCallRecipients, SetPermissionOverwrite, StopRingingCallRecipients,
@@ -138,6 +139,11 @@ pub trait ChannelExt {
         &self,
         ctx: &Context,
     ) -> Result<ChannelSlowmodeInformation, Error>;
+    async fn create_attachments(
+        &self,
+        ctx: &Context,
+        attachments: Vec<CreateAttachmentsInChannelAttachment>,
+    ) -> Result<CreateAttachmentsInChannelResponse, Error>;
 }
 
 pub trait ChannelDataExt {
@@ -481,6 +487,20 @@ impl<T: ChannelTrait> ChannelExt for T {
             .get_http_client()
             .execute(GetChannelSlowmodeInformation {
                 channel_id: self.get_channel_id(),
+            })
+            .await?)
+    }
+
+    async fn create_attachments(
+        &self,
+        ctx: &Context,
+        attachments: Vec<CreateAttachmentsInChannelAttachment>,
+    ) -> Result<CreateAttachmentsInChannelResponse, Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(CreateAttachmentsInChannel {
+                channel_id: self.get_channel_id(),
+                attachments,
             })
             .await?)
     }

@@ -3,7 +3,6 @@ use std::ops::{Deref, DerefMut};
 use bon::Builder;
 use neptunium_model::{
     channel::message::attachment::MessageAttachmentFlags,
-    id::{Id, marker::GenericMarker},
     time::duration::{Duration, Seconds},
 };
 use serde::Serialize;
@@ -30,9 +29,17 @@ pub struct AttachmentBase {
 pub struct AttachmentRequest {
     #[serde(flatten)]
     pub base: AttachmentBase,
-    pub id: Id<GenericMarker>,
+    pub id: u64,
     /// The name of the file being uploaded (1-255 characters).
     pub filename: String,
+    /// Set this when this attachment is a file that was previously uploaded.
+    #[builder(into)]
+    pub upload_filename: Option<String>,
+    /// Set this when this attachment is a file that was previously uploaded.
+    pub file_size: Option<usize>,
+    /// Use "application/octet-stream" for regular files.
+    #[builder(into)]
+    pub content_type: Option<String>,
 }
 
 impl Deref for AttachmentRequest {

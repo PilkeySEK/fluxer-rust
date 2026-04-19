@@ -2,7 +2,7 @@
 use crate::endpoints::MethodExt;
 #[cfg(feature = "rate-limiting")]
 use crate::ratelimiting::RateLimiter;
-use reqwest::StatusCode;
+use reqwest::{IntoUrl, Method, StatusCode};
 use serde_json::Deserializer;
 
 use crate::{
@@ -216,5 +216,31 @@ impl HttpClient {
                 }
             }
         }
+    }
+
+    /// Upload a file using the S3 API.
+    ///
+    /// # Errors
+    /// Returns an error if executing the request fails or the response status is not a success response.
+    pub async fn upload_file_s3(
+        &self,
+        url: impl IntoUrl,
+        file_bytes: Vec<u8>,
+    ) -> Result<(), Box<ExecuteEndpointRequestError>> {
+        let response = self
+            .reqwest_client
+            .request(Method::PUT, url)
+            .body(file_bytes)
+            // TODO: Is this header needed?
+            .header("Content-Type", "application/octet-stream")
+            .send()
+            .await?;
+
+        if !response.status().is_success() {
+            return Err(Box::new(ExecuteEndpointRequestError::ResponseNotOk(
+                response,
+            )));
+        }
+        Ok(())
     }
 }

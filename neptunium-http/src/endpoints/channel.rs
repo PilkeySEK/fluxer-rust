@@ -3,6 +3,7 @@ mod acknowledge_new_pin_notifications;
 mod add_user_to_group_dm;
 #[cfg(feature = "user_api")]
 mod clear_channel_read_state;
+mod create_attachment;
 mod create_private_channel;
 mod delete_channel;
 mod delete_permission_overwrite;
@@ -35,6 +36,7 @@ pub use acknowledge_new_pin_notifications::*;
 pub use add_user_to_group_dm::*;
 #[cfg(feature = "user_api")]
 pub use clear_channel_read_state::*;
+pub use create_attachment::*;
 pub use create_private_channel::*;
 pub use delete_channel::*;
 pub use delete_permission_overwrite::*;

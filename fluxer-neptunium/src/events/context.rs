@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 
+use bon::Builder;
 #[cfg(feature = "user_api")]
 use neptunium_cache_inmemory::CachedMessage;
 use neptunium_cache_inmemory::{CachableEndpoint, Cached, CachedChannel};
@@ -27,7 +28,10 @@ use neptunium_http::endpoints::{
 use neptunium_http::{
     client::HttpClient,
     endpoints::{
-        channel::{CreatePrivateChannel, ListPrivateChannels},
+        channel::{
+            AttachmentBase, AttachmentRequest, CreateAttachmentsInChannel,
+            CreateAttachmentsInChannelAttachment, CreatePrivateChannel, ListPrivateChannels,
+        },
         gateway::{GatewayInformation, GetGatewayInformation},
         guild::{ListCurrentUserGuilds, ListCurrentUserGuildsParams},
         users::GetCurrentUserProfile,
@@ -81,12 +85,78 @@ pub struct Context {
     pub(crate) cache: Arc<neptunium_cache_inmemory::Cache>,
 }
 
+#[derive(Builder, Clone, Debug)]
+pub struct FileUploadParams {
+    #[builder(default = 0)]
+    pub id: u64,
+    #[builder(into)]
+    pub filename: String,
+    pub file_data: Vec<u8>,
+    #[builder(into)]
+    pub content_type: Option<String>,
+    #[builder(default = AttachmentBase::builder().build())]
+    pub attachment: AttachmentBase,
+}
+
 // TODO: Add errors docs
 #[expect(clippy::missing_errors_doc)]
 impl Context {
     #[must_use]
     pub fn get_http_client(&self) -> &Arc<HttpClient> {
         &self.http_client
+    }
+
+    pub async fn upload_files(
+        &self,
+        channel_id: Id<ChannelMarker>,
+        params: Vec<FileUploadParams>,
+    ) -> Result<Vec<AttachmentRequest>, Error> {
+        let mut attachment_data = Vec::with_capacity(params.len());
+        let attachments = params
+            .into_iter()
+            .map(|params| {
+                let result = CreateAttachmentsInChannelAttachment {
+                    id: params.id,
+                    filename: params.filename,
+                    file_size: params.file_data.len(),
+                    content_type: params
+                        .content_type
+                        .unwrap_or_else(|| "application/octet-stream".to_owned()),
+                };
+                attachment_data.push((params.file_data, params.attachment));
+                result
+            })
+            .collect::<Vec<CreateAttachmentsInChannelAttachment>>();
+
+        let attachment_results = self
+            .http_client
+            .execute(CreateAttachmentsInChannel {
+                attachments,
+                channel_id,
+            })
+            .await?;
+
+        let mut attachment_requests = Vec::with_capacity(attachment_results.attachments.len());
+
+        for (attachment_result, attachment_data) in attachment_results
+            .attachments
+            .into_iter()
+            .zip(attachment_data.into_iter())
+        {
+            self.http_client
+                .upload_file_s3(attachment_result.upload_url, attachment_data.0)
+                .await?;
+            attachment_requests.push(AttachmentRequest {
+                base: attachment_data.1,
+                content_type: Some(attachment_result.content_type),
+                file_size: Some(attachment_result.file_size),
+                filename: attachment_result.filename,
+                id: attachment_result.id,
+                upload_filename: Some(attachment_result.upload_filename),
+            });
+        }
+
+        Ok(attachment_requests)
     }
 
     /// Measure the gateway latency by sending a heartbeat and waiting for the response, with

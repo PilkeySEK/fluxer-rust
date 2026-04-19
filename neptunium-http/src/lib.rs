@@ -17,6 +17,7 @@ pub mod client;
 pub mod common_types;
 pub mod endpoints;
 pub mod error;
+pub mod file_upload;
 #[cfg(feature = "rate-limiting")]
 mod ratelimiting;
 pub mod request;

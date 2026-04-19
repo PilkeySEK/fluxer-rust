@@ -21,3 +21,7 @@ path = "user_bot.rs"
 [[example]]
 name = "test-rate-limiting"
 path = "test_rate_limiting.rs"
+
+[[example]]
+name = "file-upload"
+path = "file_upload.rs"
