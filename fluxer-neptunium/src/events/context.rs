@@ -159,6 +159,19 @@ impl Context {
         Ok(attachment_requests)
     }
 
+    pub async fn upload_file(
+        &self,
+        channel_id: Id<ChannelMarker>,
+        params: FileUploadParams,
+    ) -> Result<AttachmentRequest, Error> {
+        let files = self.upload_files(channel_id, vec![params]).await?;
+        Ok(match files.into_iter().next() {
+            Some(file) => file,
+            // Should never happen
+            None => return Err(Error::new(ClientErrorKind::UnexpectedDataReceived)),
+        })
+    }
+
     /// Measure the gateway latency by sending a heartbeat and waiting for the response, with
     /// millisecond precision.
     /// Returns `None` if the client has exited or the measurement timed out.
