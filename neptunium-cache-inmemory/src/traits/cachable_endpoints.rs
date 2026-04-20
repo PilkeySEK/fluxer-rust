@@ -8,7 +8,7 @@ use mini_moka::sync::ConcurrentCacheExt;
 #[cfg(feature = "user_api")]
 use neptunium_http::endpoints::{
     channel::PreloadMessagesForChannels,
-    guild::{CreateGuild, DeleteGuild, TransferGuildOwnership, UpdateCurrentUserGuildMember},
+    guild::{CreateGuild, DeleteGuild, TransferGuildOwnership},
     users::{
         GetUserSettings, ListCurrentUserMentions, UpdateCurrentUserProfile, UpdateUserSettings,
     },
@@ -35,8 +35,8 @@ use neptunium_http::{
             CreateGuildChannel, CreateGuildRole, DeleteGuildRole, GetCurrentUserGuildMember,
             GetGuildInformation, GetGuildMember, LeaveGuild, ListCurrentUserGuilds,
             ListGuildChannels, ListGuildMembers, ListGuildRoles, ToggleDetachedBanner,
-            ToggleGuildTextChannelFlexibleNames, UpdateGuildMember, UpdateGuildRole,
-            UpdateGuildRoleHoistPositions, UpdateGuildRoleHoistPositionsEntry,
+            ToggleGuildTextChannelFlexibleNames, UpdateCurrentUserGuildMember, UpdateGuildMember,
+            UpdateGuildRole, UpdateGuildRoleHoistPositions, UpdateGuildRoleHoistPositionsEntry,
             UpdateGuildRolePositions, UpdateGuildRolePositionsEntry, UpdateGuildVanityUrl,
             UpdateGuildVanityUrlResponse,
         },
@@ -972,7 +972,6 @@ impl CachableEndpoint for GetCurrentUserGuildMember {
     }
 }
 
-#[cfg(feature = "user_api")]
 #[async_trait]
 impl CachableEndpoint for UpdateCurrentUserGuildMember {
     type Response = Cached<CachedGuildMember>;

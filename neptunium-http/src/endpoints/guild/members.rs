@@ -8,7 +8,6 @@ mod remove_role_from_member;
 #[cfg(feature = "user_api")]
 mod search_guild_members;
 mod unban_guild_member;
-#[cfg(feature = "user_api")]
 mod update_current_user_guild_member;
 mod update_guild_member;
 
@@ -22,6 +21,5 @@ pub use remove_role_from_member::*;
 #[cfg(feature = "user_api")]
 pub use search_guild_members::*;
 pub use unban_guild_member::*;
-#[cfg(feature = "user_api")]
 pub use update_current_user_guild_member::*;
 pub use update_guild_member::*;
