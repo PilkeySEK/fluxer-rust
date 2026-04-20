@@ -49,11 +49,40 @@ pub struct CreateMessageBody {
     pub tts: bool,
 }
 
-impl<T: Into<String>> From<T> for CreateMessageBody {
-    fn from(value: T) -> Self {
+impl From<String> for CreateMessageBody {
+    fn from(value: String) -> Self {
         Self {
-            content: Some(value.into()),
+            content: Some(value),
             embeds: vec![],
+            attachments: vec![],
+            message_reference: None,
+            allowed_mentions: None,
+            flags: MessageFlags::empty(),
+            nonce: Nonce::generate(),
+            favorite_meme_id: None,
+            sticker_ids: None,
+            tts: false,
+        }
+    }
+}
+
+impl From<&str> for CreateMessageBody {
+    fn from(value: &str) -> Self {
+        Self::from(value.to_string())
+    }
+}
+
+impl From<MessageEmbed> for CreateMessageBody {
+    fn from(value: MessageEmbed) -> Self {
+        Self::from(vec![value])
+    }
+}
+
+impl From<Vec<MessageEmbed>> for CreateMessageBody {
+    fn from(value: Vec<MessageEmbed>) -> Self {
+        Self {
+            content: None,
+            embeds: value,
             attachments: vec![],
             message_reference: None,
             allowed_mentions: None,
