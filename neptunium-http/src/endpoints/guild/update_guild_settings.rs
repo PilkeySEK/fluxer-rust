@@ -12,7 +12,6 @@ use neptunium_model::{
         Id,
         marker::{ChannelMarker, GuildMarker},
     },
-    misc::ImageHash,
     time::timestamp::{Timestamp, representations::Iso8601},
 };
 use reqwest::Method;
@@ -26,7 +25,7 @@ pub struct UpdateGuildSettingsBody {
     pub name: Option<String>,
     /// Hash of the guild icon
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub icon: Option<ImageHash>,
+    pub icon: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub system_channel_id: Option<Id<ChannelMarker>>,
     #[serde(skip_serializing_if = "Option::is_none")]

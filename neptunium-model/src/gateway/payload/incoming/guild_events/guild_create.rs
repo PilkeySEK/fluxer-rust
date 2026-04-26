@@ -16,7 +16,6 @@ use crate::{
         Id,
         marker::{ChannelMarker, GuildMarker, UserMarker},
     },
-    misc::ImageHash,
     time::{
         duration::{Duration, Seconds},
         timestamp::{Timestamp, representations::Iso8601},
@@ -27,19 +26,19 @@ use crate::{
 pub struct GuildProperties {
     pub afk_channel_id: Option<Id<ChannelMarker>>,
     pub afk_timeout: Duration<Seconds>,
-    pub banner: Option<ImageHash>,
+    pub banner: Option<String>,
     pub banner_height: Option<u32>,
     pub banner_width: Option<u32>,
     pub default_message_notifications: DefaultMessageNotifications,
     pub disabled_operations: GuildOperations,
     /// Base64-encoded image data for the embedded invite splash.
-    pub embed_splash: Option<ImageHash>,
+    pub embed_splash: Option<String>,
     pub embed_splash_height: Option<u32>,
     pub embed_splash_width: Option<u32>,
     pub explicit_content_filter: GuildExplicitContentFilter,
     pub features: Vec<GuildFeatureFlag>,
     /// Hash of the guild icon
-    pub icon: Option<ImageHash>,
+    pub icon: Option<String>,
     pub id: Id<GuildMarker>,
     pub message_history_cutoff: Option<Timestamp<Iso8601>>,
     pub mfa_level: GuildMfaLevel,
@@ -50,7 +49,7 @@ pub struct GuildProperties {
     pub permissions: Option<String>,
     pub rules_channel_id: Option<Id<ChannelMarker>>,
     /// Base64-encoded image data for the guild splash screen.
-    pub splash: Option<ImageHash>,
+    pub splash: Option<String>,
     pub splash_card_alignment: SplashCardAlignment,
     pub splash_height: Option<u32>,
     pub splash_width: Option<u32>,

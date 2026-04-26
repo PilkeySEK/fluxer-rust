@@ -7,7 +7,7 @@ use crate::{
         Id,
         marker::{ChannelMarker, GuildMarker, UserMarker, WebhookMarker},
     },
-    misc::{HexColor32, ImageHash},
+    misc::HexColor32,
     user::flags::PublicUserFlags,
 };
 
@@ -17,7 +17,7 @@ pub struct WebhookUser {
     pub username: String,
     pub discriminator: String,
     pub global_name: Option<String>,
-    pub avatar: Option<ImageHash>,
+    pub avatar: Option<String>,
     pub avatar_color: Option<HexColor32>,
     pub flags: PublicUserFlags,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -36,7 +36,7 @@ pub struct Webhook {
     pub token: Zeroizing<String>,
     pub user: WebhookUser,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub avatar: Option<ImageHash>,
+    pub avatar: Option<String>,
 }
 
 #[derive(Serialize_repr, Deserialize_repr, Copy, Clone, Debug, PartialEq, Eq)]
@@ -57,5 +57,5 @@ pub struct AuditLogWebhook {
     /// The display name.
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub avatar_hash: Option<ImageHash>,
+    pub avatar_hash: Option<String>,
 }

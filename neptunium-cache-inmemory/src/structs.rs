@@ -19,7 +19,7 @@ use neptunium_model::{
             ChannelMarker, GuildMarker, MessageMarker, RoleMarker, UserMarker, WebhookMarker,
         },
     },
-    misc::{HexColor32, ImageHash},
+    misc::HexColor32,
     time::timestamp::{Timestamp, representations::Iso8601},
     user::{PartialUser, UserExternalAccountConnection, UserProfileData},
 };
@@ -404,8 +404,8 @@ impl From<CachedMessageBase> for MessageBase {
 
 pub struct CachedGuildMember {
     pub accent_color: Option<HexColor32>,
-    pub avatar: Option<ImageHash>,
-    pub banner: Option<ImageHash>,
+    pub avatar: Option<String>,
+    pub banner: Option<String>,
     /// Timestamp until which the member is timed out.
     pub communication_disabled_until: Option<Timestamp<Iso8601>>,
     pub deaf: bool,

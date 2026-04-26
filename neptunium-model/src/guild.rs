@@ -13,7 +13,6 @@ use crate::{
         Id,
         marker::{ChannelMarker, GuildMarker, UserMarker},
     },
-    misc::ImageHash,
     time::{
         duration::{Duration, Seconds},
         timestamp::{Timestamp, representations::Iso8601},
@@ -35,18 +34,18 @@ pub struct Guild {
     pub id: Id<GuildMarker>,
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub icon: Option<ImageHash>,
+    pub icon: Option<String>,
     // TODO: Maybe make a separate `GuildBannerInformation` struct
     // so that the types are nicer.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub banner: Option<ImageHash>,
+    pub banner: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub banner_width: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub banner_height: Option<u32>,
     // TODO: Maybe a GuildSplashInformation struct here too.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub splash: Option<ImageHash>,
+    pub splash: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub splash_width: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -54,7 +53,7 @@ pub struct Guild {
     pub splash_card_alignment: SplashCardAlignment,
     // TODO: Nicer types here too maybe
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub embed_splash: Option<ImageHash>,
+    pub embed_splash: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub embed_splash_width: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -89,18 +88,18 @@ pub struct PartialGuild {
     pub id: Id<GuildMarker>,
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub icon: Option<ImageHash>,
+    pub icon: Option<String>,
     // TODO: Maybe make a separate `GuildBannerInformation` struct
     // so that the types are nicer.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub banner: Option<ImageHash>,
+    pub banner: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub banner_width: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub banner_height: Option<u32>,
     // TODO: Maybe a GuildSplashInformation struct here too.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub splash: Option<ImageHash>,
+    pub splash: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub splash_width: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -108,7 +107,7 @@ pub struct PartialGuild {
     pub splash_card_alignment: SplashCardAlignment,
     // TODO: Nicer types here too maybe
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub embed_splash: Option<ImageHash>,
+    pub embed_splash: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub embed_splash_width: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]

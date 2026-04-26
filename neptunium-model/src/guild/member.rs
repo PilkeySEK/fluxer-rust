@@ -4,7 +4,7 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 
 use crate::{
     id::{Id, marker::RoleMarker},
-    misc::{HexColor32, ImageHash, serde_bitflags},
+    misc::{HexColor32, serde_bitflags},
     time::timestamp::{Timestamp, representations::Iso8601},
     user::PartialUser,
 };
@@ -42,9 +42,9 @@ pub struct GuildMember {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub accent_color: Option<HexColor32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub avatar: Option<ImageHash>,
+    pub avatar: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub banner: Option<ImageHash>,
+    pub banner: Option<String>,
     /// Timestamp until which the member is timed out.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub communication_disabled_until: Option<Timestamp<Iso8601>>,
@@ -71,6 +71,6 @@ fn boolean_false() -> bool {
 pub struct GuildMemberProfile {
     pub bio: Option<String>,
     pub pronouns: Option<String>,
-    pub banner: Option<ImageHash>,
+    pub banner: Option<String>,
     pub accent_color: Option<HexColor32>,
 }

@@ -1,10 +1,7 @@
 use bon::Builder;
-use neptunium_model::{
-    id::{
-        Id,
-        marker::{ChannelMarker, GuildMarker, WebhookMarker},
-    },
-    misc::ImageHash,
+use neptunium_model::id::{
+    Id,
+    marker::{ChannelMarker, GuildMarker, WebhookMarker},
 };
 use reqwest::Method;
 use serde::Deserialize;
@@ -29,7 +26,7 @@ pub struct GetWebhookWithTokenResponse {
     pub name: String,
     pub token: Zeroizing<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub avatar: Option<ImageHash>,
+    pub avatar: Option<String>,
 }
 
 impl Endpoint for GetWebhookWithToken {
