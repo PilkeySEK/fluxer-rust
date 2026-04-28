@@ -32,21 +32,23 @@ impl Emoji {
     ///
     /// # Examples
     /// ```
-    /// # use crate::{guild::emoji::Emoji, id::Id};
+    /// # use neptunium_model::{guild::Emoji, id::Id};
     /// # fn main() {
     /// let default_emoji = "🪑";
     /// let custom_emoji = "<a:happyghost:1431008660295635538>";
-    /// let invalid_emoji = "abcdefg";
     ///
-    /// assert_eq!(Emoji::parse(default_emoji), Some(
-    ///     Emoji::Default(default_emoji.to_string())
+    /// assert_eq!(
+    ///     Emoji::parse(default_emoji),
+    ///     Some(Emoji::Default(default_emoji.to_string()))
     /// );
-    /// assert_eq!(Emoji::parse(custom_emoji), Some(Emoji::Custom {
-    ///     name: "happyghost".to_string(),
-    ///     id: Id::new(1431008660295635538),
-    ///     animated: true,
-    /// }));
-    /// assert_eq!(Emoji::parse(invalid_emoji), None);
+    /// assert_eq!(
+    ///     Emoji::parse(custom_emoji),
+    ///     Some(Emoji::Custom {
+    ///         name: "happyghost".to_string(),
+    ///         id: Id::new(1431008660295635538),
+    ///         animated: true,
+    ///     })
+    /// );
     /// # }
     /// ```
     #[must_use]
@@ -68,8 +70,8 @@ impl Emoji {
                         animated: true,
                     })
                 }
-            } else {
-                let name = first_part;
+            } else if first_part.is_empty() {
+                let name = parts.next()?;
                 let id = Id::try_from(parts.next()?).ok()?;
                 if parts.next().is_some() {
                     None
@@ -80,6 +82,8 @@ impl Emoji {
                         animated: false,
                     })
                 }
+            } else {
+                None
             }
         } else {
             Some(Self::Default(input.to_owned()))
@@ -160,5 +164,43 @@ impl From<String> for Emoji {
     /// The value should be a unicode emoji.
     fn from(value: String) -> Self {
         Self::Default(value)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[expect(clippy::unreadable_literal)]
+    fn emojis() {
+        let default_emoji = "🪑";
+        let custom_emoji_1 = "<a:abc:1484905952721252427>";
+        let custom_emoji_2 = "<:abc:1484905952721252427>";
+        let invalid_custom_emoji_1 = "<:1484905952721252427>";
+        let invalid_custom_emoji_2 = "<b:abc:1484905952721252427>";
+
+        assert_eq!(
+            Emoji::parse(default_emoji),
+            Some(Emoji::Default(default_emoji.to_string()))
+        );
+        assert_eq!(
+            Emoji::parse(custom_emoji_1),
+            Some(Emoji::Custom {
+                name: "abc".to_string(),
+                id: Id::from(1484905952721252427),
+                animated: true
+            })
+        );
+        assert_eq!(
+            Emoji::parse(custom_emoji_2),
+            Some(Emoji::Custom {
+                name: "abc".to_string(),
+                id: Id::from(1484905952721252427),
+                animated: false
+            })
+        );
+        assert_eq!(Emoji::parse(invalid_custom_emoji_1), None);
+        assert_eq!(Emoji::parse(invalid_custom_emoji_2), None);
     }
 }
