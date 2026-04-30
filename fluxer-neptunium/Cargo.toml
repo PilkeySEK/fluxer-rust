@@ -11,10 +11,7 @@ publish = true
 categories = ["api-bindings"]
 
 [dependencies]
-tokio = { version = "1.52.1", features = [
-    "rt-multi-thread",
-    "macros",
-] } # `time` for when we need sleep()
+tokio = { version = "1.52.1", features = ["rt-multi-thread", "macros"] }
 neptunium-gateway = { workspace = true }
 neptunium-model = { workspace = true }
 neptunium-http = { workspace = true }
@@ -48,7 +45,11 @@ native-tls = [
     "reqwest/native-tls",
     "neptunium-cache-inmemory/native-tls",
 ]
-rustls = ["neptunium-http/rustls", "neptunium-cache-inmemory/rustls"]
+rustls = [
+    "neptunium-http/rustls",
+    "neptunium-cache-inmemory/rustls",
+    "reqwest/rustls",
+]
 
 [lints]
 workspace = true
