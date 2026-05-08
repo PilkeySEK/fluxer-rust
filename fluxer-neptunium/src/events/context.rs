@@ -5,6 +5,8 @@ use std::time::Duration;
 use bon::Builder;
 #[cfg(feature = "user_api")]
 use neptunium_cache_inmemory::CachedMessage;
+#[cfg(feature = "cache-statistics")]
+use neptunium_cache_inmemory::stats::CacheStats;
 use neptunium_cache_inmemory::{CachableEndpoint, Cached, CachedChannel, CachedGuildMember};
 #[cfg(feature = "user_api")]
 use neptunium_http::endpoints::{
@@ -40,7 +42,7 @@ use neptunium_http::{
 #[cfg(feature = "user_api")]
 use neptunium_model::{
     channel::message::Message,
-    id::marker::UserMarker,
+    id::marker::{MessageMarker, UserMarker},
     user::{
         auth::SudoVerification,
         data_harvest::DataHarvestResponse,
@@ -105,6 +107,26 @@ impl Context {
     #[must_use]
     pub fn get_http_client(&self) -> &Arc<HttpClient> {
         &self.http_client
+    }
+
+    #[cfg(feature = "cache-statistics")]
+    #[must_use]
+    pub fn get_cache_statistics(&self) -> CacheStats {
+        self.cache.stats()
+    }
+
+    /// Bulk-acknowledge messages (mark as read).
+    #[cfg(feature = "user_api")]
+    pub async fn acknowledge_messages_bulk(
+        &self,
+        read_states: Vec<(Id<ChannelMarker>, Id<MessageMarker>)>,
+    ) -> Result<(), Error> {
+        use neptunium_http::endpoints::channel::AcknowledgeMessagesBulk;
+
+        Ok(self
+            .http_client
+            .execute(AcknowledgeMessagesBulk { read_states })
+            .await?)
     }
 
     /// Request the member and online count for the specified guild IDs.
@@ -1072,5 +1094,31 @@ impl Context {
             .await?;
 
         Ok(!response.taken)
+    }
+
+    /// Create a theme with the given CSS text. Returns the theme ID on success.
+    #[cfg(feature = "user_api")]
+    pub async fn create_theme(&self, css: String) -> Result<String, Error> {
+        use neptunium_http::endpoints::themes::CreateTheme;
+
+        let response = self.http_client.execute(CreateTheme { css }).await?;
+        Ok(response.id)
+    }
+
+    /// Purge the personal notes. Returns the number of messages that were
+    /// deleted.
+    #[cfg(feature = "user_api")]
+    pub async fn purge_personal_notes(&self) -> Result<usize, Error> {
+        use neptunium_http::endpoints::channel::PurgeChannelMessages;
+
+        // The personal notes channel has the same ID as the user.
+        let current_user_id = self.get_own_profile().await?.load().id;
+        let response = self
+            .http_client
+            .execute(PurgeChannelMessages {
+                channel_id: current_user_id.cast(),
+            })
+            .await?;
+        Ok(response.deleted_count)
     }
 }
