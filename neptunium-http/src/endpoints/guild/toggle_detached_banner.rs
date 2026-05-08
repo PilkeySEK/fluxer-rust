@@ -8,10 +8,12 @@ use serde_json::json;
 
 use crate::{endpoints::Endpoint, request::Request};
 
-#[derive(Builder, Copy, Clone, Debug)]
+#[derive(Builder, Clone, Debug)]
 pub struct ToggleDetachedBanner {
     pub guild_id: Id<GuildMarker>,
     pub enabled: bool,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for ToggleDetachedBanner {
@@ -25,6 +27,7 @@ impl Endpoint for ToggleDetachedBanner {
 
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(body)
             .path(format!("/guilds/{}/detached-banner", self.guild_id))
             .build()

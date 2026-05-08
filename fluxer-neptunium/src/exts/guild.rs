@@ -15,8 +15,9 @@ use neptunium_http::endpoints::{
         UnbanGuildMember, UpdateGuildChannelPositions, UpdateGuildChannelPositionsEntry,
         UpdateGuildMember, UpdateGuildMemberBody, UpdateGuildRole, UpdateGuildRoleBody,
         UpdateGuildRoleHoistPositions, UpdateGuildRoleHoistPositionsEntry,
-        UpdateGuildRolePositions, UpdateGuildRolePositionsEntry, UpdateGuildSticker,
-        UpdateGuildStickerBody, UpdateGuildVanityUrl, UpdateGuildVanityUrlResponse,
+        UpdateGuildRolePositions, UpdateGuildRolePositionsEntry, UpdateGuildSettings,
+        UpdateGuildSettingsBody, UpdateGuildSticker, UpdateGuildStickerBody, UpdateGuildVanityUrl,
+        UpdateGuildVanityUrlResponse,
     },
     invites::ListGuildInvites,
     webhooks::ListGuildWebhooks,
@@ -55,7 +56,12 @@ pub trait GuildExt {
         body: BanGuildMemberBody,
     ) -> Result<(), Error>;
     async fn unban_member(&self, ctx: &Context, user_id: Id<UserMarker>) -> Result<(), Error>;
-    async fn unban_member_with_reason(&self, ctx: &Context, user_id: Id<UserMarker>, reason: impl Into<String> + Send) -> Result<(), Error>;
+    async fn unban_member_with_reason(
+        &self,
+        ctx: &Context,
+        user_id: Id<UserMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error>;
     async fn list_channels(&self, ctx: &Context) -> Result<Vec<Cached<CachedChannel>>, Error>;
     async fn create_channel(
         &self,
@@ -78,6 +84,12 @@ pub trait GuildExt {
         &self,
         ctx: &Context,
         detached: bool,
+    ) -> Result<Cached<Guild>, Error>;
+    async fn toggle_detached_banner_with_reason(
+        &self,
+        ctx: &Context,
+        detached: bool,
+        reason: impl Into<String> + Send,
     ) -> Result<Cached<Guild>, Error>;
     /// List the guild members. `limit` defaults to 1 and should not be greater than 1000.
     async fn list_members(
@@ -116,7 +128,7 @@ pub trait GuildExt {
         ctx: &Context,
         member_id: Id<UserMarker>,
         body: UpdateGuildMemberBody,
-        reason: impl Into<String> + Send
+        reason: impl Into<String> + Send,
     ) -> Result<Cached<CachedGuildMember>, Error>;
     async fn add_role_to_member(
         &self,
@@ -181,6 +193,12 @@ pub trait GuildExt {
         ctx: &Context,
         enabled: bool,
     ) -> Result<Cached<Guild>, Error>;
+    async fn toggle_channel_flexible_names_with_reason(
+        &self,
+        ctx: &Context,
+        enabled: bool,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<Guild>, Error>;
     #[cfg(feature = "user_api")]
     async fn transfer_ownership(
         &self,
@@ -194,6 +212,12 @@ pub trait GuildExt {
         ctx: &Context,
         code: Option<String>,
     ) -> Result<UpdateGuildVanityUrlResponse, Error>;
+    async fn update_vanity_url_with_reason(
+        &self,
+        ctx: &Context,
+        code: Option<String>,
+        reason: impl Into<String> + Send,
+    ) -> Result<UpdateGuildVanityUrlResponse, Error>;
     /// Leave this guild.
     async fn leave(&self, ctx: &Context) -> Result<(), Error>;
     /// Update the guild-specific settings of the current user for this guild.
@@ -203,6 +227,17 @@ pub trait GuildExt {
         ctx: &Context,
         body: UpdateUserGuildSettingsBody,
     ) -> Result<UserGuildSettings, Error>;
+    async fn update_settings(
+        &self,
+        ctx: &Context,
+        body: UpdateGuildSettingsBody,
+    ) -> Result<Cached<Guild>, Error>;
+    async fn update_settings_with_reason(
+        &self,
+        ctx: &Context,
+        body: UpdateGuildSettingsBody,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<Guild>, Error>;
 }
 
 #[async_trait]
@@ -282,13 +317,18 @@ impl<T: GuildTrait> GuildExt for T {
             .await?)
     }
 
-    async fn unban_member_with_reason(&self, ctx: &Context, user_id: Id<UserMarker>, reason: impl Into<String> + Send) -> Result<(), Error> {
+    async fn unban_member_with_reason(
+        &self,
+        ctx: &Context,
+        user_id: Id<UserMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
             .execute(UnbanGuildMember {
                 guild_id: self.get_guild_id(),
                 user_id,
-                reason: Some(reason.into())
+                reason: Some(reason.into()),
             })
             .await?)
     }
@@ -353,6 +393,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(ToggleDetachedBanner {
             guild_id: self.get_guild_id(),
             enabled: detached,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn toggle_detached_banner_with_reason(
+        &self,
+        ctx: &Context,
+        detached: bool,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<Guild>, Error> {
+        Ok(ToggleDetachedBanner {
+            guild_id: self.get_guild_id(),
+            enabled: detached,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -455,7 +511,7 @@ impl<T: GuildTrait> GuildExt for T {
         ctx: &Context,
         member_id: Id<UserMarker>,
         body: UpdateGuildMemberBody,
-        reason: impl Into<String> + Send
+        reason: impl Into<String> + Send,
     ) -> Result<Cached<CachedGuildMember>, Error> {
         Ok(UpdateGuildMember {
             guild_id: self.get_guild_id(),
@@ -655,6 +711,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(ToggleGuildTextChannelFlexibleNames {
             guild_id: self.get_guild_id(),
             enabled,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn toggle_channel_flexible_names_with_reason(
+        &self,
+        ctx: &Context,
+        enabled: bool,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<Guild>, Error> {
+        Ok(ToggleGuildTextChannelFlexibleNames {
+            guild_id: self.get_guild_id(),
+            enabled,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -695,6 +767,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(UpdateGuildVanityUrl {
             guild_id: self.get_guild_id(),
             code,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn update_vanity_url_with_reason(
+        &self,
+        ctx: &Context,
+        code: Option<String>,
+        reason: impl Into<String> + Send,
+    ) -> Result<UpdateGuildVanityUrlResponse, Error> {
+        Ok(UpdateGuildVanityUrl {
+            guild_id: self.get_guild_id(),
+            code,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -721,5 +809,34 @@ impl<T: GuildTrait> GuildExt for T {
                 body,
             })
             .await?)
+    }
+
+    async fn update_settings(
+        &self,
+        ctx: &Context,
+        body: UpdateGuildSettingsBody,
+    ) -> Result<Cached<Guild>, Error> {
+        Ok(UpdateGuildSettings {
+            guild_id: self.get_guild_id(),
+            body,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn update_settings_with_reason(
+        &self,
+        ctx: &Context,
+        body: UpdateGuildSettingsBody,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<Guild>, Error> {
+        Ok(UpdateGuildSettings {
+            guild_id: self.get_guild_id(),
+            body,
+            audit_log_reason: Some(reason.into()),
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
     }
 }

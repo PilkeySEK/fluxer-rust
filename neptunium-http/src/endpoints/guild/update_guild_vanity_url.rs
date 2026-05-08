@@ -13,6 +13,8 @@ pub struct UpdateGuildVanityUrl {
     /// Set this to `None` to remove the vanity url.
     #[builder(into)]
     pub code: Option<String>,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 #[derive(Deserialize, Clone, Debug)]
@@ -36,6 +38,7 @@ impl Endpoint for UpdateGuildVanityUrl {
 
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(body.to_string())
             .path(format!("/guilds/{}/vanity-url", self.guild_id))
             .build()

@@ -37,8 +37,8 @@ use neptunium_http::{
             ListGuildChannels, ListGuildMembers, ListGuildRoles, ToggleDetachedBanner,
             ToggleGuildTextChannelFlexibleNames, UpdateCurrentUserGuildMember, UpdateGuildMember,
             UpdateGuildRole, UpdateGuildRoleHoistPositions, UpdateGuildRoleHoistPositionsEntry,
-            UpdateGuildRolePositions, UpdateGuildRolePositionsEntry, UpdateGuildVanityUrl,
-            UpdateGuildVanityUrlResponse,
+            UpdateGuildRolePositions, UpdateGuildRolePositionsEntry, UpdateGuildSettings,
+            UpdateGuildVanityUrl, UpdateGuildVanityUrlResponse,
         },
         invites::{CreateChannelInvite, ListChannelInvites, ListGuildInvites},
         users::{GetCurrentUserProfile, GetUserById, GetUserProfile},
@@ -999,5 +999,18 @@ impl CachableEndpoint for UpdateGuildMember {
         let res = client.execute(self).await?;
         let cached = CachedGuildMember::from_guild_member(res, guild_id, cache);
         Ok(cached.insert_and_return(cache))
+    }
+}
+
+#[async_trait]
+impl CachableEndpoint for UpdateGuildSettings {
+    type Response = Cached<Guild>;
+    async fn execute_cached(
+        self,
+        client: &Arc<HttpClient>,
+        cache: &Arc<Cache>,
+    ) -> Result<<Self as CachableEndpoint>::Response, Box<ExecuteEndpointRequestError>> {
+        let res = client.execute(self).await?;
+        Ok(res.insert_and_return(cache))
     }
 }

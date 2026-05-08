@@ -71,6 +71,8 @@ pub struct UpdateGuildSettingsBody {
 pub struct UpdateGuildSettings {
     pub guild_id: Id<GuildMarker>,
     pub body: UpdateGuildSettingsBody,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for UpdateGuildSettings {
@@ -79,6 +81,7 @@ impl Endpoint for UpdateGuildSettings {
     fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(serde_json::to_string(&self.body).unwrap())
             .path(format!("/guilds/{}", self.guild_id))
             .build()

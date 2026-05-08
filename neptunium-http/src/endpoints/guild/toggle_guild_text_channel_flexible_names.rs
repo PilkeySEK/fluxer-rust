@@ -8,10 +8,12 @@ use serde_json::json;
 
 use crate::{endpoints::Endpoint, request::Request};
 
-#[derive(Builder, Copy, Clone, Debug)]
+#[derive(Builder, Clone, Debug)]
 pub struct ToggleGuildTextChannelFlexibleNames {
     pub guild_id: Id<GuildMarker>,
     pub enabled: bool,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for ToggleGuildTextChannelFlexibleNames {
@@ -20,6 +22,7 @@ impl Endpoint for ToggleGuildTextChannelFlexibleNames {
     fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(
                 json!({
                 "enabled": self.enabled,
