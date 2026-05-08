@@ -716,10 +716,10 @@ impl Client {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_delete);
             }
             CachedDispatchEvent::GuildMemberAdd(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_member_add);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_member_add);
             }
             CachedDispatchEvent::GuildMemberUpdate(data) => {
-                call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_member_update);
+                call_event_handlers_noarc!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_member_update);
             }
             CachedDispatchEvent::GuildMemberRemove(data) => {
                 call_event_handlers!(self.always_propagate_event_errors, self.tx, self.event_handlers, self.context, data => on_guild_member_remove);

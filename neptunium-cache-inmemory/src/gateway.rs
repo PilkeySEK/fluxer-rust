@@ -15,7 +15,7 @@ use neptunium_model::{
             WebhooksUpdate,
         },
     },
-    guild::{Guild, member::GuildMember, permissions::GuildRole},
+    guild::{Guild, permissions::GuildRole},
     id::{Id, marker::ChannelMarker},
     invites::InviteWithMetadata,
     user::{
@@ -25,7 +25,7 @@ use neptunium_model::{
 };
 
 use crate::{
-    Cache, CacheValue, Cached, CachedChannel, CachedMessage,
+    Cache, CacheValue, Cached, CachedChannel, CachedGuildMember, CachedMessage,
     gateway::cached_payload::{
         CachedGuildCreate, CachedGuildMemberListUpdate, CachedGuildMembersChunk,
         CachedGuildRoleUpdateBulk, CachedMessageCreate, CachedMessageReactionAdd,
@@ -97,11 +97,29 @@ impl CachedDispatchEvent {
             DispatchEvent::GuildDelete(payload) => {
                 CachedDispatchEvent::GuildDelete(GuildDelete::cache_payload(payload, cache))
             }
-            DispatchEvent::GuildMemberAdd(payload) => CachedDispatchEvent::GuildMemberAdd(payload),
-            DispatchEvent::GuildMemberUpdate(payload) => {
-                CachedDispatchEvent::GuildMemberUpdate(payload)
-            }
+            DispatchEvent::GuildMemberAdd(payload) => CachedDispatchEvent::GuildMemberAdd(
+                CachedGuildMember::cache_payload((payload.member, payload.guild_id), cache)
+                    .insert_and_return(cache),
+            ),
+            DispatchEvent::GuildMemberUpdate(payload) => CachedDispatchEvent::GuildMemberUpdate(
+                CachedGuildMember::cache_payload((payload.member, payload.guild_id), cache)
+                    .insert_and_return(cache),
+            ),
             DispatchEvent::GuildMemberRemove(payload) => {
+                if let Some(members) = cache.guild_members.get(&payload.guild_id) {
+                    let _ = members.try_modify(|members| {
+                        let mut member_found = false;
+                        members.retain(|member| {
+                            if member.load().id == payload.user.id {
+                                member_found = true;
+                                false
+                            } else {
+                                true
+                            }
+                        });
+                        if member_found { Ok(()) } else { Err(()) }
+                    });
+                }
                 CachedDispatchEvent::GuildMemberRemove(payload)
             }
             DispatchEvent::GuildRoleCreate(payload) => CachedDispatchEvent::GuildRoleCreate(
@@ -244,8 +262,8 @@ pub enum CachedDispatchEvent {
     // Might need to ask some people about that
     GuildDelete(GuildDelete),
     /// Sent when a user joins a guild.
-    GuildMemberAdd(GuildMember),
-    GuildMemberUpdate(GuildMember),
+    GuildMemberAdd(Cached<CachedGuildMember>),
+    GuildMemberUpdate(Cached<CachedGuildMember>),
     GuildMemberRemove(GuildMemberRemove),
     GuildRoleCreate(Cached<GuildRole>),
     GuildRoleUpdate(Cached<GuildRole>),

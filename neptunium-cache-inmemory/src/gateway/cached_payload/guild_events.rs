@@ -13,7 +13,9 @@ use neptunium_model::{
     time::timestamp::{Timestamp, representations::Iso8601},
 };
 
-use crate::{CacheValue, Cached, CachedChannel, gateway::cached_payload::CachedPayload};
+use crate::{
+    CacheValue, Cached, CachedChannel, CachedGuildMember, gateway::cached_payload::CachedPayload,
+};
 
 pub struct CachedGuildCreate {
     pub guild: Cached<Guild>,
@@ -57,5 +59,12 @@ impl CachedPayload for GuildDelete {
     fn cache_payload(non_cached: Self::NonCached, cache: &std::sync::Arc<crate::Cache>) -> Self {
         cache.guilds.invalidate(&non_cached.id);
         non_cached
+    }
+}
+
+impl CachedPayload for CachedGuildMember {
+    type NonCached = (GuildMember, Id<GuildMarker>);
+    fn cache_payload(non_cached: Self::NonCached, cache: &std::sync::Arc<crate::Cache>) -> Self {
+        Self::from_guild_member(non_cached.0, non_cached.1, cache)
     }
 }

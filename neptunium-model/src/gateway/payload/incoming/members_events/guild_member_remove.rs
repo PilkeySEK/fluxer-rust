@@ -1,13 +1,12 @@
 use serde::{Deserialize, Serialize};
 
-use crate::id::{Id, marker::UserMarker};
+use crate::{
+    id::{Id, marker::GuildMarker},
+    user::PartialUser,
+};
 
-#[derive(Serialize, Deserialize, Copy, Clone, Debug)]
-pub struct GuildMemberRemoveUser {
-    pub id: Id<UserMarker>,
-}
-
-#[derive(Serialize, Deserialize, Copy, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct GuildMemberRemove {
-    pub user: GuildMemberRemoveUser,
+    pub guild_id: Id<GuildMarker>,
+    pub user: PartialUser,
 }
