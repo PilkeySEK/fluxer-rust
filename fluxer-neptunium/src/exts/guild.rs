@@ -160,23 +160,59 @@ pub trait GuildExt {
         ctx: &Context,
         body: CreateGuildRoleBody,
     ) -> Result<Cached<GuildRole>, Error>;
+    async fn create_role_with_reason(
+        &self,
+        ctx: &Context,
+        body: CreateGuildRoleBody,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<GuildRole>, Error>;
     async fn update_role_positions(
         &self,
         ctx: &Context,
         positions: Vec<UpdateGuildRolePositionsEntry>,
     ) -> Result<(), Error>;
+    async fn update_role_positions_with_reason(
+        &self,
+        ctx: &Context,
+        positions: Vec<UpdateGuildRolePositionsEntry>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error>;
     async fn reset_role_hoist_positions(&self, ctx: &Context) -> Result<(), Error>;
+    async fn reset_role_hoist_positions_with_reason(
+        &self,
+        ctx: &Context,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error>;
     async fn update_role_hoist_positions(
         &self,
         ctx: &Context,
         positions: Vec<UpdateGuildRoleHoistPositionsEntry>,
     ) -> Result<(), Error>;
+    async fn update_role_hoist_positions_with_reason(
+        &self,
+        ctx: &Context,
+        positions: Vec<UpdateGuildRoleHoistPositionsEntry>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error>;
     async fn delete_role(&self, ctx: &Context, role_id: Id<RoleMarker>) -> Result<(), Error>;
+    async fn delete_role_with_reason(
+        &self,
+        ctx: &Context,
+        role_id: Id<RoleMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error>;
     async fn update_role(
         &self,
         ctx: &Context,
         role_id: Id<RoleMarker>,
         updates: UpdateGuildRoleBody,
+    ) -> Result<Cached<GuildRole>, Error>;
+    async fn update_role_with_reason(
+        &self,
+        ctx: &Context,
+        role_id: Id<RoleMarker>,
+        updates: UpdateGuildRoleBody,
+        reason: impl Into<String> + Send,
     ) -> Result<Cached<GuildRole>, Error>;
     async fn list_stickers(&self, ctx: &Context) -> Result<Vec<GuildSticker>, Error>;
     async fn create_sticker(
@@ -617,6 +653,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(CreateGuildRole {
             guild_id: self.get_guild_id(),
             body,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn create_role_with_reason(
+        &self,
+        ctx: &Context,
+        body: CreateGuildRoleBody,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<GuildRole>, Error> {
+        Ok(CreateGuildRole {
+            guild_id: self.get_guild_id(),
+            body,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -630,6 +682,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(UpdateGuildRolePositions {
             guild_id: self.get_guild_id(),
             body: positions,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn update_role_positions_with_reason(
+        &self,
+        ctx: &Context,
+        positions: Vec<UpdateGuildRolePositionsEntry>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        Ok(UpdateGuildRolePositions {
+            guild_id: self.get_guild_id(),
+            body: positions,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -641,6 +709,22 @@ impl<T: GuildTrait> GuildExt for T {
             .get_http_client()
             .execute(ResetGuildRoleHoistPositions {
                 guild_id: self.get_guild_id(),
+                audit_log_reason: None,
+            })
+            .await?)
+    }
+
+    async fn reset_role_hoist_positions_with_reason(
+        &self,
+        ctx: &Context,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        // TODO: Caching for this (need to map guild AND role id to GuildRole for this to be possible)
+        Ok(ctx
+            .get_http_client()
+            .execute(ResetGuildRoleHoistPositions {
+                guild_id: self.get_guild_id(),
+                audit_log_reason: Some(reason.into()),
             })
             .await?)
     }
@@ -653,6 +737,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(UpdateGuildRoleHoistPositions {
             guild_id: self.get_guild_id(),
             body: positions,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn update_role_hoist_positions_with_reason(
+        &self,
+        ctx: &Context,
+        positions: Vec<UpdateGuildRoleHoistPositionsEntry>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        Ok(UpdateGuildRoleHoistPositions {
+            guild_id: self.get_guild_id(),
+            body: positions,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -662,6 +762,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(DeleteGuildRole {
             guild_id: self.get_guild_id(),
             role_id,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn delete_role_with_reason(
+        &self,
+        ctx: &Context,
+        role_id: Id<RoleMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        Ok(DeleteGuildRole {
+            guild_id: self.get_guild_id(),
+            role_id,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -677,6 +793,24 @@ impl<T: GuildTrait> GuildExt for T {
             guild_id: self.get_guild_id(),
             role_id,
             body: updates,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn update_role_with_reason(
+        &self,
+        ctx: &Context,
+        role_id: Id<RoleMarker>,
+        updates: UpdateGuildRoleBody,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<GuildRole>, Error> {
+        Ok(UpdateGuildRole {
+            guild_id: self.get_guild_id(),
+            role_id,
+            body: updates,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)

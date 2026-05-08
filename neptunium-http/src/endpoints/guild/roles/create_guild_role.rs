@@ -23,6 +23,8 @@ pub struct CreateGuildRoleBody {
 pub struct CreateGuildRole {
     pub guild_id: Id<GuildMarker>,
     pub body: CreateGuildRoleBody,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for CreateGuildRole {
@@ -31,6 +33,7 @@ impl Endpoint for CreateGuildRole {
     fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::POST)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(serde_json::to_string(&self.body).unwrap())
             .path(format!("/guilds/{}/roles", self.guild_id))
             .build()

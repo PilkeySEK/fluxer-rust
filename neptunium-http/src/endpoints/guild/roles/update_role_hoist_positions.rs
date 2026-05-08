@@ -18,6 +18,8 @@ pub struct UpdateGuildRoleHoistPositionsEntry {
 pub struct UpdateGuildRoleHoistPositions {
     pub guild_id: Id<GuildMarker>,
     pub body: Vec<UpdateGuildRoleHoistPositionsEntry>,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for UpdateGuildRoleHoistPositions {
@@ -26,6 +28,7 @@ impl Endpoint for UpdateGuildRoleHoistPositions {
     fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(serde_json::to_string(&self.body).unwrap())
             .path(format!("/guilds/{}/roles/hoist-positions", self.guild_id))
             .build()

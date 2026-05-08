@@ -35,6 +35,8 @@ pub struct UpdateGuildRole {
     pub guild_id: Id<GuildMarker>,
     pub role_id: Id<RoleMarker>,
     pub body: UpdateGuildRoleBody,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for UpdateGuildRole {
@@ -43,6 +45,7 @@ impl Endpoint for UpdateGuildRole {
     fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(serde_json::to_string(&self.body).unwrap())
             .path(format!("/guilds/{}/roles/{}", self.guild_id, self.role_id))
             .build()
