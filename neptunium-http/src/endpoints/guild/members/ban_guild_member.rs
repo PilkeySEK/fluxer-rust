@@ -11,7 +11,7 @@ use serde::Serialize;
 
 use crate::{endpoints::Endpoint, request::Request};
 
-#[derive(Builder, Serialize, Clone, Debug)]
+#[derive(Builder, Serialize, Clone, Debug, Default)]
 pub struct BanGuildMemberBody {
     /// 0-7.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -26,16 +26,6 @@ pub struct BanGuildMemberBody {
         rename = "ban_duration_seconds"
     )]
     pub ban_duration: Option<Duration<Seconds>>,
-}
-
-impl Default for BanGuildMemberBody {
-    fn default() -> Self {
-        Self {
-            delete_message_days: None,
-            reason: None,
-            ban_duration: None,
-        }
-    }
 }
 
 #[derive(Builder, Clone, Debug)]
