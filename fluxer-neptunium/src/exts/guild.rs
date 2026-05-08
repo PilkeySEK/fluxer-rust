@@ -68,11 +68,23 @@ pub trait GuildExt {
         ctx: &Context,
         channel: GuildChannelCreateRequest,
     ) -> Result<Cached<CachedChannel>, Error>;
+    async fn create_channel_with_reason(
+        &self,
+        ctx: &Context,
+        channel: GuildChannelCreateRequest,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedChannel>, Error>;
     // TODO: Add helper functions for things, such as making a reordering using Vec<Id<ChannelMarker>>
     async fn update_channel_positions(
         &self,
         ctx: &Context,
         positions: Vec<UpdateGuildChannelPositionsEntry>,
+    ) -> Result<(), Error>;
+    async fn update_channel_positions_with_reason(
+        &self,
+        ctx: &Context,
+        positions: Vec<UpdateGuildChannelPositionsEntry>,
+        reason: impl Into<String> + Send,
     ) -> Result<(), Error>;
     #[cfg(feature = "user_api")]
     async fn delete(
@@ -349,6 +361,22 @@ impl<T: GuildTrait> GuildExt for T {
         Ok(CreateGuildChannel {
             guild_id: self.get_guild_id(),
             body: channel,
+            audit_log_reason: None,
+        }
+        .execute_cached(ctx.get_http_client(), &ctx.cache)
+        .await?)
+    }
+
+    async fn create_channel_with_reason(
+        &self,
+        ctx: &Context,
+        channel: GuildChannelCreateRequest,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedChannel>, Error> {
+        Ok(CreateGuildChannel {
+            guild_id: self.get_guild_id(),
+            body: channel,
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -365,6 +393,24 @@ impl<T: GuildTrait> GuildExt for T {
             .execute(UpdateGuildChannelPositions {
                 guild_id: self.get_guild_id(),
                 body: positions,
+                audit_log_reason: None,
+            })
+            .await?)
+    }
+
+    async fn update_channel_positions_with_reason(
+        &self,
+        ctx: &Context,
+        positions: Vec<UpdateGuildChannelPositionsEntry>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        // TODO: Caching for this
+        Ok(ctx
+            .get_http_client()
+            .execute(UpdateGuildChannelPositions {
+                guild_id: self.get_guild_id(),
+                body: positions,
+                audit_log_reason: Some(reason.into()),
             })
             .await?)
     }

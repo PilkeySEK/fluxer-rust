@@ -28,6 +28,8 @@ pub struct UpdateGuildChannelPositionsEntry {
 pub struct UpdateGuildChannelPositions {
     pub guild_id: Id<GuildMarker>,
     pub body: Vec<UpdateGuildChannelPositionsEntry>,
+    #[builder(into)]
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for UpdateGuildChannelPositions {
@@ -36,6 +38,7 @@ impl Endpoint for UpdateGuildChannelPositions {
     fn into_request(self) -> crate::request::Request {
         Request::builder()
             .method(Method::PATCH)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .body(serde_json::to_string(&self.body).unwrap())
             .path(format!("/guilds/{}/channels", self.guild_id))
             .build()
