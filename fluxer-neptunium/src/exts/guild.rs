@@ -148,11 +148,25 @@ pub trait GuildExt {
         member_id: Id<UserMarker>,
         role_id: Id<RoleMarker>,
     ) -> Result<(), Error>;
+    async fn add_role_to_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        role_id: Id<RoleMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error>;
     async fn remove_role_from_member(
         &self,
         ctx: &Context,
         member_id: Id<UserMarker>,
         role_id: Id<RoleMarker>,
+    ) -> Result<(), Error>;
+    async fn remove_role_from_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        role_id: Id<RoleMarker>,
+        reason: impl Into<String> + Send,
     ) -> Result<(), Error>;
     async fn list_roles(&self, ctx: &Context) -> Result<Vec<Cached<GuildRole>>, Error>;
     async fn create_role(
@@ -360,7 +374,7 @@ impl<T: GuildTrait> GuildExt for T {
             .execute(UnbanGuildMember {
                 guild_id: self.get_guild_id(),
                 user_id,
-                reason: None,
+                audit_log_reason: None,
             })
             .await?)
     }
@@ -376,7 +390,7 @@ impl<T: GuildTrait> GuildExt for T {
             .execute(UnbanGuildMember {
                 guild_id: self.get_guild_id(),
                 user_id,
-                reason: Some(reason.into()),
+                audit_log_reason: Some(reason.into()),
             })
             .await?)
     }
@@ -582,7 +596,7 @@ impl<T: GuildTrait> GuildExt for T {
             guild_id: self.get_guild_id(),
             user_id: member_id,
             body,
-            reason: None,
+            audit_log_reason: None,
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -599,7 +613,7 @@ impl<T: GuildTrait> GuildExt for T {
             guild_id: self.get_guild_id(),
             user_id: member_id,
             body,
-            reason: Some(reason.into()),
+            audit_log_reason: Some(reason.into()),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -617,6 +631,25 @@ impl<T: GuildTrait> GuildExt for T {
                 guild_id: self.get_guild_id(),
                 user_id: member_id,
                 role_id,
+                audit_log_reason: None,
+            })
+            .await?)
+    }
+
+    async fn add_role_to_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        role_id: Id<RoleMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(AddRoleToGuildMember {
+                guild_id: self.get_guild_id(),
+                user_id: member_id,
+                role_id,
+                audit_log_reason: Some(reason.into()),
             })
             .await?)
     }
@@ -633,6 +666,25 @@ impl<T: GuildTrait> GuildExt for T {
                 guild_id: self.get_guild_id(),
                 user_id: member_id,
                 role_id,
+                audit_log_reason: None,
+            })
+            .await?)
+    }
+
+    async fn remove_role_from_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        role_id: Id<RoleMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<(), Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(RemoveRoleFromGuildMember {
+                guild_id: self.get_guild_id(),
+                user_id: member_id,
+                role_id,
+                audit_log_reason: Some(reason.into()),
             })
             .await?)
     }

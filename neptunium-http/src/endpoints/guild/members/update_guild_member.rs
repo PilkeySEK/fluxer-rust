@@ -43,9 +43,8 @@ pub struct UpdateGuildMember {
     pub guild_id: Id<GuildMarker>,
     pub user_id: Id<UserMarker>,
     pub body: UpdateGuildMemberBody,
-    /// The reason for the audit log.
     #[builder(into)]
-    pub reason: Option<String>,
+    pub audit_log_reason: Option<String>,
 }
 
 impl Endpoint for UpdateGuildMember {
@@ -59,7 +58,7 @@ impl Endpoint for UpdateGuildMember {
                 "/guilds/{}/members/{}",
                 self.guild_id, self.user_id
             ))
-            .maybe_audit_log_reason(self.reason)
+            .maybe_audit_log_reason(self.audit_log_reason)
             .build()
     }
 }
