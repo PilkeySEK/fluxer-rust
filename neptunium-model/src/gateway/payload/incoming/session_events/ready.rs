@@ -106,7 +106,7 @@ pub struct UserPrivateResponse {
     pub system: Option<bool>,
     pub traits: Vec<String>,
     pub unread_gift_inventory_count: u32,
-    pub used_mobile_client: bool,
+    pub used_mobile_client: Option<bool>,
     pub username: String,
     /// Whether the email address has been verified.
     pub verified: bool,
