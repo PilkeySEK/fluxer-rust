@@ -36,6 +36,12 @@ impl From<String> for ShardConfig {
     }
 }
 
+impl From<Zeroizing<String>> for ShardConfig {
+    fn from(value: Zeroizing<String>) -> Self {
+        Self::builder().token(value).build()
+    }
+}
+
 // pub struct ShardConfigBuilder {
 //     shard_info: Option<ShardInfo>,
 //     gateway_url: Option<String>,
