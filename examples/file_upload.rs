@@ -12,10 +12,9 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn on_ready(&self, _ctx: Context, event: Arc<CachedReady>) -> Result<(), EventError> {
-        let user = event.user.load();
         println!(
             "Ready! Logged in as {}#{}",
-            user.username, user.discriminator
+            event.user.username, event.user.discriminator
         );
         Ok(())
     }
@@ -26,13 +25,14 @@ impl EventHandler for Handler {
         event: Arc<CachedMessageCreate>,
     ) -> Result<(), EventError> {
         let file = b"abcdefg".to_vec();
-        let message = event.message.load();
-        if message.content != "n?do-upload" {
+        // Obviously it's not a good idea to match commands at literal strings in production bots
+        // since the code would get messy - it's fine if you only have one command though :)
+        if event.message.content != "n?do-upload" {
             return Ok(());
         }
         let attachments = ctx
             .upload_files(
-                message.channel_id,
+                event.message.channel_id,
                 vec![
                     FileUploadParams::builder()
                         .file_data(file)
@@ -44,7 +44,8 @@ impl EventHandler for Handler {
             )
             .await?;
 
-        message
+        event
+            .message
             .reply(
                 &ctx,
                 CreateMessageBody::builder()

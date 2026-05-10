@@ -24,10 +24,10 @@ impl EventHandler for Handler {
         event: Arc<CachedMessageCreate>,
     ) -> Result<(), EventError> {
         let now = SystemTime::now();
-        let message = event.message.load();
-        let author = message.author.load();
         let message_latency = now
-            .duration_since(SystemTime::from(OffsetDateTime::from(message.timestamp)))
+            .duration_since(SystemTime::from(OffsetDateTime::from(
+                event.message.timestamp,
+            )))
             .map_or("<error>".to_owned(), |duration| {
                 duration.as_millis().to_string()
             });
@@ -37,8 +37,8 @@ impl EventHandler for Handler {
             .map_or("<timed out>".to_owned(), |duration| {
                 duration.as_millis().to_string()
             });
-        if !author.bot && message.content == "n?ping" {
-            message.reply(&ctx, format!("Pong! API latency: {message_latency} ms, Gateway latency: {gateway_latency} ms")).await?;
+        if !event.message.author.bot && event.message.content == "n?ping" {
+            event.message.reply(&ctx, format!("Pong! API latency: {message_latency} ms, Gateway latency: {gateway_latency} ms")).await?;
         }
 
         Ok(())

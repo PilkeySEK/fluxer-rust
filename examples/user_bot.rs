@@ -14,9 +14,11 @@ struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
-    async fn on_ready(&self, _ctx: Context, data: Arc<CachedReady>) -> Result<(), EventError> {
-        let user = data.user.load();
-        println!("Logged in as {}#{}", user.username, user.discriminator);
+    async fn on_ready(&self, _ctx: Context, event: Arc<CachedReady>) -> Result<(), EventError> {
+        println!(
+            "Logged in as {}#{}",
+            event.user.username, event.user.discriminator
+        );
         Ok(())
     }
 
@@ -25,26 +27,26 @@ impl EventHandler for Handler {
         ctx: Context,
         event: Arc<CachedMessageCreate>,
     ) -> Result<(), EventError> {
-        let message = event.message.load();
-        let author = message.author.load();
         println!(
             "{}#{}: {}",
-            author.username, author.discriminator, message.content
+            event.message.author.username,
+            event.message.author.discriminator,
+            event.message.content
         );
         let current_user_id = ctx.get_own_profile().await?.load().id;
-        if author.id == current_user_id && message.content == "u?ping" {
-            message.reply(&ctx, "Pong!").await?;
+        if event.message.author.id == current_user_id && event.message.content == "u?ping" {
+            event.message.reply(&ctx, "Pong!").await?;
         }
         Ok(())
     }
 
-    // PASSIVE_UPDATES is a client-only gateway dispatch event
+    // PASSIVE_UPDATES is a user-only gateway dispatch event
     async fn on_passive_updates(
         &self,
         _ctx: Context,
-        _data: Arc<PassiveUpdates>,
+        _event: Arc<PassiveUpdates>,
     ) -> Result<(), EventError> {
-        // println!("Passive updates received: {:?}", data);
+        // println!("Passive updates received: {:?}", event);
 
         Ok(())
     }
