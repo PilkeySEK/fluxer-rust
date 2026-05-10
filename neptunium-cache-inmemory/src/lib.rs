@@ -1,6 +1,6 @@
 #[cfg(feature = "user_api")]
 use std::sync::atomic::AtomicBool;
-use std::{fmt::Debug, sync::Arc};
+use std::{fmt::Debug, ops::Deref, sync::Arc};
 
 use arc_swap::ArcSwap;
 use atomic_once_cell::AtomicOnceCell;
@@ -30,8 +30,12 @@ use crate::stats::CacheStats;
 
 pub use arc_swap::Guard;
 
+/// The wrapper for cached values, to be able to easily globally change them and access those changed values.
+/// Uses `arc-swap` under the hood, with an internal "cache" for the last value (refreshed on `.refresh()`),
+/// to make the `Deref` implementation possible and have minimal performance.
 pub struct Cached<T> {
     inner: Arc<ArcSwap<T>>,
+    last_value: Arc<T>,
 }
 
 // TODO: More things to cache: guild channels (guild id->channels), relationships,
@@ -85,15 +89,27 @@ pub struct CacheConfig {
 impl<T> Cached<T> {
     #[must_use]
     pub fn new(value: T) -> Self {
+        let arc_value = Arc::new(value);
         Self {
-            inner: Arc::new(ArcSwap::new(Arc::new(value))),
+            inner: Arc::new(ArcSwap::new(Arc::clone(&arc_value))),
+            last_value: arc_value,
         }
     }
 
     /// Get the latest value. This will be the latest value until a new value is stored.
+    /// Bypasses the internal caching of the last value (which is used for the `Deref` implementation).
     #[must_use]
     pub fn load(&self) -> Guard<Arc<T>> {
         self.inner.load()
+    }
+
+    /// Refresh the internal cache (get the real latest value). Uses of `Deref` after this will
+    /// access the latest value until it is changed again, where `.refresh()` is needed again.
+    ///
+    /// If you want to guarantee the most up-to-date value, use `.load()` which bypasses the internal cache
+    /// for this struct.
+    pub fn refresh(&mut self) {
+        self.last_value = Arc::clone(&*self.load());
     }
 
     /// Store a new value. All new `load()` operations will return this new value
@@ -146,6 +162,13 @@ impl<T> Cached<T> {
     }
 }
 
+impl<T> Deref for Cached<T> {
+    type Target = T;
+    fn deref(&self) -> &Self::Target {
+        &self.last_value
+    }
+}
+
 impl<T> Debug for Cached<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str("Cached { ... }")
@@ -156,6 +179,7 @@ impl<T> Clone for Cached<T> {
     fn clone(&self) -> Self {
         Self {
             inner: self.inner.clone(),
+            last_value: Arc::clone(&self.last_value),
         }
     }
 }
