@@ -1,5 +1,6 @@
 mod create_webhook;
 mod delete_webhook;
+mod delete_webhook_message;
 mod delete_webhook_with_token;
 mod edit_webhook_message;
 mod execute_webhook;
@@ -12,6 +13,7 @@ mod update_webhook_with_token;
 
 pub use create_webhook::*;
 pub use delete_webhook::*;
+pub use delete_webhook_message::*;
 pub use delete_webhook_with_token::*;
 pub use edit_webhook_message::*;
 pub use execute_webhook::*;

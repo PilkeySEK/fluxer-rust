@@ -1,12 +1,16 @@
 use async_trait::async_trait;
 use neptunium_http::endpoints::webhooks::{
-    DeleteWebhook, DeleteWebhookWithToken, ExecuteWebhook, GetWebhook, GetWebhookWithToken,
-    GetWebhookWithTokenResponse, UpdateWebhook, UpdateWebhookBody, WebhookMessage,
+    DeleteWebhook, DeleteWebhookMessage, DeleteWebhookWithToken, ExecuteWebhook, GetWebhook,
+    GetWebhookWithToken, GetWebhookWithTokenResponse, UpdateWebhook, UpdateWebhookBody,
+    WebhookMessage,
 };
 use neptunium_model::{
     channel::message::Message,
     guild::webhook::Webhook,
-    id::{Id, marker::WebhookMarker},
+    id::{
+        Id,
+        marker::{MessageMarker, WebhookMarker},
+    },
 };
 use zeroize::Zeroizing;
 
@@ -40,7 +44,17 @@ pub trait WebhookExt {
         token: String,
         message: WebhookMessage,
     ) -> Result<Message, Error>;
-    async fn delete_with_token(&self, ctx: &Context, token: String) -> Result<(), Error>;
+    async fn delete_with_token(
+        &self,
+        ctx: &Context,
+        token: impl Into<Zeroizing<String>> + Send,
+    ) -> Result<(), Error>;
+    async fn delete_message(
+        &self,
+        ctx: &Context,
+        token: impl Into<Zeroizing<String>> + Send,
+        message_id: Id<MessageMarker>,
+    ) -> Result<(), Error>;
 }
 
 #[async_trait]
@@ -129,12 +143,32 @@ impl WebhookExt for Id<WebhookMarker> {
         Ok(response)
     }
 
-    async fn delete_with_token(&self, ctx: &Context, token: String) -> Result<(), Error> {
+    async fn delete_with_token(
+        &self,
+        ctx: &Context,
+        token: impl Into<Zeroizing<String>> + Send,
+    ) -> Result<(), Error> {
         Ok(ctx
             .get_http_client()
             .execute(DeleteWebhookWithToken {
                 webhook_id: *self,
-                token: Zeroizing::new(token),
+                token: token.into(),
+            })
+            .await?)
+    }
+
+    async fn delete_message(
+        &self,
+        ctx: &Context,
+        token: impl Into<Zeroizing<String>> + Send,
+        message_id: Id<MessageMarker>,
+    ) -> Result<(), Error> {
+        Ok(ctx
+            .get_http_client()
+            .execute(DeleteWebhookMessage {
+                webhook_id: *self,
+                token: token.into(),
+                message_id,
             })
             .await?)
     }
