@@ -14,7 +14,6 @@ use crate::{
     request::Request,
 };
 
-/// Note that when editing a webhook message, the entire content needs to be sent again, not just the edited parts.
 #[derive(Builder, Clone, Debug)]
 pub struct EditWebhookMessage {
     pub webhook_id: Id<WebhookMarker>,
