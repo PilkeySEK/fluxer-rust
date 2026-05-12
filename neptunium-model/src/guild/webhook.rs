@@ -5,26 +5,10 @@ use zeroize::Zeroizing;
 use crate::{
     id::{
         Id,
-        marker::{ChannelMarker, GuildMarker, UserMarker, WebhookMarker},
+        marker::{ChannelMarker, GuildMarker, WebhookMarker},
     },
-    misc::HexColor,
-    user::flags::PublicUserFlags,
+    user::PartialUser,
 };
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct WebhookUser {
-    pub id: Id<UserMarker>,
-    pub username: String,
-    pub discriminator: String,
-    pub global_name: Option<String>,
-    pub avatar: Option<String>,
-    pub avatar_color: Option<HexColor>,
-    pub flags: PublicUserFlags,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub bot: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub system: Option<bool>,
-}
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Webhook {
@@ -34,7 +18,8 @@ pub struct Webhook {
     /// The display name.
     pub name: String,
     pub token: Zeroizing<String>,
-    pub user: WebhookUser,
+    #[serde(rename = "user")]
+    pub creator: PartialUser,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub avatar: Option<String>,
 }
