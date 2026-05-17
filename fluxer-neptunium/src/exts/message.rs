@@ -67,7 +67,7 @@ pub trait MessageExt {
     async fn edit(
         &self,
         ctx: &Context,
-        updates: EditMessageBody,
+        updates: impl Into<EditMessageBody> + Send,
     ) -> Result<Cached<CachedMessage>, Error>;
 
     /// Re-fetches this message and returns the result.
@@ -224,12 +224,12 @@ impl MessageExt for Message {
     async fn edit(
         &self,
         ctx: &Context,
-        updates: EditMessageBody,
+        updates: impl Into<EditMessageBody> + Send,
     ) -> Result<Cached<CachedMessage>, Error> {
         Ok(EditMessage {
             channel_id: self.channel_id,
             message_id: self.id,
-            body: updates,
+            body: updates.into(),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -466,12 +466,12 @@ impl MessageExt for CachedMessage {
     async fn edit(
         &self,
         ctx: &Context,
-        updates: EditMessageBody,
+        updates: impl Into<EditMessageBody> + Send,
     ) -> Result<Cached<CachedMessage>, Error> {
         Ok(EditMessage {
             channel_id: self.channel_id,
             message_id: self.id,
-            body: updates,
+            body: updates.into(),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
