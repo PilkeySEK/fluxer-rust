@@ -53,3 +53,21 @@ impl Endpoint for EditMessage {
             .build()
     }
 }
+
+impl From<String> for EditMessageBody {
+    fn from(value: String) -> Self {
+        Self {
+            content: Some(value),
+            embeds: None,
+            attachments: None,
+            allowed_mentions: None,
+            flags: None,
+        }
+    }
+}
+
+impl From<&str> for EditMessageBody {
+    fn from(value: &str) -> Self {
+        Self::from(value.to_owned())
+    }
+}
