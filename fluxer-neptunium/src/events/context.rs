@@ -42,7 +42,7 @@ use neptunium_http::{
 #[cfg(feature = "user_api")]
 use neptunium_model::{
     channel::message::Message,
-    id::marker::{MessageMarker, UserMarker},
+    id::marker::MessageMarker,
     user::{
         auth::SudoVerification,
         data_harvest::DataHarvestResponse,
@@ -64,7 +64,7 @@ use neptunium_model::{
     guild::Guild,
     id::{
         Id,
-        marker::{ChannelMarker, GuildMarker},
+        marker::{ChannelMarker, GuildMarker, UserMarker},
     },
 };
 use tokio::sync::{
@@ -113,6 +113,24 @@ impl Context {
     #[must_use]
     pub fn get_cache_statistics(&self) -> CacheStats {
         self.cache.stats()
+    }
+
+    // NOTE: The token format is considered stable
+    //
+    // https://web.canary.fluxer.app/channels/1427764813854588940/1483532018185537313/1505406919415972091
+    // "yeah it's effectively stable, if we change it in the future there'll be advance notice" - Hampus
+
+    /// Get the current user ID from the token.
+    /// If the token has an invalid format or is a user token, this will return
+    /// `None`.
+    ///
+    /// Bot tokens have the following format: `<user id>.<token>`.
+    ///
+    /// User tokens have the following format: `flx_<token>` (no user ID present).
+    #[must_use]
+    pub fn get_user_id_from_token(&self) -> Option<Id<UserMarker>> {
+        let (id_str, _) = self.http_client.token.split_once('.')?;
+        Id::try_from(id_str).ok()
     }
 
     /// Bulk-acknowledge messages (mark as read).
@@ -1120,5 +1138,37 @@ impl Context {
             })
             .await?;
         Ok(response.deleted_count)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use neptunium_model::id::{Id, marker::UserMarker};
+
+    use crate::client::Client;
+
+    #[test]
+    fn token_parsing() {
+        tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .unwrap()
+            .block_on(async {
+                {
+                    let client = Client::new("123.abc");
+                    assert_eq!(
+                        client.get_user_id_from_token(),
+                        Some(Id::<UserMarker>::new(123))
+                    );
+                }
+                {
+                    let client = Client::new("flx_abcdefg");
+                    assert_eq!(client.get_user_id_from_token(), None);
+                }
+                {
+                    let client = Client::new(".invalid");
+                    assert_eq!(client.get_user_id_from_token(), None);
+                }
+            });
     }
 }
