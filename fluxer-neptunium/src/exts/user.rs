@@ -20,6 +20,7 @@ use neptunium_model::{
         Id,
         marker::{GenericMarker, RoleMarker},
     },
+    time::timestamp::{Timestamp, representations::Iso8601},
     user::PartialUser,
 };
 
@@ -241,6 +242,23 @@ pub trait GuildMemberExt {
     ) -> Result<bool, Error>;
     async fn add_role(&self, ctx: &Context, role_id: Id<RoleMarker>) -> Result<(), Error>;
     async fn remove_role(&self, ctx: &Context, role_id: Id<RoleMarker>) -> Result<(), Error>;
+    async fn timeout(
+        &self,
+        ctx: &Context,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn timeout_with_reason(
+        &self,
+        ctx: &Context,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn untimeout(&self, ctx: &Context) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn untimeout_with_reason(
+        &self,
+        ctx: &Context,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
 }
 
 #[async_trait]
@@ -379,6 +397,39 @@ impl GuildMemberExt for CachedGuildMember {
     async fn remove_role(&self, ctx: &Context, role_id: Id<RoleMarker>) -> Result<(), Error> {
         self.guild_id
             .remove_role_from_member(ctx, self.id, role_id)
+            .await
+    }
+
+    async fn timeout(
+        &self,
+        ctx: &Context,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.guild_id.timeout_member(ctx, self.id, until).await
+    }
+
+    async fn timeout_with_reason(
+        &self,
+        ctx: &Context,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.guild_id
+            .timeout_member_with_reason(ctx, self.id, until, reason)
+            .await
+    }
+
+    async fn untimeout(&self, ctx: &Context) -> Result<Cached<CachedGuildMember>, Error> {
+        self.guild_id.untimeout_member(ctx, self.id).await
+    }
+
+    async fn untimeout_with_reason(
+        &self,
+        ctx: &Context,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.guild_id
+            .untimeout_member_with_reason(ctx, self.id, reason)
             .await
     }
 }

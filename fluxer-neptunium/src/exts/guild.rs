@@ -34,6 +34,7 @@ use neptunium_model::{
         marker::{RoleMarker, StickerMarker, UserMarker},
     },
     invites::InviteWithMetadata,
+    time::timestamp::{Timestamp, representations::Iso8601},
 };
 
 use crate::{client::error::Error, events::context::Context, internal::traits::guild::GuildTrait};
@@ -140,6 +141,30 @@ pub trait GuildExt {
         ctx: &Context,
         member_id: Id<UserMarker>,
         body: UpdateGuildMemberBody,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn timeout_member(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn timeout_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn untimeout_member(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+    ) -> Result<Cached<CachedGuildMember>, Error>;
+    async fn untimeout_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
         reason: impl Into<String> + Send,
     ) -> Result<Cached<CachedGuildMember>, Error>;
     async fn add_role_to_member(
@@ -1070,5 +1095,97 @@ impl<T: GuildTrait> GuildExt for T {
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
+    }
+
+    async fn timeout_member(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.update_member(
+            ctx,
+            member_id,
+            UpdateGuildMemberBody {
+                nick: None,
+                roles: None,
+                mute: None,
+                deaf: None,
+                communication_disabled_until: Some(Some(until.into())),
+                timeout_reason: None,
+                voice_channel_id: None,
+                voice_connection_id: None,
+            },
+        )
+        .await
+    }
+
+    async fn timeout_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        until: impl Into<Timestamp<Iso8601>> + Send,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.update_member(
+            ctx,
+            member_id,
+            UpdateGuildMemberBody {
+                nick: None,
+                roles: None,
+                mute: None,
+                deaf: None,
+                communication_disabled_until: Some(Some(until.into())),
+                timeout_reason: Some(reason.into()),
+                voice_channel_id: None,
+                voice_connection_id: None,
+            },
+        )
+        .await
+    }
+
+    async fn untimeout_member(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.update_member(
+            ctx,
+            member_id,
+            UpdateGuildMemberBody {
+                nick: None,
+                roles: None,
+                mute: None,
+                deaf: None,
+                communication_disabled_until: Some(None),
+                timeout_reason: None,
+                voice_channel_id: None,
+                voice_connection_id: None,
+            },
+        )
+        .await
+    }
+
+    async fn untimeout_member_with_reason(
+        &self,
+        ctx: &Context,
+        member_id: Id<UserMarker>,
+        reason: impl Into<String> + Send,
+    ) -> Result<Cached<CachedGuildMember>, Error> {
+        self.update_member(
+            ctx,
+            member_id,
+            UpdateGuildMemberBody {
+                nick: None,
+                roles: None,
+                mute: None,
+                deaf: None,
+                communication_disabled_until: Some(None),
+                timeout_reason: Some(reason.into()),
+                voice_channel_id: None,
+                voice_connection_id: None,
+            },
+        )
+        .await
     }
 }
