@@ -1,5 +1,6 @@
 use bitflags::bitflags;
 use serde::{Deserialize, Serialize};
+use serde_repr::{Deserialize_repr, Serialize_repr};
 
 use crate::{
     id::{Id, marker::UserMarker},
@@ -35,6 +36,8 @@ pub struct PartialUser {
     pub system: bool,
     /// Note that this is not unique (because Fluxer has discriminators).
     pub username: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mention_flags: Option<MentionReplyPreference>,
 }
 
 #[derive(Deserialize, Clone, Debug)]
@@ -84,4 +87,12 @@ pub struct UserExternalAccountConnection {
     pub verified: bool,
     pub visibility_flags: UserExternalAccountConnectionVisibilityFlags,
     pub sort_order: u32,
+}
+
+#[derive(Deserialize_repr, Serialize_repr, Copy, Clone, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum MentionReplyPreference {
+    NoPreference = 0,
+    PreferMention = 1,
+    PreferNoMention = 2,
 }

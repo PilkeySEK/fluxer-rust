@@ -14,7 +14,7 @@ use crate::{
     },
     time::timestamp::{Timestamp, representations::Iso8601},
     user::{
-        PartialUser,
+        MentionReplyPreference, PartialUser,
         flags::PublicUserFlags,
         read_state::ReadState,
         relationship::RelationshipType,
@@ -123,6 +123,8 @@ pub struct UserPrivateResponse {
     // Undocumented.
     #[cfg(feature = "user_api")]
     pub premium_out_of_band_trial_ends_at: Option<Timestamp<Iso8601>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mention_flags: Option<MentionReplyPreference>,
 }
 
 #[derive(Debug, Copy, Clone, Serialize_repr, Deserialize_repr)]
