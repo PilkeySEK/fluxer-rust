@@ -50,6 +50,7 @@ impl<'de> Deserialize<'de> for GatewayEvent {
             OpCode::InvalidSession => {
                 Self::InvalidSession(serde_json::from_value(d).map_err(de::Error::custom)?)
             }
+            OpCode::Reconnect => Self::Reconnect,
             opcode => {
                 return Err(D::Error::custom(format!(
                     "Not yet supported opcode: {opcode:?}"
