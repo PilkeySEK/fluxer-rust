@@ -118,7 +118,7 @@ impl MessageExt for Message {
         ctx: &Context,
         message_body: impl Into<CreateMessageBody> + Send,
     ) -> Result<Cached<CachedMessage>, crate::client::error::Error> {
-        let mut message_body = message_body.into();
+        let mut message_body = message_body.into().apply_default_allowed_mentions(ctx);
         message_body.message_reference = Some(
             MessageReference::builder()
                 .channel_id(self.channel_id)
@@ -360,7 +360,7 @@ impl MessageExt for CachedMessage {
         ctx: &Context,
         message_body: impl Into<CreateMessageBody> + Send,
     ) -> Result<Cached<CachedMessage>, crate::client::error::Error> {
-        let mut message_body = message_body.into();
+        let mut message_body = message_body.into().apply_default_allowed_mentions(ctx);
         message_body.message_reference = Some(
             MessageReference::builder()
                 .channel_id(self.channel_id)
