@@ -28,7 +28,9 @@ use neptunium_model::{
 };
 
 use crate::{
-    client::error::Error, events::context::Context, exts::PartialUserExt,
+    client::error::Error,
+    events::context::{ApplyDefaultAllowedMentions, Context},
+    exts::PartialUserExt,
     internal::traits::channel::ChannelTrait,
 };
 
@@ -324,7 +326,7 @@ impl<T: ChannelTrait> ChannelExt for T {
     ) -> Result<Cached<CachedMessage>, Error> {
         Ok(CreateMessage {
             channel_id: self.get_channel_id(),
-            message: message.into(),
+            message: message.into().apply_default_allowed_mentions(ctx),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)

@@ -165,6 +165,7 @@ impl Client {
                 http_client: Arc::new(api_client),
                 tx: tx.clone(),
                 cache: Arc::new(Cache::new(client_config.cache_config)),
+                default_allowed_mentions: Arc::new(client_config.default_allowed_mentions),
             },
             tx,
             rx,

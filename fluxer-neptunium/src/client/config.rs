@@ -2,6 +2,7 @@ use std::{fmt::Debug, time::Duration};
 
 use bon::Builder;
 use neptunium_cache_inmemory::CacheConfig;
+use neptunium_http::endpoints::channel::AllowedMentions;
 use neptunium_model::gateway::payload::outgoing::PresenceUpdateOutgoing;
 
 use crate::client::ResumeInfo;
@@ -44,6 +45,10 @@ pub struct ClientConfig {
     /// Add resume info so that the client will try to resume on the first start instead
     /// of creating a new session.
     pub resume_info: Option<ResumeInfo>,
+    /// If `allowed_mentions` is not provided when sending a message, this value will be used instead.
+    /// The value will only be overwritten when using methods defined in this crate, not in `neptunium-http` or somewhere else.
+    /// When sending a request manually using the HTTP client, this will not be applied.
+    pub default_allowed_mentions: Option<AllowedMentions>,
 }
 
 impl Debug for ClientConfig {
@@ -70,12 +75,16 @@ impl Debug for ClientConfig {
             "send_initial_presence_on_every_reconnect: {:?}, ",
             self.send_initial_presence_on_every_reconnect
         ))?;
-        f.write_str("gateway_retry_wait_time_fn: <closure> }, ")?;
         f.write_fmt(format_args!(
-            "heartbeat_interval_override: {:?} ",
+            "heartbeat_interval_override: {:?}, ",
             self.heartbeat_interval_override
         ))?;
-        f.write_fmt(format_args!("resume_info: {:?} ", self.resume_info))?;
+        f.write_fmt(format_args!("resume_info: {:?}, ", self.resume_info))?;
+        f.write_fmt(format_args!(
+            "default_allowed_mentions: {:?}, ",
+            self.default_allowed_mentions
+        ))?;
+        f.write_str("gateway_retry_wait_time_fn: Closure }, ")?;
         Ok(())
     }
 }

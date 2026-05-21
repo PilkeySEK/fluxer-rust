@@ -31,8 +31,9 @@ use neptunium_http::{
     client::HttpClient,
     endpoints::{
         channel::{
-            AttachmentBase, AttachmentRequest, CreateAttachmentsInChannel,
-            CreateAttachmentsInChannelAttachment, CreatePrivateChannel, ListPrivateChannels,
+            AllowedMentions, AttachmentBase, AttachmentRequest, CreateAttachmentsInChannel,
+            CreateAttachmentsInChannelAttachment, CreateMessageBody, CreatePrivateChannel,
+            EditMessageBody, ListPrivateChannels,
         },
         gateway::{GatewayInformation, GetGatewayInformation},
         guild::{ListCurrentUserGuilds, ListCurrentUserGuildsParams},
@@ -86,6 +87,7 @@ pub struct Context {
     pub(crate) http_client: Arc<HttpClient>,
     pub(crate) tx: UnboundedSender<ClientMessage>,
     pub(crate) cache: Arc<neptunium_cache_inmemory::Cache>,
+    pub(crate) default_allowed_mentions: Arc<Option<AllowedMentions>>,
 }
 
 #[derive(Builder, Clone, Debug)]
@@ -99,6 +101,29 @@ pub struct FileUploadParams {
     pub content_type: Option<String>,
     #[builder(default = AttachmentBase::builder().build())]
     pub attachment: AttachmentBase,
+}
+
+pub(crate) trait ApplyDefaultAllowedMentions {
+    fn apply_default_allowed_mentions(self, ctx: &Context) -> Self;
+}
+
+impl ApplyDefaultAllowedMentions for CreateMessageBody {
+    fn apply_default_allowed_mentions(mut self, ctx: &Context) -> Self {
+        if self.allowed_mentions.is_none() {
+            self.allowed_mentions
+                .clone_from(&(*ctx.default_allowed_mentions));
+        }
+        self
+    }
+}
+impl ApplyDefaultAllowedMentions for EditMessageBody {
+    fn apply_default_allowed_mentions(mut self, ctx: &Context) -> Self {
+        if self.allowed_mentions.is_none() {
+            self.allowed_mentions
+                .clone_from(&(*ctx.default_allowed_mentions));
+        }
+        self
+    }
 }
 
 // TODO: Add errors docs

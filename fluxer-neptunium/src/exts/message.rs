@@ -14,7 +14,10 @@ use neptunium_model::{
     },
 };
 
-use crate::{client::error::Error, events::context::Context};
+use crate::{
+    client::error::Error,
+    events::context::{ApplyDefaultAllowedMentions, Context},
+};
 
 use neptunium_http::endpoints::channel::{
     AddReaction, CreateMessage, CreateMessageBody, DeleteAllReactions, DeleteAllReactionsOfEmoji,
@@ -229,7 +232,7 @@ impl MessageExt for Message {
         Ok(EditMessage {
             channel_id: self.channel_id,
             message_id: self.id,
-            body: updates.into(),
+            body: updates.into().apply_default_allowed_mentions(ctx),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
@@ -471,7 +474,7 @@ impl MessageExt for CachedMessage {
         Ok(EditMessage {
             channel_id: self.channel_id,
             message_id: self.id,
-            body: updates.into(),
+            body: updates.into().apply_default_allowed_mentions(ctx),
         }
         .execute_cached(ctx.get_http_client(), &ctx.cache)
         .await?)
