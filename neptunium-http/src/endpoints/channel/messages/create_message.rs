@@ -15,7 +15,10 @@ use neptunium_model::{
 use crate::{
     endpoints::{
         Endpoint,
-        channel::messages::{allowed_mentions::AllowedMentions, attachment::AttachmentRequest},
+        channel::{
+            EditMessageBody,
+            messages::{allowed_mentions::AllowedMentions, attachment::AttachmentRequest},
+        },
     },
     request::Request,
 };
@@ -110,5 +113,22 @@ impl Endpoint for CreateMessage {
             .method(Method::POST)
             .path(format!("/channels/{}/messages", self.channel_id))
             .build()
+    }
+}
+
+impl From<EditMessageBody> for CreateMessageBody {
+    fn from(value: EditMessageBody) -> Self {
+        Self {
+            content: value.content,
+            embeds: value.embeds.unwrap_or_default(),
+            attachments: value.attachments.unwrap_or_default(),
+            allowed_mentions: value.allowed_mentions,
+            flags: value.flags.unwrap_or_default(),
+            message_reference: None,
+            nonce: Nonce::generate(),
+            saved_media_id: None,
+            sticker_ids: None,
+            tts: false,
+        }
     }
 }

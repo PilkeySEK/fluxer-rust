@@ -12,7 +12,10 @@ use serde::Serialize;
 use crate::{
     endpoints::{
         Endpoint,
-        channel::messages::{allowed_mentions::AllowedMentions, attachment::AttachmentRequest},
+        channel::{
+            CreateMessageBody,
+            messages::{allowed_mentions::AllowedMentions, attachment::AttachmentRequest},
+        },
     },
     request::Request,
 };
@@ -69,5 +72,17 @@ impl From<String> for EditMessageBody {
 impl From<&str> for EditMessageBody {
     fn from(value: &str) -> Self {
         Self::from(value.to_owned())
+    }
+}
+
+impl From<CreateMessageBody> for EditMessageBody {
+    fn from(value: CreateMessageBody) -> Self {
+        Self {
+            content: value.content,
+            embeds: Some(value.embeds),
+            attachments: Some(value.attachments),
+            allowed_mentions: value.allowed_mentions,
+            flags: Some(value.flags),
+        }
     }
 }
