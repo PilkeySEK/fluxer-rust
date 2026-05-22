@@ -159,7 +159,7 @@ impl Endpoint for DeleteReaction {
         Request::builder()
             .method(Method::DELETE)
             .path(format!(
-                "/channels/{}/messages/{}/reactions/{}/@{}",
+                "/channels/{}/messages/{}/reactions/{}/{}",
                 self.channel_id, self.message_id, self.reaction, self.target
             ))
             .build()
