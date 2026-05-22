@@ -4,6 +4,8 @@ use serde::Deserialize;
 #[derive(Deserialize, Copy, Clone, Debug, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum ApiErrorCode {
+    /// There was an internal server error.
+    InternalServerError,
     /// Access to this resource is denied.
     AccessDenied,
     /// This account has been disabled.
