@@ -194,4 +194,7 @@ pub enum GuildFeatureFlag {
     Partnered,
     /// This feature flag will be removed soon.
     ContentWarningsBackfilled,
+    /// The guild has end-to-end encrypted voice chats.
+    #[serde(rename = "VOICE_E2EE")]
+    VoiceE2EE,
 }
