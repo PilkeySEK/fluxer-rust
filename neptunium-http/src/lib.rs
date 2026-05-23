@@ -1,7 +1,8 @@
 //! Types and builders for interacting with the Fluxer HTTP API.
 
 pub const DEFAULT_API_BASE_URL: &str = "https://api.fluxer.app/v1";
-pub const DEFAULT_USER_AGENT: &str = "Neptunium-HTTP";
+/// (name, contact info).
+pub const BASE_USER_AGENT: (&str, &str) = ("neptunium-http", "pilkey#0770");
 
 const VERSION: &str = unwrap_or(option_env!("CARGO_PKG_VERSION"), "unknown");
 

@@ -6,7 +6,7 @@ use reqwest::{IntoUrl, Method, StatusCode};
 use serde_json::Deserializer;
 
 use crate::{
-    DEFAULT_API_BASE_URL, DEFAULT_USER_AGENT, VERSION,
+    BASE_USER_AGENT, DEFAULT_API_BASE_URL, VERSION,
     endpoints::{Endpoint, ExecuteEndpointRequestError, ResponseBody},
 };
 
@@ -26,7 +26,8 @@ pub struct HttpClient {
     #[cfg(feature = "user_api")]
     pub token_type: TokenType,
     pub(crate) reqwest_client: reqwest::Client,
-    pub user_agent: String,
+    pub bot_user_agent: Option<String>,
+    pub base_user_agent: String,
     #[cfg(feature = "rate-limiting")]
     pub(crate) rate_limiter: RateLimiter,
     /// How many times the client should retry if an error is received that is
@@ -48,15 +49,24 @@ impl HttpClient {
             token: zeroize::Zeroizing::new(token),
             #[cfg(feature = "user_api")]
             token_type,
-            user_agent: format!("{DEFAULT_USER_AGENT}/{VERSION}"),
+            bot_user_agent: None,
+            base_user_agent: format!("{}/{} (+{})", BASE_USER_AGENT.0, VERSION, BASE_USER_AGENT.1),
             #[cfg(feature = "rate-limiting")]
             rate_limiter: RateLimiter::new(Self::DEFAULT_GLOBAL_RATE_LIMIT),
             retry_times: 3,
         }
     }
 
-    pub fn set_user_agent(&mut self, user_agent: String) {
-        self.user_agent = user_agent;
+    pub fn get_full_user_agent(&self) -> String {
+        format!(
+            "{}{}",
+            if let Some(bot_user_agent) = &self.bot_user_agent {
+                format!("{bot_user_agent} ")
+            } else {
+                String::new()
+            },
+            self.base_user_agent
+        )
     }
 
     pub fn set_api_base_url(&mut self, url: String) {

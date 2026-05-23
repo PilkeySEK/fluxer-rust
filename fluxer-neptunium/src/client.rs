@@ -113,7 +113,8 @@ impl Deref for Client {
 }
 
 impl Client {
-    pub const USER_AGENT: &str = "Fluxer-Neptunium";
+    /// (name, contact info).
+    pub const USER_AGENT: (&str, &str) = ("fluxer-neptunium", "pilkey#0770");
     const HEARTBEAT_SEND_TIMEOUT: Duration = Duration::from_mins(5);
 
     /// Create a new client, given a `ShardConfig` or token.
@@ -153,7 +154,13 @@ impl Client {
         if let Some(api_base_url) = client_config.api_base_url {
             api_client.set_api_base_url(api_base_url);
         }
-        api_client.set_user_agent(format!("{}/{}", Self::USER_AGENT, crate::VERSION));
+        api_client.base_user_agent = format!(
+            "{}/{} (+{})",
+            Self::USER_AGENT.0,
+            crate::VERSION,
+            Self::USER_AGENT.1
+        );
+        api_client.bot_user_agent = client_config.bot_user_agent_information;
 
         let (tx, rx) = unbounded_channel::<ClientMessage>();
 

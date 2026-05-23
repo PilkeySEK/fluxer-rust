@@ -49,6 +49,11 @@ pub struct ClientConfig {
     /// The value will only be overwritten when using methods defined in this crate, not in `neptunium-http` or somewhere else.
     /// When sending a request manually using the HTTP client, this will not be applied.
     pub default_allowed_mentions: Option<AllowedMentions>,
+    /// This will be sent in the user agent alongside this crate name.
+    ///
+    /// Example format: `MyBot (+User#0000)` (you should specify contact information as seen here.)
+    #[builder(into)]
+    pub bot_user_agent_information: Option<String>,
 }
 
 impl Debug for ClientConfig {

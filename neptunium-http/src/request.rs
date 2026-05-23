@@ -30,7 +30,7 @@ impl Request {
         let mut request = client
             .reqwest_client
             .request(self.method, format!("{}{}", client.api_base_url, self.path))
-            .header("User-Agent", &client.user_agent);
+            .header("User-Agent", client.get_full_user_agent());
         if let Some(headers) = self.headers {
             request = request.headers(headers);
         }
@@ -70,7 +70,7 @@ impl Request {
                 self.method.clone(),
                 format!("{}{}", client.api_base_url, self.path),
             )
-            .header("User-Agent", &client.user_agent);
+            .header("User-Agent", client.get_full_user_agent());
         if let Some(headers) = &self.headers {
             request = request.headers(headers.clone());
         }
