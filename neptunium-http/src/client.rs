@@ -57,6 +57,7 @@ impl HttpClient {
         }
     }
 
+    #[must_use]
     pub fn get_full_user_agent(&self) -> String {
         format!(
             "{}{}",
