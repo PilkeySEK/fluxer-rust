@@ -21,7 +21,7 @@ pub enum TimestampDisplayType {
     Date,
     /// "May 5, 2026".
     VerboseDate,
-    /// "May 5, 2026".
+    /// "May 5, 2026, 10:00 AM".
     VerboseDateWithShortTime,
     /// "Tuesday, May 5, 2026 at 10:00 AM".
     VerboseDateWithDayOfWeekAndShortTime,
