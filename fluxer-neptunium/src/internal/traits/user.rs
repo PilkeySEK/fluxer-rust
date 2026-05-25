@@ -1,3 +1,4 @@
+use neptunium_cache_inmemory::CachedGuildMember;
 use neptunium_model::{
     gateway::payload::incoming::UserPrivateResponse,
     guild::member::GuildMember,
@@ -30,5 +31,11 @@ impl UserTrait for UserPrivateResponse {
 impl UserTrait for GuildMember {
     fn get_user_id(&self) -> Id<UserMarker> {
         self.user.id
+    }
+}
+
+impl UserTrait for CachedGuildMember {
+    fn get_user_id(&self) -> Id<UserMarker> {
+        self.id
     }
 }

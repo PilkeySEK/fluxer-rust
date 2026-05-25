@@ -1,3 +1,4 @@
+use neptunium_cache_inmemory::CachedChannel;
 use neptunium_model::{
     channel::{Channel, ChannelPartial},
     id::{Id, marker::ChannelMarker},
@@ -23,5 +24,11 @@ impl ChannelTrait for ChannelPartial {
 impl ChannelTrait for Id<ChannelMarker> {
     fn get_channel_id(&self) -> Id<ChannelMarker> {
         *self
+    }
+}
+
+impl ChannelTrait for CachedChannel {
+    fn get_channel_id(&self) -> Id<ChannelMarker> {
+        self.id
     }
 }
