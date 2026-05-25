@@ -1,20 +1,20 @@
 #[macro_export]
 macro_rules! create_embed {
     (
-        $(title: $title:expr)?
-        $(, description: $description:expr)?
-        $(, color: $color:expr)?
-        $(, author: {
+        $(title: $title:expr,)?
+        $(description: $description:expr,)?
+        $(color: $color:expr,)?
+        $(author: {
             name: $author_name:expr
             $(, url: $author_url:expr)?
             $(, icon_url: $author_icon_url:expr)? $(,)?
-        })?
-        $(, $([
+        } $(,)?)?
+        $($([
             name: $field_name:expr,
             content: $field_content:expr
             $(, inline: $field_inline:expr)? $(,)?
-        ])+)?
-        $(, footer: {
+        ])+)? $(,)?
+        $(footer: {
             text: $footer_text:expr
             $(, icon_url: $footer_icon_url:expr)?
             $(, timestamp: $footer_timestamp:expr)? $(,)?
@@ -70,7 +70,7 @@ mod tests {
             author: {
                 name: "person",
                 icon_url: "example.com",
-            },
+            }
             [
                 name: "Field 1",
                 content: "Field content 1",
@@ -79,7 +79,7 @@ mod tests {
             [
                 name: "Field 2",
                 content: "Field content 2"
-            ],
+            ]
             footer: {
                 text: "abc",
                 timestamp: timestamp,
