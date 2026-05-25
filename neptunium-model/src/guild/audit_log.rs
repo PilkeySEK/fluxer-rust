@@ -1,11 +1,10 @@
+use std::collections::HashMap;
+
 use serde::Deserialize;
 
 use crate::{
     guild::{
-        audit_log::{
-            change::AuditLogChange, event_type::AuditLogActionType,
-            optional_entry_info::AuditLogOptionalEntryInfo,
-        },
+        audit_log::{change::AuditLogChange, event_type::AuditLogActionType},
         webhook::AuditLogWebhook,
     },
     id::{
@@ -18,7 +17,8 @@ use crate::{
 pub mod change;
 pub mod change_key;
 pub mod event_type;
-pub mod optional_entry_info;
+// See comment in the module on why this is commented
+// pub mod optional_entry_info;
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct AuditLogEntry {
@@ -39,7 +39,7 @@ pub struct AuditLogEntry {
     pub id: Id<AuditLogEntryMarker>,
     /// Optional information about the entry.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub options: Option<AuditLogOptionalEntryInfo>,
+    pub options: Option<HashMap<String, serde_json::Value>>,
     /// Optional application- or user-attached reason for the action that caused
     /// the entry.
     #[serde(skip_serializing_if = "Option::is_none")]

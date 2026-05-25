@@ -1,3 +1,7 @@
+// This file is unused until there is proper documentation for this or the source code is public.
+// There are too many undocumented fields which are difficult to know since not even the official client code
+// bothers to make a proper interface
+
 use serde::{Deserialize, Serialize};
 
 use crate::{
