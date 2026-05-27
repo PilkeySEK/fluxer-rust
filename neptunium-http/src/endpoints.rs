@@ -90,6 +90,29 @@ pub enum ExecuteEndpointRequestError {
     InternalServerError(ApiErrorResponse),
 }
 
+impl std::error::Error for ExecuteEndpointRequestError {}
+
+impl std::fmt::Display for ExecuteEndpointRequestError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::NetworkError(e) => f.write_fmt(format_args!("Network error: {e}")),
+            Self::ResponseNotOk(e) => f.write_fmt(format_args!("API response is not OK: {e:?}")),
+            Self::DeserializationError(e) => {
+                f.write_fmt(format_args!("Deserialization error: {e}"))
+            }
+            Self::NonUtf8Bytes(e) => f.write_fmt(format_args!("{e}")),
+            Self::RateLimited(e) => f.write_fmt(format_args!("API Rate limited: {e:?}")),
+            Self::BadRequest(e) => f.write_fmt(format_args!("API Bad request: {e:?}")),
+            Self::Unauthorized(e) => f.write_fmt(format_args!("API Unauthorized: {e:?}")),
+            Self::Forbidden(e) => f.write_fmt(format_args!("API Forbidden: {e:?}")),
+            Self::NotFound(e) => f.write_fmt(format_args!("API Not found: {e:?}")),
+            Self::InternalServerError(e) => {
+                f.write_fmt(format_args!("API Internal server error: {e:?}"))
+            }
+        }
+    }
+}
+
 impl From<reqwest::Error> for ExecuteEndpointRequestError {
     fn from(value: reqwest::Error) -> Self {
         Self::NetworkError(value)
