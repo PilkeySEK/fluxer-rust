@@ -6,9 +6,7 @@ use reqwest::{
     header::{HeaderMap, HeaderValue},
 };
 
-use crate::client::HttpClient;
-#[cfg(feature = "user_api")]
-use crate::client::TokenType;
+use crate::client::{HttpClient, TokenType};
 
 #[derive(Clone, Debug, Builder)]
 pub struct Request {
@@ -35,12 +33,10 @@ impl Request {
             request = request.headers(headers);
         }
         if self.use_authorization_token {
-            #[cfg(not(feature = "user_api"))]
-            let token = format!("Bot {}", *client.token);
-            #[cfg(feature = "user_api")]
             let token = match client.token_type {
                 TokenType::Bot => format!("Bot {}", *client.token),
                 TokenType::User => (*client.token).clone(),
+                TokenType::Bearer => format!("Bearer {}", *client.token),
             };
 
             request = request.header("Authorization", token);

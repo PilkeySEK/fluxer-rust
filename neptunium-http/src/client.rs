@@ -10,20 +10,24 @@ use crate::{
     endpoints::{Endpoint, ExecuteEndpointRequestError, ResponseBody},
 };
 
-/// Bot tokens have `Bot ` prefix, user tokens do not.
-#[cfg(feature = "user_api")]
+/// Defines the token prefix:
+/// - `Bot`: "Bot"
+/// - `User`: *(no prefix)*
+/// - `Bearer`: "Bearer"
+///
+/// **Note:** To use the user API, enable the `user_api` feature.
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
 pub enum TokenType {
     #[default]
     Bot,
     User,
+    Bearer,
 }
 
 #[derive(Debug)]
 pub struct HttpClient {
     pub api_base_url: String,
     pub token: zeroize::Zeroizing<String>,
-    #[cfg(feature = "user_api")]
     pub token_type: TokenType,
     pub(crate) reqwest_client: reqwest::Client,
     pub bot_user_agent: Option<String>,
@@ -42,12 +46,11 @@ impl HttpClient {
     #[cfg(feature = "rate-limiting")]
     const DEFAULT_GLOBAL_RATE_LIMIT: u16 = 50;
     #[must_use]
-    pub fn new(token: String, #[cfg(feature = "user_api")] token_type: TokenType) -> Self {
+    pub fn new(token: String, token_type: TokenType) -> Self {
         Self {
             api_base_url: DEFAULT_API_BASE_URL.to_owned(),
             reqwest_client: reqwest::Client::default(),
             token: zeroize::Zeroizing::new(token),
-            #[cfg(feature = "user_api")]
             token_type,
             bot_user_agent: None,
             base_user_agent: format!("{}/{} (+{})", BASE_USER_AGENT.0, VERSION, BASE_USER_AGENT.1),

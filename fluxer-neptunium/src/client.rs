@@ -145,9 +145,6 @@ impl Client {
     ) -> Self {
         let shard_config = shard_config.into();
         let token_clone = (*shard_config.token).clone();
-        #[cfg(not(feature = "user_api"))]
-        let mut api_client = HttpClient::new(token_clone);
-        #[cfg(feature = "user_api")]
         let mut api_client = HttpClient::new(token_clone, client_config.token_type);
 
         if let Some(api_base_url) = client_config.api_base_url {

@@ -14,7 +14,6 @@ pub struct ClientConfig {
     #[builder(default = false)]
     pub always_propagate_event_errors: bool,
     #[builder(default)]
-    #[cfg(feature = "user_api")]
     pub token_type: neptunium_http::client::TokenType,
     #[builder(default = true)]
     pub auto_reconnect: bool,
@@ -64,7 +63,6 @@ impl Debug for ClientConfig {
             "always_propagate_event_errors: {:?}, ",
             self.always_propagate_event_errors
         ))?;
-        #[cfg(feature = "user_api")]
         f.write_fmt(format_args!("token_type: {:?}, ", self.token_type))?;
         f.write_fmt(format_args!("auto_reconnect: {:?}, ", self.auto_reconnect))?;
         f.write_fmt(format_args!("cache_config: {:?}, ", self.cache_config))?;
