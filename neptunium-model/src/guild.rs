@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::{
     guild::{
@@ -31,7 +31,7 @@ pub mod webhook;
 pub use emoji::*;
 
 // Source: https://github.com/fluxerapp/fluxer/blob/5da26d4ed5ef9f3fe8bef993c0f10ea4f4ee9c1d/packages/schema/src/domains/guild/GuildResponseSchemas.tsx#L95
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Guild {
     pub id: Id<GuildMarker>,
     pub name: String,
@@ -90,7 +90,7 @@ pub struct Guild {
     pub online_count: Option<usize>,
 }
 
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct PartialGuild {
     pub id: Id<GuildMarker>,
     pub name: String,
