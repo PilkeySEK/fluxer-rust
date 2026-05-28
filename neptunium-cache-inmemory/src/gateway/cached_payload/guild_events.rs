@@ -25,7 +25,7 @@ pub struct CachedGuildCreate {
     pub online_count: u64,
     pub stickers: Vec<GuildSticker>,
     pub emojis: Vec<GuildEmoji>,
-    pub members: Vec<GuildMember>,
+    pub members: Vec<Cached<CachedGuildMember>>,
     pub presences: Vec<Presence>,
     pub voice_states: Vec<VoiceState>,
     pub joined_at: Timestamp<Iso8601>,
@@ -46,7 +46,14 @@ impl CachedPayload for CachedGuildCreate {
             online_count: non_cached.online_count,
             stickers: non_cached.stickers,
             emojis: non_cached.emojis,
-            members: non_cached.members,
+            members: non_cached
+                .members
+                .into_iter()
+                .map(|member| {
+                    CachedGuildMember::from_guild_member(member, non_cached.id, cache)
+                        .insert_and_return(cache)
+                })
+                .collect(),
             presences: non_cached.presences,
             voice_states: non_cached.voice_states,
             joined_at: non_cached.joined_at,
