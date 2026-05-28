@@ -111,7 +111,6 @@ pub trait GuildExt {
         limit: Option<u16>,
         after: Option<Id<UserMarker>>,
     ) -> Result<Vec<Cached<CachedGuildMember>>, Error>;
-    #[cfg(feature = "user_api")]
     async fn search_members(
         &self,
         ctx: &Context,
@@ -550,7 +549,6 @@ impl<T: GuildTrait> GuildExt for T {
         .await?)
     }
 
-    #[cfg(feature = "user_api")]
     async fn search_members(
         &self,
         ctx: &Context,
