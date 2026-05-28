@@ -11,12 +11,13 @@ use neptunium_http::endpoints::{
         GetGuildVanityUrlResponse, GuildChannelCreateRequest, KickGuildMember, LeaveGuild,
         ListGuildAuditLogs, ListGuildAuditLogsParams, ListGuildBans, ListGuildChannels,
         ListGuildMembers, ListGuildRoles, ListGuildStickers, RemoveRoleFromGuildMember,
-        ResetGuildRoleHoistPositions, ToggleDetachedBanner, ToggleGuildTextChannelFlexibleNames,
-        UnbanGuildMember, UpdateGuildChannelPositions, UpdateGuildChannelPositionsEntry,
-        UpdateGuildMember, UpdateGuildMemberBody, UpdateGuildRole, UpdateGuildRoleBody,
-        UpdateGuildRoleHoistPositions, UpdateGuildRoleHoistPositionsEntry,
-        UpdateGuildRolePositions, UpdateGuildRolePositionsEntry, UpdateGuildSettings,
-        UpdateGuildSettingsBody, UpdateGuildSticker, UpdateGuildStickerBody, UpdateGuildVanityUrl,
+        ResetGuildRoleHoistPositions, SearchGuildMembersMemberResponse, ToggleDetachedBanner,
+        ToggleGuildTextChannelFlexibleNames, UnbanGuildMember, UpdateGuildChannelPositions,
+        UpdateGuildChannelPositionsEntry, UpdateGuildMember, UpdateGuildMemberBody,
+        UpdateGuildRole, UpdateGuildRoleBody, UpdateGuildRoleHoistPositions,
+        UpdateGuildRoleHoistPositionsEntry, UpdateGuildRolePositions,
+        UpdateGuildRolePositionsEntry, UpdateGuildSettings, UpdateGuildSettingsBody,
+        UpdateGuildSticker, UpdateGuildStickerBody, UpdateGuildVanityUrl,
         UpdateGuildVanityUrlResponse,
     },
     invites::ListGuildInvites,
@@ -116,6 +117,13 @@ pub trait GuildExt {
         ctx: &Context,
         body: neptunium_http::endpoints::guild::SearchGuildMembersBody,
     ) -> Result<neptunium_http::endpoints::guild::SearchGuildMembersResponse, Error>;
+    /// Searches guild members but re-runs the search as many times as needed to accumulate all members matching the filters.
+    /// In other words, this method manages the paging for you.
+    async fn search_members_all(
+        &self,
+        ctx: &Context,
+        body: neptunium_http::endpoints::guild::SearchGuildMembersBody,
+    ) -> Result<Vec<SearchGuildMembersMemberResponse>, Error>;
     /// Get the authenticated bot/user as the guild member.
     async fn get_current_member(&self, ctx: &Context) -> Result<Cached<CachedGuildMember>, Error>;
     async fn update_current_member(
@@ -561,6 +569,31 @@ impl<T: GuildTrait> GuildExt for T {
                 body,
             })
             .await?)
+    }
+
+    async fn search_members_all(
+        &self,
+        ctx: &Context,
+        mut body: neptunium_http::endpoints::guild::SearchGuildMembersBody,
+    ) -> Result<Vec<SearchGuildMembersMemberResponse>, Error> {
+        body.limit = Some(100);
+        let mut members = Vec::new();
+
+        loop {
+            let mut search_result = self.search_members(ctx, body.clone()).await?;
+            if let Some(offset) = &mut body.offset {
+                *offset += search_result.page_result_count;
+            } else {
+                body.offset = Some(search_result.page_result_count);
+            }
+            members.append(&mut search_result.members);
+            #[expect(clippy::cast_possible_truncation)]
+            if search_result.total_result_count as usize <= members.len() {
+                break;
+            }
+        }
+
+        Ok(members)
     }
 
     async fn get_current_member(&self, ctx: &Context) -> Result<Cached<CachedGuildMember>, Error> {
