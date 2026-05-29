@@ -69,6 +69,7 @@ pub(crate) enum ClientMessage {
         oneshot::Sender<Result<(), neptunium_gateway::shard::Error>>,
         Option<oneshot::Sender<GuildCountsUpdate>>,
     ),
+    GracefullyStop,
 }
 
 struct SessionInfo<'a> {
@@ -178,11 +179,16 @@ impl Client {
     /// exponential backoff function is used to determine the time to wait between reconnects, which
     /// can be changed in the client config.
     ///
+    /// If the client gracefully stops (initiated through `Context::gracefully_stop_client`), this will return
+    /// `Ok(...)` with the resume info, if resume info is available yet (resume info may not be available if
+    /// no `Ready` event has been received yet). Note that if resume info was specified in the client config,
+    /// it will be returned if it has not been overwritten.
+    ///
     /// # Errors
     /// Will return an error if the shard connection has been closed with an unrecoverable close code.
     /// If that happens, you should likely not try to restart the client.
     #[expect(clippy::too_many_lines, clippy::missing_panics_doc)]
-    pub async fn start(mut self) -> Result<std::convert::Infallible, Error> {
+    pub async fn start(mut self) -> Result<Option<ResumeInfo>, Error> {
         tracing::debug!("Starting client.");
         let mut num_tries = 0;
         // Used for determining whether the presence should be sent on identify
@@ -201,14 +207,18 @@ impl Client {
                 }
             };
 
-            if let Some(resume_info) = resume_info.clone() {
+            if let Some(some_resume_info) = resume_info.clone() {
                 if let Err(e) = shard
-                    .resume(resume_info.session_id, resume_info.last_sequence_number)
+                    .resume(
+                        some_resume_info.session_id,
+                        some_resume_info.last_sequence_number,
+                    )
                     .await
                 {
+                    resume_info = None;
                     num_tries += 1;
-                    tracing::error!(
-                        "(Try #{num_tries}) Error sending identify message to gateway: {e}"
+                    tracing::debug!(
+                        "(Try #{num_tries}) Error sending resume message to gateway, reconnecting instead: {e}"
                     );
                     let wait_time = (self.gateway_retry_wait_time_fn)(num_tries);
                     tokio::time::sleep(wait_time).await;
@@ -352,7 +362,10 @@ impl Client {
                         let Some(message) = message else {
                             panic!("There should always be at least one client message sender.");
                         };
-                        if self.handle_client_message(message, &session_info).is_break() {
+                        if let ControlFlow::Break(gracefully_stop) = self.handle_client_message(message, &session_info) {
+                            if gracefully_stop {
+                                return Ok(resume_info);
+                            }
                             continue 'client_loop;
                         }
                     }
@@ -509,11 +522,12 @@ impl Client {
         ControlFlow::Continue(())
     }
 
+    /// `ControlFlow::Break(true)` if the client should gracefully stop.
     fn handle_client_message(
         &mut self,
         message: ClientMessage,
         session: &SessionInfo<'_>,
-    ) -> ControlFlow<()> {
+    ) -> ControlFlow<bool> {
         match message {
             ClientMessage::UpdatePresence(data, sender) => {
                 if session
@@ -525,7 +539,7 @@ impl Client {
                     .is_err()
                 {
                     tracing::debug!("Shard task exited, restarting.");
-                    return ControlFlow::Break(());
+                    return ControlFlow::Break(false);
                 }
             }
             ClientMessage::SendLazyRequest(data, sender) => {
@@ -538,7 +552,7 @@ impl Client {
                     .is_err()
                 {
                     tracing::debug!("Shard task exited, restarting.");
-                    return ControlFlow::Break(());
+                    return ControlFlow::Break(false);
                 }
             }
             ClientMessage::RequestGuildMembers(data, result_sender, tx) => {
@@ -555,7 +569,7 @@ impl Client {
                     .is_err()
                 {
                     tracing::debug!("Shard task exited, restarting.");
-                    return ControlFlow::Break(());
+                    return ControlFlow::Break(false);
                 }
             }
             ClientMessage::LatencyMeasurement(tx) => {
@@ -570,7 +584,7 @@ impl Client {
                     .is_err()
                 {
                     tracing::debug!("Shard task exited, restarting.");
-                    return ControlFlow::Break(());
+                    return ControlFlow::Break(false);
                 }
             }
             ClientMessage::RequestGuildCounts(data, result_sender, tx) => {
@@ -587,8 +601,11 @@ impl Client {
                     .is_err()
                 {
                     tracing::debug!("Shard task exited, restarting.");
-                    return ControlFlow::Break(());
+                    return ControlFlow::Break(false);
                 }
+            }
+            ClientMessage::GracefullyStop => {
+                return ControlFlow::Break(true);
             }
         }
 

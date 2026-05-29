@@ -158,6 +158,12 @@ impl Context {
         Id::try_from(id_str).ok()
     }
 
+    /// Gracefully stops the client, causing `Client::start()` to return
+    /// with `Ok(...)`.
+    pub fn gracefully_stop_client(&self) {
+        let _ = self.tx.send(ClientMessage::GracefullyStop);
+    }
+
     /// Bulk-acknowledge messages (mark as read).
     #[cfg(feature = "user_api")]
     pub async fn acknowledge_messages_bulk(
