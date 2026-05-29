@@ -23,7 +23,7 @@
 //!   let token = std::env::var("FLUXER_TOKEN").unwrap();
 //!   let mut client = Client::new(token);
 //!   client.register_event_handler(Handler);
-//!   client.start().await.unwrap();
+//!   client.start().await;
 //! }
 //! ```
 
@@ -37,17 +37,8 @@ pub use async_trait::async_trait;
 pub use neptunium_http as http;
 pub use neptunium_model as model;
 
-const VERSION: &str = unwrap_or(option_env!("CARGO_PKG_VERSION"), "unknown");
+// const VERSION: &str = unwrap_or(option_env!("CARGO_PKG_VERSION"), "unknown");
 const LIBRARY_NAME: &str = "fluxer-neptunium";
-
-/// Custom `unwrap_or` const implementation because the one from the standard library is not yet stable.
-const fn unwrap_or(option: Option<&'static str>, default: &'static str) -> &'static str {
-    if let Some(value) = option {
-        value
-    } else {
-        default
-    }
-}
 
 pub use neptunium_cache_inmemory as cache;
 pub use neptunium_cache_inmemory::gateway::cached_payload;

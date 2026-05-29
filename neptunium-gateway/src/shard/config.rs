@@ -4,7 +4,7 @@ use bon::Builder;
 use neptunium_model::gateway::{intents::GatewayEventFlags, shard::ShardInfo};
 use zeroize::Zeroizing;
 
-#[derive(Debug, Builder)]
+#[derive(Debug, Builder, Clone)]
 pub struct ShardConfig {
     #[builder(default)]
     pub shard_info: ShardInfo,

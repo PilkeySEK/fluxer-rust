@@ -10,7 +10,7 @@ use crate::events::EventError;
 
 #[derive(Debug)]
 pub struct Error {
-    kind: ClientErrorKind,
+    pub kind: ClientErrorKind,
 }
 
 impl Error {

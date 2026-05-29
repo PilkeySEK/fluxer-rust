@@ -2,6 +2,7 @@
 use crate::endpoints::MethodExt;
 #[cfg(feature = "rate-limiting")]
 use crate::ratelimiting::RateLimiter;
+use bon::Builder;
 use reqwest::{IntoUrl, Method, StatusCode};
 use serde_json::Deserializer;
 
@@ -24,18 +25,29 @@ pub enum TokenType {
     Bearer,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Builder)]
 pub struct HttpClient {
+    /// Change this if you want to make requests to a different instance.
+    #[builder(into, default = DEFAULT_API_BASE_URL.to_owned())]
     pub api_base_url: String,
+    #[builder(into)]
     pub token: zeroize::Zeroizing<String>,
+    #[builder(default = TokenType::Bot)]
     pub token_type: TokenType,
+    #[builder(skip = reqwest::Client::default())]
     pub(crate) reqwest_client: reqwest::Client,
+    /// The user agent of the bot that should be sent (e.g.: `ReactionRolesBot/1.2.5 (+user#1234)`).
+    #[builder(into)]
     pub bot_user_agent: Option<String>,
-    pub base_user_agent: String,
+    /// Set to an empty string to disable.
+    #[builder(into, default = format!("{}/{} (+{})", BASE_USER_AGENT.0, VERSION, BASE_USER_AGENT.1))]
+    pub library_user_agent: String,
     #[cfg(feature = "rate-limiting")]
+    #[builder(skip = RateLimiter::new(HttpClient::DEFAULT_GLOBAL_RATE_LIMIT))]
     pub(crate) rate_limiter: RateLimiter,
     /// How many times the client should retry if an error is received that is
     /// likely due to network conditions or rate limits. Set to 0 for no retries.
+    #[builder(default = 3)]
     pub retry_times: usize,
 }
 
@@ -45,21 +57,35 @@ impl HttpClient {
     /// [Source](https://github.com/fluxerapp/fluxer/blob/ee1f27fe1a372b5291aead8042944afd706bf5db/packages/api/src/middleware/RateLimitMiddleware.tsx#L72).
     #[cfg(feature = "rate-limiting")]
     const DEFAULT_GLOBAL_RATE_LIMIT: u16 = 50;
+
     #[must_use]
-    pub fn new(token: String, token_type: TokenType) -> Self {
-        Self {
-            api_base_url: DEFAULT_API_BASE_URL.to_owned(),
-            reqwest_client: reqwest::Client::default(),
-            token: zeroize::Zeroizing::new(token),
-            token_type,
-            bot_user_agent: None,
-            base_user_agent: format!("{}/{} (+{})", BASE_USER_AGENT.0, VERSION, BASE_USER_AGENT.1),
-            #[cfg(feature = "rate-limiting")]
-            rate_limiter: RateLimiter::new(Self::DEFAULT_GLOBAL_RATE_LIMIT),
-            retry_times: 3,
-        }
+    pub fn new(token: String) -> Self {
+        Self::builder().token(token).build()
     }
 
+    /// Since the user agent is composed of both the bot's user agent (if set)
+    /// and the library user agent (set by default), this will create the full user
+    /// agent string.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use neptunium_http::client::HttpClient;
+    ///
+    /// # #[tokio::main(flavor = "current_thread")]
+    /// # async fn main() {
+    /// let client = HttpClient::builder()
+    ///     .token("<the bot token>".to_string())
+    ///     .library_user_agent("somethingelse/0.1.2 (+user#1234)")
+    ///     .bot_user_agent("MyBot/1.0.0 (+user#1234)")
+    ///     .build();
+    ///
+    /// assert_eq!(
+    ///     client.get_full_user_agent(),
+    ///     "MyBot/1.0.0 (+user#1234) somethingelse/0.1.2 (+user#1234)"
+    /// );
+    /// # }
+    /// ```
     #[must_use]
     pub fn get_full_user_agent(&self) -> String {
         format!(
@@ -69,12 +95,8 @@ impl HttpClient {
             } else {
                 String::new()
             },
-            self.base_user_agent
+            self.library_user_agent
         )
-    }
-
-    pub fn set_api_base_url(&mut self, url: String) {
-        self.api_base_url = url;
     }
 
     /// Send a request to the specified endpoint, returning the result.
@@ -88,7 +110,6 @@ impl HttpClient {
         let mut current_try = 0;
         loop {
             let request = endpoint.clone().into_request();
-            // Disable rate limiting in debug mode because of twilight-http-ratelimiting bug
             #[cfg(feature = "rate-limiting")]
             let permit = 'rate_limiting_blk: {
                 let path_for_rate_limiter = request.path.strip_prefix('/').unwrap_or(&request.path);

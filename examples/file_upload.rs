@@ -63,7 +63,5 @@ impl EventHandler for Handler {
 async fn main() {
     let mut client = Client::new(env::var("FLUXER_TOKEN").unwrap());
     client.register_event_handler(Handler);
-    if let Err(e) = client.start().await {
-        println!("Client Error: {e}");
-    }
+    client.start().await.unwrap();
 }
