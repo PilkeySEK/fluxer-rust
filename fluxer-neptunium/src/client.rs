@@ -188,7 +188,7 @@ impl Client {
     /// Will return an error if the shard connection has been closed with an unrecoverable close code.
     /// If that happens, you should likely not try to restart the client.
     #[expect(clippy::too_many_lines, clippy::missing_panics_doc)]
-    pub async fn start(mut self) -> Result<Option<ResumeInfo>, Error> {
+    pub async fn start(&mut self) -> Result<Option<ResumeInfo>, Error> {
         tracing::debug!("Starting client.");
         let mut num_tries = 0;
         // Used for determining whether the presence should be sent on identify
