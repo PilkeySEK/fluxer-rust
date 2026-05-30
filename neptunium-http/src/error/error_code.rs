@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 #[expect(clippy::doc_markdown)]
-#[derive(Deserialize, Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Deserialize, Clone, Debug, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum ApiErrorCode {
     /// There was an internal server error.
@@ -452,4 +452,6 @@ pub enum ApiErrorCode {
     VoiceChannelFull,
     /// WebAuthn credential limit reached.
     WebauthnCredentialLimitReached,
+    #[serde(untagged)]
+    Other(String),
 }

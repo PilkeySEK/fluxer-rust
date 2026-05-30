@@ -197,4 +197,6 @@ pub enum GuildFeatureFlag {
     /// The guild has end-to-end encrypted voice chats.
     #[serde(rename = "VOICE_E2EE")]
     VoiceE2EE,
+    #[serde(untagged)]
+    Other(String),
 }
