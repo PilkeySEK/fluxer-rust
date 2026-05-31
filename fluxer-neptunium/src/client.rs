@@ -2,7 +2,7 @@ use std::{
     collections::HashMap,
     ops::ControlFlow,
     sync::Arc,
-    time::{Duration, SystemTime},
+    time::{Duration, Instant, SystemTime},
 };
 
 use bon::Builder;
@@ -195,7 +195,14 @@ impl Client {
         // if the client is configured to only send it once.
         let mut already_sent_presence_in_identify = false;
         let mut resume_info: Option<ResumeInfo> = self.initial_resume_info.clone();
+        let mut reset_num_tries_at = Instant::now();
         'client_loop: loop {
+            if reset_num_tries_at
+                .checked_duration_since(Instant::now())
+                .is_none()
+            {
+                num_tries = 0;
+            }
             let (mut shard, heartbeat_interval) = match self.receive_hello().await {
                 Ok(value) => value,
                 Err(e) => {
@@ -250,7 +257,7 @@ impl Client {
                 continue;
             }
 
-            num_tries = 0;
+            reset_num_tries_at = Instant::now() + (self.gateway_retry_wait_time_fn)(num_tries);
 
             let mut last_heartbeat_ack_at: SystemTime = SystemTime::now();
             let no_heartbeat_ack_time_limit = heartbeat_interval * 2 + Duration::from_secs(5);
