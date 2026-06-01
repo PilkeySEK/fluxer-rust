@@ -94,7 +94,7 @@ impl From<VecDeque<Message>> for Queue {
 }
 
 /// Interval at which to prune stale queues.
-const GC_INTERVAL: Duration = Duration::from_secs(60 * 60 * 6);
+const GC_INTERVAL: Duration = Duration::from_hours(6);
 
 /// Rate limiter actor runner.
 #[allow(clippy::too_many_lines)]

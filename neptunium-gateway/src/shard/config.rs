@@ -16,8 +16,10 @@ pub struct ShardConfig {
     #[builder(default = false)]
     pub force_ipv4: bool,
     /// Timeout for establishing a new connection to the gateway.
-    #[builder(default = Duration::from_secs(60))]
+    #[builder(default = Duration::from_mins(1))]
     pub connection_timeout: Duration,
+    /// Timeout for sending messages to the gateway.
+    pub send_timeout: Option<Duration>,
 }
 
 impl ShardConfig {

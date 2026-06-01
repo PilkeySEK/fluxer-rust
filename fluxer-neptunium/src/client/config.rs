@@ -1,13 +1,14 @@
-use std::{fmt::Debug, time::Duration};
+use std::time::Duration;
 
 use bon::Builder;
+use debug_ignore::DebugIgnore;
 use neptunium_cache_inmemory::CacheConfig;
 use neptunium_http::endpoints::channel::AllowedMentions;
 use neptunium_model::gateway::payload::outgoing::PresenceUpdateOutgoing;
 
 use crate::client::ResumeInfo;
 
-#[derive(Builder)]
+#[derive(Builder, Debug)]
 pub struct ClientConfig {
     #[builder(into)]
     pub api_base_url: Option<String>,
@@ -24,9 +25,9 @@ pub struct ClientConfig {
     pub initial_presence: Option<PresenceUpdateOutgoing>,
     #[builder(default = true)]
     pub send_initial_presence_on_every_reconnect: bool,
-    #[builder(default = Box::new(|num_tries| {
+    #[builder(default = DebugIgnore::from(Box::new(|num_tries: usize| {
         const MIN_TIME: Duration = Duration::from_secs(3);
-        const MAX_TIME: Duration = Duration::from_secs(60);
+        const MAX_TIME: Duration = Duration::from_mins(1);
         const BASE: f64 = 2.0;
         #[expect(clippy::cast_precision_loss)]
         let time = Duration::from_secs_f64(BASE.powf(num_tries as f64));
@@ -37,8 +38,8 @@ pub struct ClientConfig {
         } else {
             time
         }
-    }))]
-    pub gateway_retry_wait_time_fn: Box<dyn Fn(usize) -> Duration>,
+    }) as Box<dyn Fn(usize) -> Duration>), into)]
+    pub gateway_retry_wait_time_fn: DebugIgnore<Box<dyn Fn(usize) -> Duration>>,
     /// Add resume info so that the client will try to resume on the first start instead
     /// of creating a new session.
     pub resume_info: Option<ResumeInfo>,
@@ -51,43 +52,9 @@ pub struct ClientConfig {
     /// Example format: `MyBot (+User#0000)` (you should specify contact information as seen here.)
     #[builder(into)]
     pub bot_user_agent_information: Option<String>,
-}
-
-impl Debug for ClientConfig {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("ClientConfig { ")?;
-        f.write_fmt(format_args!("api_base_url: {:?}, ", self.api_base_url))?;
-        // f.write_fmt(format_args!(
-        //     "always_propagate_event_errors: {:?}, ",
-        //     self.always_propagate_event_errors
-        // ))?;
-        f.write_fmt(format_args!("token_type: {:?}, ", self.token_type))?;
-        // f.write_fmt(format_args!("auto_reconnect: {:?}, ", self.auto_reconnect))?;
-        f.write_fmt(format_args!("cache_config: {:?}, ", self.cache_config))?;
-        // f.write_fmt(format_args!(
-        //     "connection_process_timeout: {:?}, ",
-        //     self.connection_process_timeout
-        // ))?;
-        f.write_fmt(format_args!(
-            "initial_presence: {:?}, ",
-            self.initial_presence
-        ))?;
-        f.write_fmt(format_args!(
-            "send_initial_presence_on_every_reconnect: {:?}, ",
-            self.send_initial_presence_on_every_reconnect
-        ))?;
-        // f.write_fmt(format_args!(
-        //     "heartbeat_interval_override: {:?}, ",
-        //     self.heartbeat_interval_override
-        // ))?;
-        f.write_fmt(format_args!("resume_info: {:?}, ", self.resume_info))?;
-        f.write_fmt(format_args!(
-            "default_allowed_mentions: {:?}, ",
-            self.default_allowed_mentions
-        ))?;
-        f.write_str("gateway_retry_wait_time_fn: Closure }, ")?;
-        Ok(())
-    }
+    /// Whether to overwrite the send timeout in the `ShardConfig` when it is set to `None`.
+    #[builder(default = true)]
+    pub overwrite_send_timeout: bool,
 }
 
 impl Default for ClientConfig {

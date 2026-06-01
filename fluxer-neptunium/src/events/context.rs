@@ -271,7 +271,7 @@ impl Context {
         for (attachment_result, attachment_data) in attachment_results
             .attachments
             .into_iter()
-            .zip(attachment_data.into_iter())
+            .zip(attachment_data)
         {
             self.http_client
                 .upload_file_s3(attachment_result.upload_url, attachment_data.0)

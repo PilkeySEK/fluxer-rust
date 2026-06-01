@@ -105,7 +105,6 @@ impl Shard {
                 let stream: Result<_, Error> = match stream {
                     Ok(stream) => stream,
                     Err(_timeout_err) => {
-                        tracing::warn!("Timeout reached while establishing connection to gateway.");
                         return Err(Error::Io(std::io::Error::from(
                             std::io::ErrorKind::TimedOut,
                         )));
@@ -158,8 +157,16 @@ impl Shard {
     /// # Errors
     /// Returns an error if sending the message fails.
     pub async fn send_message(&mut self, message: Message) -> Result<(), Error> {
+        let send_timeout = self.config.send_timeout;
         let connection = self.get_connection().await?;
-        connection.tx.send(message).await
+        let future = connection.tx.send(message);
+        if let Some(send_timeout) = send_timeout {
+            tokio::time::timeout(send_timeout, future)
+                .await
+                .map_err(|_| Error::Io(std::io::Error::from(std::io::ErrorKind::TimedOut)))?
+        } else {
+            future.await
+        }
     }
 
     /// # Errors

@@ -131,7 +131,12 @@ impl Client {
         shard_config: impl Into<ShardConfig>,
         client_config: ClientConfig,
     ) -> Self {
-        let shard_config = shard_config.into();
+        let mut shard_config = shard_config.into();
+
+        if shard_config.send_timeout.is_none() && client_config.overwrite_send_timeout {
+            // 2 minutes is probably very generous
+            shard_config.send_timeout = Some(Duration::from_mins(2));
+        }
 
         let mut api_client = HttpClient::builder()
             .token(shard_config.token.clone())
@@ -155,7 +160,7 @@ impl Client {
             },
             // tx,
             rx,
-            gateway_retry_wait_time_fn: client_config.gateway_retry_wait_time_fn,
+            gateway_retry_wait_time_fn: client_config.gateway_retry_wait_time_fn.0,
             send_identify_presence_on_every_reconnect: client_config
                 .send_initial_presence_on_every_reconnect,
             identify_presence: client_config.initial_presence,
